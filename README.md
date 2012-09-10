@@ -5,7 +5,7 @@ Colorado State University CS414 Group P project
 
 [Download Page for ArgoUML](http://argouml-downloads.tigris.org/)
 
-[Design Assignment 2](http://www.cs.colostate.edu/~ghosh/courses/cs414-f12/yr2012fa/more_assignments/A2345Team.php)
+[Design Assignment](http://www.cs.colostate.edu/~ghosh/courses/cs414-f12/yr2012fa/more_assignments/A2345Team.php)
 
 #####A2 - Due Tuesday, September 11th, 2012
 #####A3 - Due Tuesday, September 18th, 2012
