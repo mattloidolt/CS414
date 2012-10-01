@@ -1,5 +1,7 @@
 
 public class Kiosk {
+	
+	public int kioskID ;
 
 	/**
 	 * @param args
