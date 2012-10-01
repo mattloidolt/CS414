@@ -1,4 +1,5 @@
 import java.sql.Time;
+import java.util.ArrayList;
 
 
 public class Menu {
@@ -6,7 +7,18 @@ public class Menu {
 	public String menuName ;
 	protected Time effectiveDate ;
 	protected Time ineffectiveDate ;
-	protected Employee creatingManager ;
+	protected Manager creatingManager ;
+	private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+	
+	
+	public void addMenuItem(MenuItem item) {
+		if (!menuItems.contains(item))
+			menuItems.add(item);
+	}
+	
+	public void removeMenuItem(MenuItem item) {
+		menuItems.remove(item);
+	}
 	
 
 }
