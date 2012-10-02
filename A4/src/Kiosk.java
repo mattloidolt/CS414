@@ -14,20 +14,43 @@ public class Kiosk {
 	private static void createAndShowGUI() {
 		// variables
 		Color background = new Color(240, 125, 110) ;
-		Dimension size = new Dimension(800, 600) ;
-		// TODO: determine way to get these menu names automatically from the restaurant
-		String[] menuNames = { "Menu1", "Menu2", "Menu3" };
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		
-        //Create and set up the window.
+		
+		
+        // Create and set up the window.
         JFrame frame = new JFrame("PIZZA_STORE_NAME Kiosk: " + kioskID);
+        //TODO: Remove this and find way so that user cannot close window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(new GridBagLayout()); // this is the frame
+        GridBagConstraints gBC = new GridBagConstraints();
+        gBC.fill = GridBagConstraints.HORIZONTAL;
+        
  
-        //TODO: add content here
+        //###############  CONTENT  ######################
+        // top line
         JLabel label = new JLabel("Select Menu: ");
-        frame.getContentPane().add(label, BorderLayout.NORTH);
+        gBC.anchor = GridBagConstraints.PAGE_START ;
+        gBC.weightx = 0.25 ;
+        gBC.gridx = 0 ;
+        gBC.gridy = 0 ;
+        frame.getContentPane().add(label, gBC);
+        
+        // drop down to select menu
+        String[] menuNames = {"Menu 1", "Menu 2", "Menu 3"} ;
         JComboBox menusList = new JComboBox(menuNames);
         menusList.setSelectedIndex(0);
+        gBC.weightx = 0.75 ;
+        gBC.gridx = 1;
+        gBC.gridy = 0;
+        frame.getContentPane().add(menusList, gBC) ;
+        
+        // setting up internal frame to display actual menu
+        
+        
+        
+        
         frame.setAlwaysOnTop(true) ;
         frame.setMinimumSize(size) ;
         frame.setBackground(background) ;
