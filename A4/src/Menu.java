@@ -7,7 +7,7 @@ public class Menu {
 	public String menuName ;
 	protected Time effectiveDate ;
 	protected Time ineffectiveDate ;
-	protected Manager creatingManager ;
+	private Manager creatingManager;
 	private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	
 	

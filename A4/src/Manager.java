@@ -1,5 +1,9 @@
 
 public class Manager extends Employee{
+	
+	public Manager() {
+		
+	}
 
 	private void createMenu() {
 		

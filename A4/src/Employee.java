@@ -1,7 +1,7 @@
 import java.sql.Time;
 
 
-public class Employee {
+public class Employee extends Person{
 	
 	private int SSN ;
 	private double payRate ;
