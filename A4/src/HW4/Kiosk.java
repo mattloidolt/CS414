@@ -6,12 +6,15 @@ package HW4;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
 public class Kiosk {
 	
 	public static int kioskID = 0;
+	public static Restaurant restaurant = new Restaurant();
 	private static GridBagConstraints gBC = new GridBagConstraints();
 	private static JFrame frame = new JFrame("PIZZA_STORE_NAME Kiosk: " + kioskID);
 
@@ -36,7 +39,12 @@ public class Kiosk {
         frame.getContentPane().add(label, gBC);
         
         // drop down to select menu
-        String[] menuNames = {"Select a Menu", "Menu 1", "Menu 2", "Menu 3"} ;
+        ArrayList<Menu>menuList = restaurant.getMenuList();
+        String[] menuNames = new String[menuList.size()+1];
+        menuNames[0] = "Select a Menu";
+        for(int i = 0; i < menuList.size(); i++){
+        	menuNames[i+1] = menuList.get(i).menuName;
+        }
         JComboBox menusList = new JComboBox(menuNames);
         menusList.setSelectedIndex(0);
         gBC.weightx = 0.8 ;

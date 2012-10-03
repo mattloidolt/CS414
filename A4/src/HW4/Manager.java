@@ -2,19 +2,22 @@ package HW4;
 
 public class Manager extends Employee{
 	
-	public Manager() {
-		
+	Restaurant restaurant;
+	
+	public Manager(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 
-	private void createMenu() {
-		
+	public void createMenu(String menuName) {
+		Menu menu = new Menu(menuName, this);
+		this.restaurant.addMenu(menu);
 	}
 	
-	private void setSpecial() {
-		
+	public void setSpecial(Menu menu, MenuItem item) {
+		menu.setSpecial(item);
 	}
 	
-	private void editMenu() {
+	public void editMenu() {
 		
 	}
 	

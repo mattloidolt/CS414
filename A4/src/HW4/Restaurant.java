@@ -4,6 +4,8 @@ package HW4;
  * Should also be the manager's view GUI.
  */
 
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
@@ -11,7 +13,15 @@ public class Restaurant {
 	public String restaurantName ;
 	public String restaurantLocation ;
 	public String restaurantPhoneNum ;
+	private ArrayList<Menu> menuList = new ArrayList<Menu>();
 	
+	public void addMenu(Menu menu) {
+		this.menuList.add(menu);
+	}
+	
+	public ArrayList<Menu> getMenuList() {
+		return this.menuList;
+	}
 	
 	/**
      * Create the GUI and show it.  For thread safety,

@@ -27,7 +27,8 @@ public class MenuTest {
 
 	@Test
 	public void testSetEffectiveDate() {
-		Manager Bob = new Manager();
+		Restaurant restaurant = new Restaurant();
+		Manager Bob = new Manager(restaurant);
 		Menu menu = new Menu("Diner", Bob);
 		Calendar effectiveDate = Calendar.getInstance();
 		effectiveDate.clear();
@@ -40,7 +41,8 @@ public class MenuTest {
 
 	@Test
 	public void testSetIneffectiveDate() {
-		Manager Bob = new Manager();
+		Restaurant restaurant = new Restaurant();
+		Manager Bob = new Manager(restaurant);
 		Menu menu = new Menu("Diner", Bob);
 		Calendar inEffectiveDate = Calendar.getInstance();
 		inEffectiveDate.clear();
@@ -52,7 +54,8 @@ public class MenuTest {
 	@Test
 	public void testAddMenuItem() {
 		MenuItem item = new MenuItem("Test Item", 9.99);
-		Manager Bob = new Manager();
+		Restaurant restaurant = new Restaurant();
+		Manager Bob = new Manager(restaurant);
 		Menu menu = new Menu("Diner", Bob);
 		menu.addMenuItem(item);
 		assertTrue(menu.getMenuItems().size() == 1);
@@ -62,7 +65,8 @@ public class MenuTest {
 	@Test
 	public void testRemoveMenuItem() {
 		MenuItem item = new MenuItem("Test Item", 9.99);
-		Manager Bob = new Manager();
+		Restaurant restaurant = new Restaurant();
+		Manager Bob = new Manager(restaurant);
 		Menu menu = new Menu("Diner", Bob);
 		menu.addMenuItem(item);
 		assertTrue(menu.getMenuItems().size() == 1);
@@ -73,7 +77,8 @@ public class MenuTest {
 	@Test
 	public void testSetSpecial() {
 		MenuItem item = new MenuItem("Test Item", 9.99);
-		Manager Bob = new Manager();
+		Restaurant restaurant = new Restaurant();
+		Manager Bob = new Manager(restaurant);
 		Menu menu = new Menu("Diner", Bob);
 		menu.addMenuItem(item);
 		menu.setSpecial(item);
