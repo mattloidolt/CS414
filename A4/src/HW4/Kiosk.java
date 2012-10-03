@@ -1,3 +1,4 @@
+package HW4;
 /**
  * This should be a single instance of a kiosk. Should be run as it's own
  * thread. May use its own worker threads to make the GUI more interactive.

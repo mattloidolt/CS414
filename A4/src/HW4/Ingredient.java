@@ -1,3 +1,4 @@
+package HW4;
 
 public class Ingredient {
 	protected double priceToPurchase ;
