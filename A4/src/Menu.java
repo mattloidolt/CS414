@@ -10,6 +10,14 @@ public class Menu {
 	private Manager creatingManager;
 	private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	
+	public Menu (String menuName, Time effectiveDate, Time ineffectiveDate) {
+		this.menuName = menuName;
+		this.effectiveDate = effectiveDate;
+		this.ineffectiveDate = ineffectiveDate;
+		
+		
+	}
+	
 	
 	public void addMenuItem(MenuItem item) {
 		if (!menuItems.contains(item))
