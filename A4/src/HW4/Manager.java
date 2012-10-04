@@ -24,5 +24,6 @@ public class Manager extends Employee{
 	public String getName() {
 		return super.name;
 	}
+
 	
 }

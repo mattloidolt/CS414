@@ -25,6 +25,7 @@ public class Kiosk {
 	private static ArrayList<Manager> managerList = new ArrayList<Manager>();
 	private static Menu menu;
 	private static JLabel currentMenu;
+	ArrayList<JButton>mainViewButtons = new ArrayList<JButton>();
 
 
 	private static void createAndShowGUI() {
@@ -101,7 +102,7 @@ public class Kiosk {
 		for (int i=0; i<menu.getMenuItems().size(); i++) {
 			//TODO: 'menu1' needs to be gathered dynamically (will probably require nesting this loop in another loop)
 			final MenuItem item = menu.getMenuItems().get(i) ;
-			Button b = new Button(item.name + "\n$" + item.price) ;
+			JButton b = new JButton(item.name + "\n$" + item.price) ;
 			b.setActionCommand(menu.getMenuItems().get(i).name);
 			b.setPreferredSize(new Dimension(150, 100));
 			// set action
@@ -119,10 +120,9 @@ public class Kiosk {
 
 		// ******* adding bottom bar **********
 		frame.getContentPane().add(new JSeparator()) ;
-		Button viewOrder = new Button("View Order") ;
-		Button placeOrder = new Button("Place Order") ;
+		JButton viewOrder = new JButton("View Order") ;
+		JButton placeOrder = new JButton("Place Order") ;
 		viewOrder.setPreferredSize(new Dimension(150, 100));
-		//TODO: background colors won't change for these buttons for some reason (tried setBackground and setForeground)
 		viewOrder.setForeground(Color.green) ;
 		placeOrder.setPreferredSize(new Dimension(150, 100));
 		placeOrder.setForeground(Color.blue) ;
@@ -143,7 +143,6 @@ public class Kiosk {
 				JLabel receipt = getReceipt() ;
 				internalFrame.add(receipt) ;
 				// displaying frame and bringing to front
-				//TODO: buttons keep showing up over the internal frame (not sure why)
 				internalFrame.show() ;
 				frame.add(internalFrame, gBC) ;
 				internalFrame.setVisible(true);
@@ -252,13 +251,12 @@ public class Kiosk {
 	 */
 	private static void getManagerWindow(final Manager manager) {
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		JPanel p = new JPanel();
 
 		JInternalFrame internalFrame = new JInternalFrame("Manage", false, true, false, false);
 		//Used to save changes made by manager
 		InternalFrameListener i = new InternalFrameListener() {
 			public void internalFrameClosing(InternalFrameEvent e) {
-				currentMenu.setText(menu.menuName);
+				currentMenu.setText("Current menu: " + menu.menuName);
 			}
 			public void internalFrameActivated(InternalFrameEvent e) {}
 			public void internalFrameClosed(InternalFrameEvent e) {}
@@ -270,8 +268,25 @@ public class Kiosk {
 		internalFrame.addInternalFrameListener(i);
 		internalFrame.setBounds(0, 50, 500, size.height-100);
 		internalFrame.setBackground(new Color(200, 200, 200)) ;
-		
-		// adding content to internal frame
+		//Add manager Elements
+		internalFrame.add(getCreateMenuGUI(manager));
+
+		// displaying frame and bringing to front
+		internalFrame.show() ;
+		frame.add(internalFrame) ;
+		internalFrame.setVisible(true);
+
+		try {
+			internalFrame.setSelected(true) ;
+		} catch (PropertyVetoException e1) {
+			e1.printStackTrace();
+		}
+
+	}
+
+	public static JPanel getCreateMenuGUI(final Manager manager) {
+		JPanel p = new JPanel();
+		//Create Label, textfield and button
 		JLabel addMenuLabel = new JLabel("Add Menu");
 		final JTextField addMenuTextField = new JTextField(15);
 		JButton addMenuButton = new JButton("Create Menu");
@@ -280,24 +295,12 @@ public class Kiosk {
 				menu = new Menu(addMenuTextField.getText(), manager);
 			}
 		});
+		//Add elements to JPanel
 		p.add(addMenuLabel);
 		p.add(addMenuTextField);
 		p.add(addMenuButton);
 
-		internalFrame.add(p, "First");
-
-		// displaying frame and bringing to front
-		//TODO: buttons keep showing up over the internal frame (not sure why)
-		internalFrame.show() ;
-		frame.add(internalFrame) ;
-		internalFrame.setVisible(true);
-		
-		try {
-			internalFrame.setSelected(true) ;
-		} catch (PropertyVetoException e1) {
-			e1.printStackTrace();
-		}
-
+		return p;
 	}
 
 	public static JLabel getReceipt() {
