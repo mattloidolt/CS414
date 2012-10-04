@@ -4,20 +4,31 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
+import junit.framework.TestCase;
+
 import HW4.*;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MenuTest {
+public class MenuTest extends TestCase{
 
+	Restaurant restaurant;
+	Manager Bob;
+	Menu menu;
+	MenuItem item;
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@Before
 	public void setUp() throws Exception {
+		restaurant = new Restaurant();
+		Bob = new Manager("Bob", restaurant);
+		menu = new Menu("Diner", Bob);
+		item = new MenuItem("Test Item", 9.99);
 	}
 
 	@Test
@@ -27,9 +38,6 @@ public class MenuTest {
 
 	@Test
 	public void testSetEffectiveDate() {
-		Restaurant restaurant = new Restaurant();
-		Manager Bob = new Manager(restaurant);
-		Menu menu = new Menu("Diner", Bob);
 		Calendar effectiveDate = Calendar.getInstance();
 		effectiveDate.clear();
 		effectiveDate.set(2012, 12, 0);
@@ -41,9 +49,6 @@ public class MenuTest {
 
 	@Test
 	public void testSetIneffectiveDate() {
-		Restaurant restaurant = new Restaurant();
-		Manager Bob = new Manager(restaurant);
-		Menu menu = new Menu("Diner", Bob);
 		Calendar inEffectiveDate = Calendar.getInstance();
 		inEffectiveDate.clear();
 		inEffectiveDate.set(2012, 12, 10);
@@ -53,10 +58,6 @@ public class MenuTest {
 
 	@Test
 	public void testAddMenuItem() {
-		MenuItem item = new MenuItem("Test Item", 9.99);
-		Restaurant restaurant = new Restaurant();
-		Manager Bob = new Manager(restaurant);
-		Menu menu = new Menu("Diner", Bob);
 		menu.addMenuItem(item);
 		assertTrue(menu.getMenuItems().size() == 1);
 		assertTrue(menu.getMenuItems().get(0) == item);
@@ -64,10 +65,6 @@ public class MenuTest {
 
 	@Test
 	public void testRemoveMenuItem() {
-		MenuItem item = new MenuItem("Test Item", 9.99);
-		Restaurant restaurant = new Restaurant();
-		Manager Bob = new Manager(restaurant);
-		Menu menu = new Menu("Diner", Bob);
 		menu.addMenuItem(item);
 		assertTrue(menu.getMenuItems().size() == 1);
 		menu.removeMenuItem(item);
@@ -76,10 +73,6 @@ public class MenuTest {
 
 	@Test
 	public void testSetSpecial() {
-		MenuItem item = new MenuItem("Test Item", 9.99);
-		Restaurant restaurant = new Restaurant();
-		Manager Bob = new Manager(restaurant);
-		Menu menu = new Menu("Diner", Bob);
 		menu.addMenuItem(item);
 		menu.setSpecial(item);
 		assertTrue(menu.getSpecial() == item);

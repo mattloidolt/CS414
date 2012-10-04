@@ -1,10 +1,10 @@
 package HW4;
 
 public class Manager extends Employee{
-	
 	Restaurant restaurant;
 	
-	public Manager(Restaurant restaurant) {
+	public Manager(String name, Restaurant restaurant) {
+		super.name = name;
 		this.restaurant = restaurant;
 	}
 
@@ -19,6 +19,10 @@ public class Manager extends Employee{
 	
 	public void editMenu() {
 		
+	}
+	
+	public String getName() {
+		return super.name;
 	}
 	
 }
