@@ -42,9 +42,9 @@ public class OrderTest {
 		Order order = new Order();
 		MenuItem item = new MenuItem("Test Item", 9.99);
 		order.addItem(item);
-		assertTrue(order.getTotalDue() == 9.99);
+		assertTrue(order.getTotal() == 9.99);
 		order.addItem(item);
-		assertTrue(order.getTotalDue() == 9.99*2);
+		assertTrue(order.getTotal() == 9.99*2);
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class OrderTest {
 		Order order = new Order();
 		MenuItem item = new MenuItem("Test Item", 9.99);
 		order.addItem(item);
-		assertTrue(order.getTotalDue() == 9.99);
+		assertTrue(order.getTotal() == 9.99);
 		order.pay(9.99, "Credit");
 		assertTrue(order.getAmountDue() == 0);
 	}
