@@ -14,7 +14,7 @@ import javax.swing.*;
 public class Kiosk {
 	
 	public static int kioskID = 0;
-	public static Restaurant restaurant = new Restaurant();
+	public static Restaurant restaurant = new Restaurant(); //#TODO:how do we initialize restaurant kiosk is in?
 	private static GridBagConstraints gBC = new GridBagConstraints();
 	private static JFrame frame = new JFrame("PIZZA_STORE_NAME Kiosk: " + kioskID);
 
