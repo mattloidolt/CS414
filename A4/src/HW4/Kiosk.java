@@ -27,6 +27,7 @@ public class Kiosk {
 	private static ArrayList<Manager> managerList = new ArrayList<Manager>();
 	private static Menu menu;
 	private static JLabel currentMenu;
+	static JDesktopPane desktop;
 	private static ArrayList<JButton>menuItemButtons = new ArrayList<JButton>();
 
 
@@ -37,7 +38,7 @@ public class Kiosk {
 
 		// Create and set up the window.
 		//TODO: Remove this and find way so that user cannot close window
-		final JDesktopPane desktop = new JDesktopPane();
+		desktop = new JDesktopPane();
 		frame.setContentPane(desktop) ;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		desktop.setBackground(background) ;
@@ -114,6 +115,7 @@ public class Kiosk {
 			if ((i%5) == 0)
 				gBC.gridy += 1 ;
 			desktop.add(b, gBC) ;
+			menuItemButtons.add(b);
 		}
 
 		// ******* adding bottom bar **********
@@ -243,6 +245,38 @@ public class Kiosk {
 		frame.setVisible(true);
 	}
 
+	private static void clearMenuItemButtons() {
+		gBC.gridx = 0 ;
+		gBC.gridy = 0 ;
+		gBC.weightx = 0.5 ;
+		gBC.weighty = 0.25 ;
+		
+		for(Component obj : menuItemButtons)
+			desktop.remove(obj);
+	}
+	
+	private static void drawMenuItemButtons() {
+		clearMenuItemButtons();
+		for(int i=0; i<menu.getMenuItems().size(); i++){
+			final MenuItem menuItem = menu.getMenuItems().get(i) ;
+			JButton b = new JButton(menuItem.name + "\n$" + menuItem.price) ;
+			b.setActionCommand(menu.getMenuItems().get(i).name);
+			b.setPreferredSize(new Dimension(150, 100));
+			// set action
+			b.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//TODO: change this error message to be displayed on screen
+					o.addItem(menuItem) ;
+				}
+			}) ;
+			gBC.gridx = i%5 ;
+			if ((i%5) == 0)
+				gBC.gridy += 1 ;
+			desktop.add(b, gBC) ;
+			menuItemButtons.add(b);
+		}
+	}
+	
 	/**
 	 * Opens a manager window where the manager can configure things. W.I.P.
 	 * @param manager
@@ -256,6 +290,7 @@ public class Kiosk {
 			//Refresh GUI elements on close
 			public void internalFrameClosing(InternalFrameEvent e) {
 				currentMenu.setText("Current Menu: " + menu.menuName);
+				drawMenuItemButtons();
 			}
 			public void internalFrameActivated(InternalFrameEvent e) {}
 			public void internalFrameClosed(InternalFrameEvent e) {}
