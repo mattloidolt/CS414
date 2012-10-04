@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
+import apple.laf.JRSUIUtils.InternalFrame;
+
 
 public class Kiosk {
 
@@ -25,7 +27,7 @@ public class Kiosk {
 	private static ArrayList<Manager> managerList = new ArrayList<Manager>();
 	private static Menu menu;
 	private static JLabel currentMenu;
-	ArrayList<JButton>mainViewButtons = new ArrayList<JButton>();
+	private static ArrayList<JButton>menuItemButtons = new ArrayList<JButton>();
 
 
 	private static void createAndShowGUI() {
@@ -42,11 +44,6 @@ public class Kiosk {
 		frame.setMinimumSize(size) ;
 		desktop.setLayout(new GridBagLayout()); // this is the framing structure
 		gBC.fill = GridBagConstraints.HORIZONTAL;
-
-
-
-
-
 
 		//////// REMOVE - for building purposes ///////////
 		Manager bob = new Manager("BOB", new Restaurant()) ;
@@ -72,22 +69,22 @@ public class Kiosk {
 		gBC.weightx = 0.5 ;
 		gBC.weighty = 0.25 ;
 
+		//////////Manager Window//////////////
 		JLabel loginLabel = new JLabel("Manager Name");
 		final JTextField loginTextField = new JTextField(15);
 		JButton submitLogInButton = new JButton("Submit");
 		submitLogInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean found = false;
-				System.out.println(loginTextField.getText());
 				for(Manager manager : managerList) {
 					if(manager.getName() == loginTextField.getText()) {
 						found = true;
-						getManagerWindow(manager);
+						showManagerWindow(manager);
 					}
 				}
 				if(!found){
 					Manager manager = new Manager("Ricky Bobby", restaurant);
-					getManagerWindow(manager);
+					showManagerWindow(manager);
 				}
 			}
 		});
@@ -97,6 +94,7 @@ public class Kiosk {
 		currentMenu = new JLabel("Current Menu: " + menu.menuName);
 		desktop.add(currentMenu);
 		gBC.gridy += 1;
+		//-- I am not 100% sure on the gBC, so if the above code messes things up let Zach know --
 
 
 		for (int i=0; i<menu.getMenuItems().size(); i++) {
@@ -249,14 +247,15 @@ public class Kiosk {
 	 * Opens a manager window where the manager can configure things. W.I.P.
 	 * @param manager
 	 */
-	private static void getManagerWindow(final Manager manager) {
+	private static void showManagerWindow(final Manager manager) {
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
 		JInternalFrame internalFrame = new JInternalFrame("Manage", false, true, false, false);
 		//Used to save changes made by manager
 		InternalFrameListener i = new InternalFrameListener() {
+			//Refresh GUI elements on close
 			public void internalFrameClosing(InternalFrameEvent e) {
-				currentMenu.setText("Current menu: " + menu.menuName);
+				currentMenu.setText("Current Menu: " + menu.menuName);
 			}
 			public void internalFrameActivated(InternalFrameEvent e) {}
 			public void internalFrameClosed(InternalFrameEvent e) {}
@@ -270,6 +269,7 @@ public class Kiosk {
 		internalFrame.setBackground(new Color(200, 200, 200)) ;
 		//Add manager Elements
 		internalFrame.add(getCreateMenuGUI(manager));
+//		internalFrame.add(getCurrentMenuItemCountGUI());
 
 		// displaying frame and bringing to front
 		internalFrame.show() ;
@@ -285,7 +285,10 @@ public class Kiosk {
 	}
 
 	public static JPanel getCreateMenuGUI(final Manager manager) {
-		JPanel p = new JPanel();
+		final JPanel p = new JPanel();
+		GridLayout layout = new GridLayout(3, 3);
+		p.setLayout(layout);
+		
 		//Create Label, textfield and button
 		JLabel addMenuLabel = new JLabel("Add Menu");
 		final JTextField addMenuTextField = new JTextField(15);
@@ -293,16 +296,57 @@ public class Kiosk {
 		addMenuButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menu = new Menu(addMenuTextField.getText(), manager);
+				addMenuTextField.setText("Menu has been changed");
 			}
 		});
 		//Add elements to JPanel
 		p.add(addMenuLabel);
 		p.add(addMenuTextField);
 		p.add(addMenuButton);
-
+		for(Object obj : getCurrentMenuItemCountGUI())
+			p.add((Component) obj);
+		for(Object obj : addMenuItemInterface())
+			p.add((Component) obj);
 		return p;
 	}
 
+	public static ArrayList<Object> getCurrentMenuItemCountGUI() {
+		ArrayList<Object> p = new ArrayList<Object>();
+		JLabel title = new JLabel("Number of Menu Items");
+		p.add(title);
+		JLabel currentNumberMenuItemsLabel = new JLabel("" + menu.getMenuItems().size());
+		p.add(currentNumberMenuItemsLabel);
+		p.add(new JLabel());
+		return p;
+	}
+	
+	public static ArrayList<Object> addMenuItemInterface() {
+		ArrayList<Object> p = new ArrayList<Object>();
+		JLabel title = new JLabel("Add Item (item - price)");
+		p.add(title);
+		final JTextField inputForm = new JTextField(15);
+		p.add(inputForm);
+		JButton submitButton = new JButton("Add");
+		submitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String string = inputForm.getText();
+				String elements[] = string.split("-");
+				try {
+				elements[0] = elements[0].trim();
+				elements[1] = elements[1].trim();
+				MenuItem newItem = new MenuItem(elements[0].trim(), Double.parseDouble(elements[1].trim().substring(1)));
+				menu.addMenuItem(newItem);
+				inputForm.setText(newItem.name + " Added!");
+				} catch(Exception exc) {
+					inputForm.setText("Error adding item!");
+				}
+			}
+		});
+		p.add(submitButton);
+		
+		return p;
+	}
+	
 	public static JLabel getReceipt() {
 		ArrayList<OrderItem> orderItems = o.getOrderList() ;
 		String text = "<html><center><h1>ORDER SUMMARY</h1><br>" ;
@@ -330,7 +374,6 @@ public class Kiosk {
 		JLabel recipt = new JLabel(text, JLabel.CENTER) ;
 		return recipt ;
 	}
-
 
 	public static void main(String[] args) {
 		//Schedule a job for the event-dispatching thread:
