@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Order {
 	int orderID;
 	int numberOfItems;
-	double total;
+	double total = 0.0;
 	double paid;
 	boolean prepared;
 	boolean delivered;
@@ -17,7 +17,7 @@ public class Order {
 		
 	}
 	
-	public void addItem(MenuItem item) {
+	public boolean addItem(MenuItem item) {
 		boolean found = false;
 		for(OrderItem orderItem : orderList) {
 			if (orderItem.equals(item)) {
@@ -31,16 +31,27 @@ public class Order {
 		if(!found) {
 			this.orderList.add(new OrderItem(item));
 			this.amountDue += item.price;
+			this.total += item.price ;
+			numberOfItems++ ;
+			return true ;
 		}
+		else
+			return false ;
 	}
 	
-	public void removeItem(MenuItem item) {
+	public boolean removeItem(MenuItem item) {
 		for(OrderItem orderItem : this.orderList) {
 			if(orderItem.equals(item)) {
 				orderList.remove(orderItem);
-				break;
+				numberOfItems-- ;
+				return true ;
 			}
 		}
+		return false ;
+	}
+	
+	public int getNumItems() {
+		return numberOfItems ;
 	}
 	
 	public void pay(double amount, String type) {
@@ -52,16 +63,18 @@ public class Order {
 		return this.orderList;
 	}
 	
-	public double getTotalDue() {
-		double total = 0;
-		for(OrderItem item : this.orderList) {
-			total += item.item.price*item.quantity;
-		}
-		return total;
+	public double getTotal() {
+		return this.total;
 	}
 	
 	public double getAmountDue() {
 		return this.amountDue;
+	}
+	
+	public boolean isPaid() {
+		if(amountDue >= 0)
+			return true ;
+		return false ;
 	}
 
 }

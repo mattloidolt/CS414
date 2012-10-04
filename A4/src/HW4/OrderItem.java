@@ -17,4 +17,8 @@ public class OrderItem {
 	public boolean equals(MenuItem menuItem) {
 		return this.item == menuItem;
 	}
+	
+	public MenuItem getItem(){
+		return item ;
+	}
 }
