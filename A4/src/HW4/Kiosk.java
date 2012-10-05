@@ -31,6 +31,7 @@ public class Kiosk {
 	private static JLabel currentMenu;
 	static JDesktopPane desktop;
 	private static ArrayList<JButton>menuItemButtons = new ArrayList<JButton>();
+	private static KioskFacade kFacade = new KioskFacade();
 
 
 	private static void createAndShowGUI() {
@@ -94,23 +95,24 @@ public class Kiosk {
 		desktop.add(loginLabel);
 		desktop.add(loginTextField);
 		desktop.add(submitLogInButton);
-		currentMenu = new JLabel("Current Menu: " + menu.menuName);
+		currentMenu = new JLabel("Current Menu: " + kFacade.getMenuName());
 		desktop.add(currentMenu);
 		gBC.gridy += 1;
 		//-- I am not 100% sure on the gBC, so if the above code messes things up let Zach know --
 
-
-		for (int i=0; i<menu.getMenuItems().size(); i++) {
+		ArrayList<String> menuItemNames = kFacade.getCurrentMenuItemNames();
+		ArrayList<Double> menuItemCosts = kFacade.getCurrentMenuItemPrices();
+		for (int i=0; i< menuItemNames.size(); i++) {
 			//TODO: 'menu1' needs to be gathered dynamically (will probably require nesting this loop in another loop)
 			final MenuItem item = menu.getMenuItems().get(i) ;
-			JButton b = new JButton(item.name + "\n$" + item.price) ;
-			b.setActionCommand(menu.getMenuItems().get(i).name);
+			JButton b = new JButton(menuItemNames.get(i) + "\n $" + menuItemCosts.get(i)) ;
+			b.setActionCommand(menuItemNames.get(i));
 			b.setPreferredSize(new Dimension(150, 100));
 			// set action
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//TODO: change this error message to be displayed on screen
-					o.addItem(item) ;
+					o.addItem(item) ; // need to write order handler for facade, something that translates and grabs proper item
 				}
 			}) ;
 			gBC.gridx = i%5 ;

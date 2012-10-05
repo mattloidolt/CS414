@@ -60,5 +60,20 @@ public class Menu {
 	public MenuItem getSpecial() {
 		return this.special;
 	}
-
+	
+	public int getNumberOfItems() {
+		return menuItems.size();
+	}
+	
+	public MenuItem getItem(int x) {
+		if(x > -1 && x < menuItems.size()) {
+			return menuItems.get(x);
+		}
+		else
+			return null;
+	}
+	
+	public String getName() {
+		return menuName;
+	}
 }
