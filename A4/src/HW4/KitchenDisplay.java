@@ -30,7 +30,6 @@ public class KitchenDisplay{
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		Color background = new Color(0,0,0) ;
 		
-    	
         //Create and set up the window.
         JFrame frame = new JFrame("PIZZA_STORE_NAME");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

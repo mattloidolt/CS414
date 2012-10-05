@@ -24,6 +24,10 @@ public class Menu {
 		this.creatingManager = creatingManager;
 	}
 	
+	public Manager getCreatingManager(){
+		return this.creatingManager;
+	}
+	
 	public void setEffectiveDate(Calendar date) {
 		this.effectiveDate = date;
 	}

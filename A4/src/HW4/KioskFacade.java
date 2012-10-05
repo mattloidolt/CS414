@@ -11,6 +11,10 @@ public class KioskFacade {
 		theRestaurant.testInitialization();
 	}
 	
+	public Restaurant getRestaurant() {
+		return theRestaurant;
+	}
+	
 	public String getMenuName() {
 		return theRestaurant.getCurrentMenuName();
 	}
