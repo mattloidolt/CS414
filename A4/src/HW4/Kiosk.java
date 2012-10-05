@@ -97,26 +97,7 @@ public class Kiosk {
 		gBC.gridy += 1;
 		//-- I am not 100% sure on the gBC, so if the above code messes things up let Zach know --
 
-
-		for (int i=0; i<menu.getMenuItems().size(); i++) {
-			//TODO: 'menu1' needs to be gathered dynamically (will probably require nesting this loop in another loop)
-			final MenuItem item = menu.getMenuItems().get(i) ;
-			JButton b = new JButton(item.name + "\n$" + item.price) ;
-			b.setActionCommand(menu.getMenuItems().get(i).name);
-			b.setPreferredSize(new Dimension(150, 100));
-			// set action
-			b.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//TODO: change this error message to be displayed on screen
-					o.addItem(item) ;
-				}
-			}) ;
-			gBC.gridx = i%5 ;
-			if ((i%5) == 0)
-				gBC.gridy += 1 ;
-			desktop.add(b, gBC) ;
-			menuItemButtons.add(b);
-		}
+		drawMenuItemButtons();
 
 		// ******* adding bottom bar **********
 		frame.getContentPane().add(new JSeparator()) ;
