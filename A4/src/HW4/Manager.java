@@ -2,6 +2,7 @@ package HW4;
 
 public class Manager extends Employee{
 	Restaurant restaurant;
+	private String plainTextPassword;
 	
 	public Manager(String name, Restaurant restaurant) {
 		super.name = name;

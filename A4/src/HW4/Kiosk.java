@@ -2,6 +2,9 @@ package HW4;
 /**
  * This should be a single instance of a kiosk. Should be run as it's own
  * thread. May use its own worker threads to make the GUI more interactive.
+ * 
+ * A question: Is the Kiosk our primary UI through which all other functions are accessed?
+ * It seems like it is but this is not documented anywhere and I'm working under the assumption that it is.
  */
 
 import java.awt.*;
@@ -14,13 +17,12 @@ import javax.swing.*;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
-import apple.laf.JRSUIUtils.InternalFrame;
+//import apple.laf.JRSUIUtils.InternalFrame;
 
 
 public class Kiosk {
-
 	public static int kioskID = 0;
-	public static Restaurant restaurant = new Restaurant(); //#TODO:how do we initialize restaurant kiosk is in?
+	public static Restaurant restaurant = new Restaurant(); //#TODO:how do we initialize restaurant kiosk is in? Load via a (String fileName) constructor or have a default restaurant?
 	private static GridBagConstraints gBC = new GridBagConstraints();
 	private static JFrame frame = new JFrame("PIZZA_STORE_NAME Kiosk: " + kioskID);
 	private static Order o = new Order() ;
