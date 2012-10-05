@@ -13,7 +13,7 @@ import java.beans.PropertyVetoException;
 import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameEvent;
@@ -38,9 +38,17 @@ public class Kiosk {
 		// variables
 		Color background = new Color(240, 125, 110) ;
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		Random generator = new Random(System.currentTimeMillis()) ;
+		o.orderID = generator.nextInt() ;
+		File txtFile = new File(Integer.toString(o.orderID));
+		while (txtFile.exists()) {  // the file already exists
+			o.orderID = generator.nextInt() ;
+			txtFile = new File(Integer.toString(o.orderID)) ;
+		}
 
 		// Create and set up the window.
-		//TODO: Find way so that user cannot close window
+		//TODO: activate next line so that user cannot close window (removed for now because it makes testing hard)
+		//frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		desktop = new JDesktopPane();
 		frame.setContentPane(desktop) ;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,6 +236,22 @@ public class Kiosk {
 									// Theoretically this is where we would do card authorization
 									JOptionPane.showOptionDialog(frame, "Your order has been placed.", "Order Placed", JOptionPane.DEFAULT_OPTION, 
 											JOptionPane.PLAIN_MESSAGE, null, null, e) ;
+									// creating the output file for the kitchen display to read
+									String order = "" ;
+									ArrayList<OrderItem> orderItems = o.getOrderList() ;
+									for(int i=0 ; i<orderItems.size(); i++){
+										order += orderItems.get(i).getItem().name+"\t\t"+orderItems.get(i).quantity+"\n";
+									}
+									FileWriter fstream;
+									try {
+										fstream = new FileWriter(Integer.toString(o.orderID)+".POS");
+										BufferedWriter out = new BufferedWriter(fstream);
+										out.write(name.getText()+"\n"+address.getText()+"\n"+phone.getText()+"\n"+order+"\n\n");
+										//Close the output stream
+										out.close();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
 									restartProgram(args) ;
 								}
 							}
