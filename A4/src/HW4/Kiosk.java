@@ -678,6 +678,7 @@ public class Kiosk {
 				}
 				if(!found) {
 					menu = new Menu(addMenuTextField.getText(), manager);
+					kFacade.addMenu(menu);
 					menuList.add(menu);
 					restaurant.addMenu(menu);
 				}

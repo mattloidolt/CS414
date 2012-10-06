@@ -81,6 +81,7 @@ public class KitchenDisplay{
 					line = in.readLine() ;
 				}
 				order += "</table></html>" ;
+				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

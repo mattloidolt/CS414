@@ -23,6 +23,10 @@ public class KioskFacade {
 		return theRestaurant.getCurrentMenu().getItemOfName(name);
 	}
 	
+	public void addMenu(Menu menu) {
+		theRestaurant.addMenu(menu);
+	}
+	
 	public void addMenuItem(String name, double price) {
 		theRestaurant.addMenuItem(name, price);
 	}
