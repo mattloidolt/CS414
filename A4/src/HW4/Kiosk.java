@@ -79,7 +79,7 @@ public class Kiosk {
 //				menu.addMenuItem(omelet) ;
 //				menuList.add(menu);
 
-		loadMenu();
+		//loadMenu();
 		///////////////////////////////////////////////////
 
 		//###############  CONTENT  ######################
@@ -358,7 +358,7 @@ public class Kiosk {
 		System.exit(0);
 	}
 
-	private static void loadMenu() {
+	/*private static void loadMenu() {
 		String line;
 		int lineNumber = 0;
 		try {
@@ -388,7 +388,7 @@ public class Kiosk {
 			System.out.println("Error opening menu");
 		}
 
-	}
+	}*/
 
 	private static void saveMenu() {
 		FileWriter fstream;
@@ -454,7 +454,7 @@ public class Kiosk {
 				// set action
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						o.addItem(item) ; // need to write order handler for facade, something that translates and grabs proper item
+						o.addItem(item) ; // need to write order handler for facade, something that translates and grabs proper item?
 					}
 				}) ;
 				gBC.gridx = i%5 ;
@@ -627,7 +627,7 @@ public class Kiosk {
 		InternalFrameListener i = new InternalFrameListener() {
 			//Refresh GUI elements on close
 			public void internalFrameClosing(InternalFrameEvent e) {
-				currentMenu.setText("Current Menu: " + menu.menuName);
+				currentMenu.setText("Current Menu: " + kFacade.getMenuName());
 				saveMenu();
 				drawMenuItemButtons();
 			}
@@ -701,7 +701,7 @@ public class Kiosk {
 		p.add(title);
 		JLabel currentNumberMenuItemsLabel;
 		if(menu!=null)
-			currentNumberMenuItemsLabel = new JLabel("" + menu.getMenuItems().size());
+			currentNumberMenuItemsLabel = new JLabel("" + kFacade.getCurrentMenuItemNames().size());
 		else
 			currentNumberMenuItemsLabel = new JLabel("0");
 		p.add(currentNumberMenuItemsLabel);
