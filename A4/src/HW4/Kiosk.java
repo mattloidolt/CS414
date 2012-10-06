@@ -381,6 +381,7 @@ public class Kiosk {
 					}
 				}
 			}
+			restaurant.setMenuList(menuList);
 			menu = menuList.get(0);
 
 		} catch (Exception e) {

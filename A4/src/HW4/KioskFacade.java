@@ -11,6 +11,10 @@ public class KioskFacade {
 		theRestaurant.testInitialization();
 	}
 	
+	public void setRestaurant(Restaurant restaurant) {
+		theRestaurant = restaurant;
+	}
+	
 	public Restaurant getRestaurant() {
 		return theRestaurant;
 	}

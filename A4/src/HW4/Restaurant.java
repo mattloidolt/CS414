@@ -50,6 +50,10 @@ public class Restaurant {
 		loadMenu();
 	}
 	
+	public void setMenuList(ArrayList<Menu> list) {
+		menuList = list;
+	}
+	
 	private void loadMenu() {
 		String line;
 		int lineNumber = 0;
