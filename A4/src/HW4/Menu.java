@@ -24,6 +24,16 @@ public class Menu {
 		this.creatingManager = creatingManager;
 	}
 	
+	public MenuItem getItemOfName(String name) {
+		for(int i = 0; i < menuItems.size(); ++i) {
+			if(menuItems.get(i).getName().equals(name)) {
+				return menuItems.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
 	public Manager getCreatingManager(){
 		return this.creatingManager;
 	}
