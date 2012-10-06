@@ -628,7 +628,7 @@ public class Kiosk {
 			//Refresh GUI elements on close
 			public void internalFrameClosing(InternalFrameEvent e) {
 				currentMenu.setText("Current Menu: " + kFacade.getMenuName());
-				saveMenu();
+				kFacade.save();
 				drawMenuItemButtons();
 			}
 			public void internalFrameActivated(InternalFrameEvent e) {}
@@ -724,10 +724,11 @@ public class Kiosk {
 					elements[0] = elements[0].trim();
 					elements[1] = elements[1].trim();
 					kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
-					MenuItem newItem = new MenuItem(elements[0].trim(), Double.parseDouble(elements[1].trim().substring(1)));
-					menu.addMenuItem(newItem);
-					inputForm.setText(newItem.name + " Added!");
+					//MenuItem newItem = new MenuItem(elements[0].trim(), Double.parseDouble(elements[1].trim().substring(1)));
+					//menu.addMenuItem(newItem);
+					inputForm.setText(elements[0] + " Added!");
 				} catch(Exception exc) {
+					System.out.println(exc);
 					inputForm.setText("Error adding item!");
 				}
 			}

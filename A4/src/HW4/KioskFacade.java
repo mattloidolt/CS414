@@ -8,7 +8,11 @@ public class KioskFacade {
 	
 	public KioskFacade() {
 		theRestaurant = new Restaurant();
-		theRestaurant.testInitialization();
+		theRestaurant.initialization();
+	}
+	
+	public void save() {
+		theRestaurant.save();
 	}
 	
 	public Restaurant getRestaurant() {

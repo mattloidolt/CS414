@@ -5,7 +5,10 @@ package HW4;
  */
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -29,7 +32,7 @@ public class Restaurant {
 	}
 	
 	
-	public void testInitialization() {
+	public void initialization() {
 //		Manager bob = new Manager("Bob", this);
 //		managerList.add(bob);
 //		Menu menu = new Menu("Breakfast", bob) ;
@@ -47,7 +50,43 @@ public class Restaurant {
 //		menu.addMenuItem(frenchToast) ;
 //		menu.addMenuItem(omelet) ;
 //		addMenu(menu);
+		loadManagers();
 		loadMenu();
+	}
+	
+	// one manager per line in managers.txt stores name
+	private void loadManagers() {
+		try {
+			FileInputStream inFile = new FileInputStream("managers.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inFile));
+			Manager toAdd = null;
+			String str;
+			String[] tokens;
+			while((str = reader.readLine()) != null && str != "") {
+				//tokens = str.split(" ");
+				toAdd = new Manager(str, this);
+				managerList.add(toAdd);
+			}
+		} catch(Exception f) {
+			System.out.println("Error opening manager file.");
+		}
+	}
+	
+	private void loadIngredients() {
+		try {
+			FileInputStream inFile = new FileInputStream("ingredients.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inFile));
+			Ingredient toAdd = null;
+			String str;
+			String[] tokens;
+			while((str = reader.readLine()) != null && str != "") {
+				tokens = str.split("_");
+				toAdd = new Ingredient(tokens[0], tokens[1], Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+				ingredients.add(toAdd);
+			}
+		} catch(Exception f) {
+			System.out.println("Error opening ingredients file.");
+		}
 	}
 	
 	private void loadMenu() {
@@ -77,7 +116,6 @@ public class Restaurant {
 		} catch (Exception e) {
 			System.out.println("Error opening menu");
 		}
-
 	}
 	
 	public ArrayList<String> getCurrentMenuItemNames() {
@@ -117,10 +155,75 @@ public class Restaurant {
 	}
 	
 	public void addMenuItem(String name, double price) {
-		menuList.get(menuList.size()-1).addMenuItem(new MenuItem(name, price));
+		if(menuList.size() > 0) {
+			menuList.get(menuList.size()-1).addMenuItem(new MenuItem(name, price));
+		}
+		else {
+			if(managerList.size() > 0) {
+				menuList.add(new Menu("default", managerList.get(0)));
+				menuList.get(menuList.size()-1).addMenuItem(new MenuItem(name, price));
+			}
+		}
+	}
+	
+	public void saveMenu() {
+		FileWriter fstream;
+		try {
+			fstream = new FileWriter("menus.POS_MENU");
+			BufferedWriter out = new BufferedWriter(fstream);
+			for(int i = 0; i < menuList.size(); i++) {
+				out.write(menuList.get(i).menuName + "-" + menuList.get(i).getCreatingManager().name + "\n");
+				for(MenuItem item : menuList.get(i).getMenuItems()){
+					out.write(item.name + "-" + item.price+ "\n");
+				}
+				if(i<menuList.size()-1)
+					out.write("NEXT\n");
+			}
+						//out.write(name.getText()+"\n"+address.getText()+"\n"+phone.getText()+"\n"+order+"\n\n");
+			//Close the output stream
+			out.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public void saveManagers() {
+		FileWriter fstream;
+		try {
+			fstream = new FileWriter("managers.txt");
+			BufferedWriter out = new BufferedWriter(fstream);
+			for(int i = 0; i < managerList.size(); i++) {
+				out.write(managerList.get(i).getName() + "\n");
+			}
+			//Close the output stream
+			out.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public void saveIngredients() {
+		FileWriter fstream;
+		try {
+			fstream = new FileWriter("ingredients.txt");
+			BufferedWriter out = new BufferedWriter(fstream);
+			for(int i = 0; i < ingredients.size(); i++) {
+				out.write(ingredients.get(i).toSave() + "\n");
+			}
+			//Close the output stream
+			out.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	public ArrayList<Menu> getMenuList() {
 		return this.menuList;
+	}
+	
+	public void save() {
+		saveMenu();
+		saveManagers();
+		saveIngredients();
 	}
 }

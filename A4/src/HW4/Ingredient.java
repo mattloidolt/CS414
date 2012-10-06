@@ -40,6 +40,14 @@ public class Ingredient {
 			return "Ingredient not initialized.";
 	}
 	
+	public String toString() {
+		return name + " Price: " + priceToPurchase + " In Stock: " + amountInStock + units;
+	}
+	
+	public String toSave() {
+		return name + "_" + units + "_" + priceToPurchase + "_" + amountInStock;
+	}
+	
 	public double purchase(double amount) {
 		double cost = amount*priceToPurchase;
 		amountInStock += amount;
