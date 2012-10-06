@@ -700,7 +700,7 @@ public class Kiosk {
 		JLabel title = new JLabel("Number of Menu Items");
 		p.add(title);
 		JLabel currentNumberMenuItemsLabel;
-		if(menu!=null)
+		if(kFacade.getCurrentMenuItemNames().size() > 0)
 			currentNumberMenuItemsLabel = new JLabel("" + kFacade.getCurrentMenuItemNames().size());
 		else
 			currentNumberMenuItemsLabel = new JLabel("0");
@@ -715,7 +715,8 @@ public class Kiosk {
 		p.add(title);
 		final JTextField inputForm = new JTextField(15);
 		p.add(inputForm);
-		JButton submitButton = new JButton("Add");
+		//JButton addNewItem = new JButton(New)
+		JButton submitButton = new JButton("Add New Item");
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String string = inputForm.getText();
@@ -724,8 +725,6 @@ public class Kiosk {
 					elements[0] = elements[0].trim();
 					elements[1] = elements[1].trim();
 					kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
-					//MenuItem newItem = new MenuItem(elements[0].trim(), Double.parseDouble(elements[1].trim().substring(1)));
-					//menu.addMenuItem(newItem);
 					inputForm.setText(elements[0] + " Added!");
 				} catch(Exception exc) {
 					System.out.println(exc);
@@ -738,7 +737,7 @@ public class Kiosk {
 		drawMenuItemButtons();
 		return p;
 	}
-
+	
 	public static JLabel getReceipt() {
 		ArrayList<OrderItem> orderItems = o.getOrderList() ;
 		String text = "<html><center><h1>ORDER SUMMARY</h1><br>" ;

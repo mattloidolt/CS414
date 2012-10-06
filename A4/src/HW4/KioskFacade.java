@@ -42,4 +42,13 @@ public class KioskFacade {
 	public ArrayList<Double> getCurrentMenuItemPrices() {
 		return theRestaurant.getCurrentMenuItemPrices();
 	}
+	
+	public ArrayList<String> getIngredients() {
+		ArrayList<String> ingredientList = new ArrayList<String>();
+		ArrayList<Ingredient> restIngredients = new ArrayList<Ingredient>();
+		for(int i = 0; i < restIngredients.size(); ++i) {
+			ingredientList.add(restIngredients.get(i).getName());
+		}
+		return ingredientList;
+	}
 }

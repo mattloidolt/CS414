@@ -221,6 +221,10 @@ public class Restaurant {
 		return this.menuList;
 	}
 	
+	public ArrayList<Ingredient> getIngredients() {
+		return ingredients;
+	}
+	
 	public void save() {
 		saveMenu();
 		saveManagers();
