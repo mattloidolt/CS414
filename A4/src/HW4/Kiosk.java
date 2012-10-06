@@ -368,6 +368,7 @@ public class Kiosk {
 			while((line = content.readLine()) != null){
 				if(lineNumber == 0) {
 					String elements[] = line.split("-");
+					kFacade.addNewMenu(elements[0], elements[1]);
 					loadMenu = new Menu(elements[0], new Manager(elements[1], restaurant));
 					menuList.add(loadMenu);
 					lineNumber ++;
@@ -442,12 +443,12 @@ public class Kiosk {
 //			desktop.add(b, gBC) ;
 //			menuItemButtons.add(b);
 //		}
-		if(menu != null){
+		if(kFacade.getMenuName() != null){
 			ArrayList<String> menuItemNames = kFacade.getCurrentMenuItemNames();
 			ArrayList<Double> menuItemCosts = kFacade.getCurrentMenuItemPrices();
 			for (int i=0; i< menuItemNames.size(); i++) {
-				final MenuItem item = menu.getMenuItems().get(i) ;
-				JButton b = new JButton(menuItemNames.get(i) + "\n $" + menuItemCosts.get(i)) ;
+				final MenuItem item = kFacade.getOrderItem(menuItemNames.get(i));
+				JButton b = new JButton(menuItemNames.get(i) + "\n $" + menuItemCosts.get(i));
 				b.setActionCommand(menuItemNames.get(i));
 				b.setPreferredSize(new Dimension(150, 100));
 				// set action
@@ -722,6 +723,7 @@ public class Kiosk {
 				try {
 					elements[0] = elements[0].trim();
 					elements[1] = elements[1].trim();
+					kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
 					MenuItem newItem = new MenuItem(elements[0].trim(), Double.parseDouble(elements[1].trim().substring(1)));
 					menu.addMenuItem(newItem);
 					inputForm.setText(newItem.name + " Added!");
@@ -732,6 +734,7 @@ public class Kiosk {
 		});
 		p.add(submitButton);
 
+		drawMenuItemButtons();
 		return p;
 	}
 

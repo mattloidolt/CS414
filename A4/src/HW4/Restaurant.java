@@ -108,8 +108,16 @@ public class Restaurant {
 		return "No Menu";
 	}
 	
+	public Menu getCurrentMenu() {
+		return menuList.get(menuList.size()-1);
+	}
+	
 	public void addMenu(Menu menu) {
 		menuList.add(menu);
+	}
+	
+	public void addMenuItem(String name, double price) {
+		menuList.get(menuList.size()-1).addMenuItem(new MenuItem(name, price));
 	}
 	
 	public ArrayList<Menu> getMenuList() {
