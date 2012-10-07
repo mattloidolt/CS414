@@ -79,7 +79,7 @@ public class Kiosk {
 //				menu.addMenuItem(omelet) ;
 //				menuList.add(menu);
 
-		//loadMenu();
+		loadMenu();
 		///////////////////////////////////////////////////
 
 		//###############  CONTENT  ######################
@@ -358,7 +358,7 @@ public class Kiosk {
 		System.exit(0);
 	}
 
-	/*private static void loadMenu() {
+	private static void loadMenu() {
 		String line;
 		int lineNumber = 0;
 		try {
@@ -389,7 +389,7 @@ public class Kiosk {
 			System.out.println("Error opening menu");
 		}
 
-	}*/
+	}
 
 	private static void saveMenu() {
 		FileWriter fstream;
@@ -724,11 +724,12 @@ public class Kiosk {
 				try {
 					elements[0] = elements[0].trim();
 					elements[1] = elements[1].trim();
-					kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
+//					kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
 					MenuItem newItem = new MenuItem(elements[0].trim(), Double.parseDouble(elements[1].trim().substring(1)));
 					menu.addMenuItem(newItem);
 					inputForm.setText(newItem.name + " Added!");
 				} catch(Exception exc) {
+					System.out.println(exc);
 					inputForm.setText("Error adding item!");
 				}
 			}
