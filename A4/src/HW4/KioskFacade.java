@@ -8,7 +8,11 @@ public class KioskFacade {
 	
 	public KioskFacade() {
 		theRestaurant = new Restaurant();
-		theRestaurant.testInitialization();
+		theRestaurant.initialization();
+	}
+	
+	public void save() {
+		theRestaurant.save();
 	}
 	
 	public void setRestaurant(Restaurant restaurant) {
@@ -21,6 +25,10 @@ public class KioskFacade {
 	
 	public MenuItem getOrderItem(String name) {
 		return theRestaurant.getCurrentMenu().getItemOfName(name);
+	}
+	
+	public void addMenu(Menu menu) {
+		theRestaurant.addMenu(menu);
 	}
 	
 	public void addMenuItem(String name, double price) {
@@ -41,5 +49,14 @@ public class KioskFacade {
 	
 	public ArrayList<Double> getCurrentMenuItemPrices() {
 		return theRestaurant.getCurrentMenuItemPrices();
+	}
+	
+	public ArrayList<String> getIngredients() {
+		ArrayList<String> ingredientList = new ArrayList<String>();
+		ArrayList<Ingredient> restIngredients = new ArrayList<Ingredient>();
+		for(int i = 0; i < restIngredients.size(); ++i) {
+			ingredientList.add(restIngredients.get(i).getName());
+		}
+		return ingredientList;
 	}
 }

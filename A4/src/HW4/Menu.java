@@ -47,7 +47,7 @@ public class Menu {
 	}
 	
 	public void addMenuItem(MenuItem item) {
-		if (!menuItems.contains(item))
+		if(!menuItems.contains(item))
 			menuItems.add(item);
 	}
 	

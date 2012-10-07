@@ -13,6 +13,11 @@ public class MenuItem {
 		this.price = price;
 	}
 	
+	public MenuItem(String name, double price, String[] ingredients) {
+		this.name = name;
+		this.price = price;
+	}
+	
 	public String getName() {
 		return name;
 	}
