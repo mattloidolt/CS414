@@ -582,7 +582,7 @@ public class Kiosk {
 									String order = "" ;
 									ArrayList<OrderItem> orderItems = o.getOrderList() ;
 									for(int i=0 ; i<orderItems.size(); i++){
-										order += orderItems.get(i).getItem().name+"\t\t"+orderItems.get(i).quantity+"\n";
+										order += orderItems.get(i).getItem().name+"\t\t"+orderItems.get(i).getQuantity()+"\n";
 									}
 									FileWriter fstream;
 									try {
@@ -752,9 +752,9 @@ public class Kiosk {
 				"<td>Total Price</td>" +
 				"</tr>" ;
 		for(int i=0; i<orderItems.size(); i++) {
-			double lineTotal = orderItems.get(i).quantity * orderItems.get(i).getItem().price ;
+			double lineTotal = orderItems.get(i).getQuantity() * orderItems.get(i).getItem().price ;
 			text += "<tr><td>"+orderItems.get(i).getItem().name+"</td>" +
-					"<td>"+orderItems.get(i).quantity+"</td>" +
+					"<td>"+orderItems.get(i).getQuantity()+"</td>" +
 					"<td>$"+orderItems.get(i).getItem().price+"</td>" +
 					"<td>$"+lineTotal+"</td></tr><br>" ;
 		}

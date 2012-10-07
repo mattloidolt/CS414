@@ -3,15 +3,15 @@ package HW4;
 public class OrderItem {
 
 	MenuItem item;
-	int quantity;
+	private int quantity;
 	
 	public OrderItem(MenuItem item) {
 		this.item = item;
-		this.quantity = 1;
+		this.setQuantity(1);
 	}
 	
 	public void incrementItemQuantity() {
-		this.quantity++;
+		this.setQuantity(this.getQuantity() + 1);
 	}
 	
 	public boolean equals(MenuItem menuItem) {
@@ -20,5 +20,13 @@ public class OrderItem {
 	
 	public MenuItem getItem(){
 		return item ;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

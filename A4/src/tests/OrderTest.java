@@ -44,7 +44,7 @@ public class OrderTest {
 		order.addItem(item);
 		assertTrue(order.getTotal() == 9.99);
 		order.addItem(item);
-		assertTrue(order.getTotal() == 9.99*2);
+		assertTrue(order.getAmountDue() == 9.99*2);
 	}
 	
 	@Test

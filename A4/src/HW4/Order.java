@@ -56,7 +56,7 @@ public class Order {
 	
 	public void pay(double amount, String type) {
 		Payment payment = new Payment(amount, type);
-		this.amountDue -= payment.amount;
+		this.amountDue -= payment.getAmount();
 	}
 	
 	public ArrayList<OrderItem> getOrderList() {
