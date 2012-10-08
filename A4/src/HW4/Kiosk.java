@@ -574,7 +574,10 @@ public class Kiosk {
 				try {
 					elements[0] = elements[0].trim();
 					elements[1] = elements[1].trim();
-					kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
+					if(elements[1].startsWith("$"))
+						kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
+					else
+						kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1]));
 					inputForm.setText(elements[0] + " Added!");
 				} catch(Exception exc) {
 					System.out.println(exc);
