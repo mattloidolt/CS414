@@ -122,6 +122,11 @@ public class KitchenDisplay{
         frame.setVisible(true);
     }
     
+    /**
+     * restarts the program - to be used every time an order is deleted and the GUI
+     * needs to be updated as well as the order needs to be deleted from the system
+     * @param args
+     */
     public static void restartProgram(String[] args)
 	{
 		StringBuilder cmd = new StringBuilder();

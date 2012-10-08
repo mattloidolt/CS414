@@ -22,7 +22,8 @@ import javax.swing.event.InternalFrameListener;
 
 public class Kiosk {
 	public static int kioskID = 0;
-//	public static Restaurant restaurant = new Restaurant("CSU Rams"); //#TODO:how do we initialize restaurant kiosk is in? Load via a (String fileName) constructor or have a default restaurant?
+	//#TODO:how do we initialize restaurant kiosk is in? Load via a (String fileName) constructor or have a default restaurant?
+	//public static Restaurant restaurant = new Restaurant("CSU Rams"); 
 	private static GridBagConstraints gBC = new GridBagConstraints();
 	private static JFrame frame = new JFrame("PIZZA_STORE_NAME Kiosk: " + kioskID);
 	private static Order o = new Order() ;
@@ -38,6 +39,11 @@ public class Kiosk {
 	private static String[] args;
 
 
+	/**
+	 * Main section of the GUI. Draws the frame and sets up the framing elements as well as 
+	 * calls all other methods associated with setting up the GUI
+	 * @param args
+	 */
 	private static void createAndShowGUI(final String[] args) {
 		// variables
 		Color background = new Color(240, 125, 110) ;
@@ -61,26 +67,8 @@ public class Kiosk {
 		desktop.setLayout(new GridBagLayout()); // this is the framing structure
 		gBC.fill = GridBagConstraints.HORIZONTAL;
 
-		//////// REMOVE - for building purposes ///////////
-//				Manager bob = new Manager("BOB", new Restaurant()) ;
-//				menu = new Menu("Breakfast", bob) ;
-//		
-//				MenuItem eggs = new MenuItem("Eggs", 5.99) ;
-//				MenuItem pancakes = new MenuItem("Pancakes", 6.99) ;
-//				MenuItem toast = new MenuItem("Toast and Jam", 3.99) ;
-//				MenuItem burrito = new MenuItem("Burrito", 6.99) ;
-//				MenuItem frenchToast = new MenuItem("French Toast", 5.99) ;
-//				MenuItem omelet = new MenuItem("Omelet", 7.99) ;
-//				menu.addMenuItem(eggs) ;
-//				menu.addMenuItem(pancakes) ;
-//				menu.addMenuItem(toast) ;
-//				menu.addMenuItem(burrito) ;
-//				menu.addMenuItem(frenchToast) ;
-//				menu.addMenuItem(omelet) ;
-//				menuList.add(menu);
-
 		loadMenu();
-		///////////////////////////////////////////////////
+
 
 		//###############  CONTENT  ######################
 		gBC.gridx = 0 ;
@@ -113,173 +101,7 @@ public class Kiosk {
 		currentMenu = new JLabel("Current Menu: " + kFacade.getMenuName());
 		desktop.add(currentMenu);
 		gBC.gridy += 1;
-		//-- I am not 100% sure on the gBC, so if the above code messes things up let Zach know --
 		drawMenuItemButtons();
-//		if(menu != null){
-//			ArrayList<String> menuItemNames = kFacade.getCurrentMenuItemNames();
-//			ArrayList<Double> menuItemCosts = kFacade.getCurrentMenuItemPrices();
-//			for (int i=0; i< menuItemNames.size(); i++) {
-//				final MenuItem item = menu.getMenuItems().get(i) ;
-//				JButton b = new JButton(menuItemNames.get(i) + "\n $" + menuItemCosts.get(i)) ;
-//				b.setActionCommand(menuItemNames.get(i));
-//				b.setPreferredSize(new Dimension(150, 100));
-//				// set action
-//				b.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						o.addItem(item) ; // need to write order handler for facade, something that translates and grabs proper item
-//					}
-//				}) ;
-//				gBC.gridx = i%5 ;
-//				if ((i%5) == 0)
-//					gBC.gridy += 1 ;
-//				desktop.add(b, gBC) ;
-//				menuItemButtons.add(b);
-//			}
-//		}
-
-		// ******* adding bottom bar **********
-//		frame.getContentPane().add(new JSeparator()) ;
-//		JButton viewOrder = new JButton("View Order") ;
-//		JButton placeOrder = new JButton("Place Order") ;
-//		viewOrder.setPreferredSize(new Dimension(150, 100));
-//		viewOrder.setBackground(Color.green) ;
-//		placeOrder.setPreferredSize(new Dimension(150, 100));
-//		placeOrder.setBackground(Color.blue) ;
-//		// actions
-//		viewOrder.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				//Execute when button is pressed
-//				JInternalFrame internalFrame = new JInternalFrame("Order Summary", false, true, false, false);
-//				internalFrame.setBounds(0, 50, 500, size.height);
-//				internalFrame.setBackground(new Color(225, 225, 255)) ;
-//				gBC.ipady = size.height-100;
-//				gBC.weightx = 0 ;
-//				gBC.gridwidth = 4;
-//				gBC.gridx = 0 ;
-//				gBC.gridy = 0 ;
-//				// adding content to internal frame
-//				JLabel receipt = getReceipt() ;
-//				internalFrame.add(receipt) ;
-//				// displaying frame and bringing to front
-//				internalFrame.show() ;
-//				frame.add(internalFrame, gBC) ;
-//				internalFrame.setVisible(true);
-//				try {
-//					internalFrame.setSelected(true) ;
-//				} catch (PropertyVetoException e1) {
-//					e1.printStackTrace();
-//				}
-//			}
-//		});
-//		placeOrder.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				//Execute when button is pressed
-//				JDesktopPane desktop2 = new JDesktopPane() ;
-//				desktop2.setLayout(new GridBagLayout());
-//				JLabel receipt = getReceipt() ;
-//				gBC.ipadx = size.width/2 ;
-//				gBC.gridheight = 8;
-//				gBC.gridx = 0 ;
-//				gBC.gridy = 0 ;
-//				desktop2.add(receipt, gBC) ;
-//
-//				JLabel txt = new JLabel("<html><h1>Fill in all fields: </h1></html>") ;
-//				gBC.gridheight = 1 ;
-//				gBC.gridx = 1 ;
-//				desktop2.add(txt, gBC) ;
-//
-//				final JTextField name = new JTextField("First and Last Name") ;
-//				gBC.gridy = 1 ;
-//				desktop2.add(name, gBC) ;
-//
-//				final JTextField address = new JTextField("Address") ;
-//				gBC.gridy = 2 ;
-//				desktop2.add(address, gBC) ;
-//
-//				final JTextField phone = new JTextField("Phone Number") ;
-//				gBC.gridy = 3 ;
-//				desktop2.add(phone, gBC) ;
-//
-//				txt = new JLabel("<html><h3>Payment Information: </h3></html>") ;
-//				gBC.gridy = 4 ;
-//				desktop2.add(txt, gBC) ;
-//
-//				final JTextField cardName = new JTextField("Name on Card") ;
-//				gBC.gridy = 5 ;
-//				desktop2.add(cardName, gBC) ;
-//
-//				final JTextField cardNum = new JTextField("Credit Card Number", 16) ;
-//				gBC.gridy = 6 ;
-//				desktop2.add(cardNum, gBC) ;
-//
-//				final JTextField expDate = new JTextField("Expiration Date") ;
-//				gBC.gridy = 7 ;
-//				desktop2.add(expDate, gBC) ;
-//
-//				final JButton place = new JButton("Place Order") ;
-//				place.setBackground(Color.green) ;
-//				place.setPreferredSize(new Dimension(150, 100));
-//				gBC.gridy = 8 ;
-//
-//				//TODO: place order button needs to store all information and send it to the kitchen display
-//				place.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						// This is all the error checking to make sure the inputs are correct
-//						if(name.getText().equals("First and Last Name") || address.getText().equals("Address") ||
-//								phone.getText().equals("Phone Number") || cardName.getText().equals("Name on Card") ||
-//								cardNum.getText().equals("Credit Card Number") || expDate.getText().equals("Expiration Date"))
-//							JOptionPane.showOptionDialog(frame, "You must fill in all fields.", "Error", JOptionPane.DEFAULT_OPTION, 
-//									JOptionPane.ERROR_MESSAGE, null, null, e) ;
-//						else {
-//							if(phone.getText().length() != 10)
-//								JOptionPane.showOptionDialog(frame, "Invalid phone number. Use Format: 9991234567.", "Error", JOptionPane.DEFAULT_OPTION, 
-//										JOptionPane.ERROR_MESSAGE, null, null, e) ;
-//							else{
-//								if(cardNum.getText().length() != 16)
-//									JOptionPane.showOptionDialog(frame, "Invalid Card Number. Use Format: 1234567890123456", "Error", JOptionPane.DEFAULT_OPTION, 
-//											JOptionPane.ERROR_MESSAGE, null, null, e) ;
-//								else {
-//									//TODO: check for validity of expiration date
-//									// Theoretically this is where we would do card authorization
-//									JOptionPane.showOptionDialog(frame, "Your order has been placed.", "Order Placed", JOptionPane.DEFAULT_OPTION, 
-//											JOptionPane.PLAIN_MESSAGE, null, null, e) ;
-//									// creating the output file for the kitchen display to read
-//									String order = "" ;
-//									ArrayList<OrderItem> orderItems = o.getOrderList() ;
-//									for(int i=0 ; i<orderItems.size(); i++){
-//										order += orderItems.get(i).getItem().name+"\t\t"+orderItems.get(i).quantity+"\n";
-//									}
-//									FileWriter fstream;
-//									try {
-//										fstream = new FileWriter(Integer.toString(o.orderID)+".POS");
-//										BufferedWriter out = new BufferedWriter(fstream);
-//										out.write(name.getText()+"\n"+address.getText()+"\n"+phone.getText()+"\n"+order+"\n\n");
-//										//Close the output stream
-//										out.close();
-//									} catch (IOException e1) {
-//										e1.printStackTrace();
-//									}
-//									restartProgram(args) ;
-//								}
-//							}
-//						}
-//					}
-//				}) ;
-//
-//				desktop2.add(place, gBC) ;
-//
-//				desktop2.setVisible(true) ;
-//				frame.setContentPane(desktop2) ;
-//				frame.setVisible(true) ;
-//			}
-//		});
-//		gBC.gridy += 1 ;
-//		gBC.gridx = 0 ;
-//		desktop.add(viewOrder, gBC) ;
-//		gBC.gridx = 1 ;
-//		desktop.add(placeOrder, gBC) ;
 
 
 		/////// THIS SECTION WAS DEPRICATED - allows user to switch between menus ///////
@@ -338,6 +160,11 @@ public class Kiosk {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * restarts the program - used for when an order is placed and the GUI needs to be
+	 * completely reset to allow for the next order
+	 * @param args - program runtime arguments
+	 */
 	public static void restartProgram(String[] args)
 	{
 		StringBuilder cmd = new StringBuilder();
@@ -358,6 +185,9 @@ public class Kiosk {
 		System.exit(0);
 	}
 
+	/**
+	 * Loads the menus from the POS_MENU file
+	 */
 	private static void loadMenu() {
 		String line;
 		int lineNumber = 0;
@@ -392,6 +222,10 @@ public class Kiosk {
 
 	}
 
+	/**
+	 * section of the manager page that allows them to save the menu every time it is 
+	 * changed
+	 */
 	private static void saveMenu() {
 		FileWriter fstream;
 		try {
@@ -413,6 +247,9 @@ public class Kiosk {
 		}
 	}
 
+	/**
+	 * clears the menu page of old buttons for refreshing it
+	 */
 	private static void clearMenuItemButtons() {
 		gBC.gridx = 0 ;
 		gBC.gridy = 0 ;
@@ -426,25 +263,13 @@ public class Kiosk {
 		
 	}
 
+	/**
+	 * Dynamically draws all of the buttons for every item on the menu for the customer
+	 * to order from based on the items entered to the menu from the manager screen
+	 */
 	private static void drawMenuItemButtons() {
 		clearMenuItemButtons();
-//		for(int i=0; i<menu.getMenuItems().size(); i++){
-//			final MenuItem menuItem = menu.getMenuItems().get(i) ;
-//			JButton b = new JButton(menuItem.name + "\n$" + menuItem.price) ;
-//			b.setActionCommand(menu.getMenuItems().get(i).name);
-//			b.setPreferredSize(new Dimension(150, 100));
-//			// set action
-//			b.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					o.addItem(menuItem) ;
-//				}
-//			}) ;
-//			gBC.gridx = i%5 ;
-//			if ((i%5) == 0)
-//				gBC.gridy += 1 ;
-//			desktop.add(b, gBC) ;
-//			menuItemButtons.add(b);
-//		}
+
 		if(kFacade.getMenuName() != null){
 			ArrayList<String> menuItemNames = kFacade.getCurrentMenuItemNames();
 			ArrayList<Double> menuItemCosts = kFacade.getCurrentMenuItemPrices();
@@ -469,6 +294,9 @@ public class Kiosk {
 		drawOrderButtons();
 	}
 	
+	/**
+	 * Always draws a bottom bar with the VIEW ORDER and PLACE ORDER buttons in it
+	 */
 	public static void drawOrderButtons() {
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.getContentPane().add(new JSeparator()) ;
@@ -645,7 +473,6 @@ public class Kiosk {
 		internalFrame.setBackground(new Color(200, 200, 200)) ;
 		//Add manager Elements
 		internalFrame.add(getCreateMenuGUI(manager));
-		//		internalFrame.add(getCurrentMenuItemCountGUI());
 
 		// displaying frame and bringing to front
 		internalFrame.show() ;
@@ -660,6 +487,10 @@ public class Kiosk {
 
 	}
 
+	/**
+	 * Main GUI for the manager
+	 * @return JPanel - GUI panel for the manager to be put into the frame
+	 */
 	public static JPanel getCreateMenuGUI(final Manager manager) {
 		final JPanel p = new JPanel();
 		GridLayout layout = new GridLayout(3, 3);
@@ -698,6 +529,10 @@ public class Kiosk {
 		return p;
 	}
 
+	/**
+	 * Finds the number of items on a menu
+	 * @return returns an array list containing GUI elements to be added including the number of items on the menu
+	 */
 	public static ArrayList<Object> getCurrentMenuItemCountGUI() {
 		ArrayList<Object> p = new ArrayList<Object>();
 		JLabel title = new JLabel("Number of Menu Items");
@@ -712,13 +547,17 @@ public class Kiosk {
 		return p;
 	}
 
+	
+	/**
+	 * Lower section of the managers screen that allows for the adding of Items to the menu
+	 * @return array list of items to add to the GUI
+	 */
 	public static ArrayList<Object> addMenuItemInterface() {
 		ArrayList<Object> p = new ArrayList<Object>();
 		JLabel title = new JLabel("Add Item (item - price)");
 		p.add(title);
 		final JTextField inputForm = new JTextField(15);
 		p.add(inputForm);
-		//JButton addNewItem = new JButton(New)
 		JButton submitButton = new JButton("Add New Item");
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -741,6 +580,11 @@ public class Kiosk {
 		return p;
 	}
 	
+	
+	/**
+	 * Builds the receipt of the order as a JLabel item and returns it
+	 * @return JLabel - receipt version of the order
+	 */
 	public static JLabel getReceipt() {
 		ArrayList<OrderItem> orderItems = o.getOrderList() ;
 		String text = "<html><center><h1>ORDER SUMMARY</h1><br>" ;
