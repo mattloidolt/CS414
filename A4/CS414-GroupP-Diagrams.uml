@@ -26,7 +26,7 @@
       <fontname>Lucida Grande</fontname>
       <fontsize>13</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>Add MenuItem SSD</activediagram>
+      <activediagram>Customer Order Placement SSD</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -74,7 +74,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sun Oct 07 20:31:50 MDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sun Oct 07 21:17:34 MDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -4022,6 +4022,8 @@
                 <UML:Operation xmi.idref = '10-84-32-56-4686da75:139e050817b:-8000:0000000000000C21'/>
               </UML:ClassifierRole.availableFeature>
             </UML:ClassifierRole>
+            <UML:Comment xmi.id = '-64--88-0-72-2035db99:13a3e1e7f4e:-8000:0000000000000D78'
+              isSpecification = 'false' body = 'Customer Order Placement SSD'/>
           </UML:Namespace.ownedElement>
           <UML:Collaboration.interaction>
             <UML:Interaction xmi.id = '-64--88-0-72--821756b:13a3df0e626:-8000:0000000000000CC5'
@@ -14980,6 +14982,102 @@
       <lineto x="1205"
               y="682" />
     </path>
+  </group>
+  <group name="Fig24"
+       description="org.argouml.uml.diagram.static_structure.ui.FigComment[728, 88, 205, 59]pathVisible=false;stereotypeView=0;"
+       href="-64--88-0-72-2035db99:13a3e1e7f4e:-8000:0000000000000D78"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig24.0"
+      x="728"
+      y="88"
+      width="205"
+      height="59"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+    />
+    <path name="Fig24.1"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="1"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="728"
+              y="88" />
+      <lineto x="922"
+              y="88" />
+      <lineto x="932"
+              y="98" />
+      <lineto x="932"
+              y="146" />
+      <lineto x="728"
+              y="146" />
+      <lineto x="728"
+              y="88" />
+    </path>
+    <path name="Fig24.2"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="1"
+      fillcolor="178 178 178"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="922"
+              y="88" />
+      <lineto x="932"
+              y="98" />
+      <lineto x="922"
+              y="98" />
+      <lineto x="922"
+              y="88" />
+    </path>
+    <group name="Fig24.3"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[730, 90, 191, 0]"
+         href="-64--88-0-72-2035db99:13a3e1e7f4e:-8000:0000000000000D78"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig24.3.0"
+        x="730"
+        y="90"
+        width="191"
+        height="0"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <text name="Fig24.4"
+      x="730"
+      y="90"
+      width="191"
+      height="55"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="13"
+      justification="Left"
+    >Customer Order Placement SSD</text>
   </group>
 </pgml>
 <todo>
