@@ -101,10 +101,13 @@ public class Kiosk {
 		currentMenu = new JLabel("Current Menu: " + kFacade.getMenuName());
 		desktop.add(currentMenu);
 		gBC.gridy += 1;
+		//////////////////////////////////////////////////////
+		
+		/////// MAIN MENU SECTION ////////
 		drawMenuItemButtons();
 
 
-		/////// THIS SECTION WAS DEPRICATED - allows user to switch between menus ///////
+		// THIS SECTION WAS DEPRICATED - allows user to switch between menus
 		// top line
 		/*JLabel label = new JLabel("Select Menu: ");
         gBC.weightx = 0.2 ;
@@ -163,10 +166,12 @@ public class Kiosk {
 	/**
 	 * restarts the program - used for when an order is placed and the GUI needs to be
 	 * completely reset to allow for the next order
+	 * (It does this by effectively creating another instance of itself then destroying itself)
 	 * @param args - program runtime arguments
 	 */
 	public static void restartProgram(String[] args)
 	{
+		// pull this programs ID from the args and build the command to execute
 		StringBuilder cmd = new StringBuilder();
 		cmd.append(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java ");
 		for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
@@ -177,11 +182,13 @@ public class Kiosk {
 		for (String arg : args) {
 			cmd.append(arg).append(" ");
 		}
+		// execute the command to start this program again
 		try {
 			Runtime.getRuntime().exec(cmd.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// then end this program
 		System.exit(0);
 	}
 
@@ -239,7 +246,6 @@ public class Kiosk {
 				if(i<menuList.size()-1)
 					out.write("NEXT\n");
 			}
-			//			out.write(name.getText()+"\n"+address.getText()+"\n"+phone.getText()+"\n"+order+"\n\n");
 			//Close the output stream
 			out.close();
 		} catch (IOException e1) {
@@ -306,7 +312,7 @@ public class Kiosk {
 		viewOrder.setBackground(Color.green) ;
 		placeOrder.setPreferredSize(new Dimension(150, 100));
 		placeOrder.setBackground(Color.blue) ;
-		// actions
+		// View order action - builds new frame pop up with temporary receipt displayed
 		viewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -333,6 +339,8 @@ public class Kiosk {
 				}
 			}
 		});
+		// Place action - Shows a new desktop with the final receipt and spots to enter information
+		//			to complete the order
 		placeOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -384,7 +392,6 @@ public class Kiosk {
 				place.setPreferredSize(new Dimension(150, 100));
 				gBC.gridy = 8 ;
 
-				//TODO: place order button needs to store all information and send it to the kitchen display
 				place.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// This is all the error checking to make sure the inputs are correct
@@ -432,6 +439,7 @@ public class Kiosk {
 				desktop2.add(place, gBC) ;
 
 				desktop2.setVisible(true) ;
+				// replace current view with this new desktop
 				frame.setContentPane(desktop2) ;
 				frame.setVisible(true) ;
 			}
