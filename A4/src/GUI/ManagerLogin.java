@@ -4,16 +4,19 @@
  */
 package GUI;
 
+import controller.ManagerDisplayCont ;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author mattloidolt
  */
-public class ManagerDisplay extends javax.swing.JFrame {
+public class ManagerLogin extends javax.swing.JFrame {
 
     /**
      * Creates new form ManagerDisplay
      */
-    public ManagerDisplay() {
+    public ManagerLogin() {
         initComponents();
     }
 
@@ -96,7 +99,13 @@ public class ManagerDisplay extends javax.swing.JFrame {
     }//GEN-LAST:event_userNameActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        if(ManagerDisplayCont.login(userName.getText(), password.getPassword())) {
+            //TODO: replace the login display with a menuEditing display
+        }
+        else{
+            JOptionPane.showOptionDialog(this, "Invalid Login", "Error", JOptionPane.DEFAULT_OPTION, 
+									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
@@ -116,20 +125,20 @@ public class ManagerDisplay extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManagerDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagerLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManagerDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagerLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManagerDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagerLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManagerDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagerLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManagerDisplay().setVisible(true);
+                new ManagerLogin().setVisible(true);
             }
         });
     }

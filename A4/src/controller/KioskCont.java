@@ -32,6 +32,7 @@ public class KioskCont {
         }
         return names ;
     }
+    
     public Menu getMenu(String menuName){
         Menu loadMenu = null;
         try{
