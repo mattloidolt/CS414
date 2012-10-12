@@ -19,9 +19,8 @@ public class Menu {
 		this.creatingManager = creatingManager;
 	}
 	
-	public Menu(String menuName, Manager creatingManager) {
+	public Menu(String menuName) {
 		this.menuName = menuName;
-		this.creatingManager = creatingManager;
 	}
 	
 	public MenuItem getItemOfName(String name) {

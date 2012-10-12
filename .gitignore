@@ -3,3 +3,4 @@
 *.class
 *.POS*
 *.txt
+/A4/nbproject/private/
