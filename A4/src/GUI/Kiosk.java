@@ -4,17 +4,33 @@
  */
 package GUI;
 
+import java.io.* ;
+import java.util.* ;
+import java.lang.management.ManagementFactory;
+import java.util.Random;
+
 /**
  *
  * @author mattloidolt
  */
 public class Kiosk extends javax.swing.JFrame {
-
+    
+    int orderID = 0 ;
+    static String[] arguments ;
+    // adding items to the order should add to this list
+    ArrayList<String> items = new ArrayList<String>() ;
     /**
      * Creates new form Kiosk
      */
     public Kiosk() {
         initComponents();
+        Random generator = new Random(System.currentTimeMillis()) ;
+        orderID = generator.nextInt() ;
+        File txtFile = new File(Integer.toString(orderID));
+	while (txtFile.exists()) {  // the file already exists
+            orderID = generator.nextInt() ;
+            txtFile = new File(Integer.toString(orderID)) ;
+	}
     }
 
     /**
@@ -32,13 +48,11 @@ public class Kiosk extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        place = new javax.swing.JButton();
+        cancel = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -79,22 +93,23 @@ public class Kiosk extends javax.swing.JFrame {
 
         jLabel2.setText(getName());
 
-        jButton1.setText("Place Order");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        place.setText("Place Order");
+        place.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                placeActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancel Order");
+        cancel.setText("Cancel Order");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("No items yet");
 
-        jLabel4.setText("Burger");
-
-        jButton4.setText("+");
-
-        jButton5.setText("-");
+        jLabel5.setText("<menuName>");
 
         jMenu1.setText("Menu");
 
@@ -119,25 +134,20 @@ public class Kiosk extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(jButton2)
+                        .add(0, 387, Short.MAX_VALUE)
+                        .add(cancel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jButton1))
+                        .add(place))
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
                                 .add(jLabel1)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jLabel5)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(jLabel2))
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 168, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jButton4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jLabel4)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(jButton5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(0, 323, Short.MAX_VALUE)))
+                            .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 168, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -146,28 +156,20 @@ public class Kiosk extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel1)
-                    .add(jLabel2))
+                    .add(jLabel2)
+                    .add(jLabel5))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(35, 35, 35))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jButton2)
-                                    .add(jButton1))
-                                .addContainerGap())))
-                    .add(layout.createSequentialGroup()
-                        .add(21, 21, 21)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(35, 35, 35))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel4)
-                            .add(jButton4)
-                            .add(jButton5))
-                        .add(0, 0, Short.MAX_VALUE))))
+                            .add(cancel)
+                            .add(place))
+                        .addContainerGap())))
         );
 
         getAccessibleContext().setAccessibleDescription("UserKiosk");
@@ -175,14 +177,43 @@ public class Kiosk extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void placeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeActionPerformed
+        KioskPlaceOrder placeScreen = new KioskPlaceOrder(arguments, items) ;
+        placeScreen.setTitle("Order: " + orderID) ;
+        placeScreen.setVisible(true) ;
+    }//GEN-LAST:event_placeActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        // TODO these menu buttons need to be built dynamically from the available menus
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        restartProgram() ;
+    }//GEN-LAST:event_cancelActionPerformed
+
+    
+    public void restartProgram()
+    {
+		// pull this programs ID from the args and build the command to execute
+		StringBuilder cmd = new StringBuilder();
+		cmd.append(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java ");
+		for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+			cmd.append(jvmArg + " ");
+		}
+		cmd.append("-cp ").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append(" ");
+		cmd.append(Kiosk.class.getName()).append(" ");
+		for (String arg : arguments) {
+			cmd.append(arg).append(" ");
+		}
+		// execute the command to start this program again
+		try {
+			Runtime.getRuntime().exec(cmd.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// then end this program
+		System.exit(0);
+    }
     /**
      * @param args the command line arguments
      */
@@ -209,6 +240,7 @@ public class Kiosk extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Kiosk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        arguments = args ;
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -218,15 +250,12 @@ public class Kiosk extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton cancel;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -234,5 +263,6 @@ public class Kiosk extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton place;
     // End of variables declaration//GEN-END:variables
 }

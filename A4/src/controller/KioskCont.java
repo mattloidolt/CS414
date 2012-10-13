@@ -4,19 +4,16 @@
  */
 package controller;
 
-import HW4.Manager;
 import HW4.Menu ;
 import HW4.MenuItem;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.* ;
 import java.util.*;
 /**
  *
  * @author mattloidolt
  */
 public class KioskCont {
-    public ArrayList<String> getMenuNames(){
+    public static ArrayList<String> getMenuNames(){
         ArrayList<String> names = new ArrayList<String>() ;
         try{
             FileInputStream inFile = new FileInputStream("menuNames.POS_MENU");
@@ -33,7 +30,7 @@ public class KioskCont {
         return names ;
     }
     
-    public Menu getMenu(String menuName){
+    public static Menu getMenu(String menuName){
         Menu loadMenu = null;
         try{
             FileInputStream inFile = new FileInputStream(menuName + ".POS_MENU") ;
@@ -59,5 +56,28 @@ public class KioskCont {
             System.err.print(e);
         }
         return loadMenu ;
+    }
+    /*
+     * format for .POS_ORDER files:
+     * 
+     * Name
+     * Phone
+     * Address
+     * Name On Card
+     * Credit Card Number
+     * Expiration Date
+     * ONE LINE FOR EACH ITEM ON THE ORDER
+     */
+    public static void saveOrder(ArrayList<String> orderItems) {
+        try {
+            PrintWriter output = new PrintWriter(new FileWriter(orderItems.get(0) + ".POS_ORDER"));
+            for (int i = 0 ; i < orderItems.size() ; i++){
+                output.println(orderItems.get(i)) ;
+            }
+            output.close();
+        }
+        catch(Exception e) {
+            System.err.print(e);
+        }
     }
 }

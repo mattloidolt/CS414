@@ -4,21 +4,24 @@
  */
 package GUI;
 
-import HW4.Manager ;
+import controller.ManagerDisplayCont;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import javax.swing.* ;
+
 /**
  *
  * @author mattloidolt
  */
 public class ManagerMenu extends javax.swing.JFrame {
     
-    Manager manager ;
 
     /**
      * Creates new form ManagerMenu
      */
-    public ManagerMenu(Manager manager) {
+    public ManagerMenu() {
         initComponents();
-        this.manager = manager ;
     }
 
     /**
@@ -33,9 +36,15 @@ public class ManagerMenu extends javax.swing.JFrame {
         create = new javax.swing.JButton();
         edit = new javax.swing.JButton();
         delete = new javax.swing.JButton();
+        menuName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(manager.name);
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
 
         create.setText("Create New Menu");
         create.addActionListener(new java.awt.event.ActionListener() {
@@ -45,6 +54,11 @@ public class ManagerMenu extends javax.swing.JFrame {
         });
 
         edit.setText("Edit Menu");
+        edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
 
         delete.setText("Delete Menu");
         delete.addActionListener(new java.awt.event.ActionListener() {
@@ -53,40 +67,107 @@ public class ManagerMenu extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Menu Name:");
+
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(119, 119, 119)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(create, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(edit, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(128, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(29, 29, 29)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel1)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                .add(delete, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(create)
+                                .add(layout.createSequentialGroup()
+                                    .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(edit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                    .add(layout.createSequentialGroup()
+                        .add(139, 139, 139)
+                        .add(logout)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(62, 62, 62)
+                .add(52, 52, 52)
                 .add(create)
-                .add(30, 30, 30)
-                .add(edit)
-                .add(35, 35, 35)
+                .add(11, 11, 11)
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(edit)
+                    .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(33, 33, 33)
                 .add(delete)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                .add(logout)
+                .add(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        // TODO add your handling code here:
+        boolean found = false ;
+        try {
+            FileInputStream inFile = new FileInputStream("menuNames.POS_MENU");
+            BufferedReader content = new BufferedReader(new InputStreamReader(inFile));
+            String line ;
+            while((line = content.readLine()) != null){
+                if(line.equals(menuName.getText()) || menuName.getText().equals("menuNames")){
+                    JOptionPane.showOptionDialog(this, "Menu name already in use.", "Error", JOptionPane.DEFAULT_OPTION, 
+									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+                    found = true ;
+                }
+            }
+        }
+        catch (Exception e) {
+            System.err.println(e) ;
+        }
+        if (!found) {
+            ManagerCreate create = new ManagerCreate() ;
+            create.setName(this.getTitle() + " CREATE");
+            create.setVisible(true) ;
+        }
     }//GEN-LAST:event_createActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        // TODO add your handling code here:
+        final JOptionPane optionPane = new JOptionPane(
+                "Are you sure you want to delete " + menuName.getText() + "?",
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION);
+        final JDialog dialog = new JDialog(this, "Seriously?", true);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.pack() ;
+        dialog.setVisible(true) ;
+        int value = ((Integer)optionPane.getValue()).intValue();
+        if (value == JOptionPane.YES_OPTION) {
+            ManagerDisplayCont.deleteMenu(menuName.getText());
+        } 
     }//GEN-LAST:event_deleteActionPerformed
+
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        ManagerEdit edit = new ManagerEdit() ;
+        edit.setName(this.getTitle() + " EDIT:" + menuName.getText());
+        //TODO: somehow set build the edit window based on the editMenuName
+        edit.setVisible(true) ;
+    }//GEN-LAST:event_editActionPerformed
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        System.exit(0) ;
+    }//GEN-LAST:event_logoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,5 +207,8 @@ public class ManagerMenu extends javax.swing.JFrame {
     private javax.swing.JButton create;
     private javax.swing.JButton delete;
     private javax.swing.JButton edit;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton logout;
+    private javax.swing.JTextField menuName;
     // End of variables declaration//GEN-END:variables
 }

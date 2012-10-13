@@ -4,11 +4,7 @@
  */
 package GUI;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.* ;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +13,6 @@ import javax.swing.JOptionPane;
 public class ManagerCreate extends javax.swing.JFrame {
 
     ArrayList<String> items ;
-    String nameOfMenu ;
     /**
      * Creates new form ManagerCreate
      */
@@ -34,22 +29,20 @@ public class ManagerCreate extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        menuName = new javax.swing.JTextField();
         addItem = new javax.swing.JButton();
-        submit = new javax.swing.JButton();
+        done = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        textConfirmation = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        itemName = new javax.swing.JTextField();
+        itemPrice = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Menu Name: ");
-
-        menuName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuNameActionPerformed(evt);
-            }
-        });
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
 
         addItem.setText("Add Item");
         addItem.addActionListener(new java.awt.event.ActionListener() {
@@ -58,14 +51,20 @@ public class ManagerCreate extends javax.swing.JFrame {
             }
         });
 
-        submit.setText("Submit");
-        submit.addActionListener(new java.awt.event.ActionListener() {
+        done.setText("Done");
+        done.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitActionPerformed(evt);
+                doneActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("No items added");
+        textConfirmation.setText("No items added");
+
+        jLabel1.setText("Item Name:");
+
+        jLabel4.setText("Price :");
+
+        jLabel5.setText("$");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,20 +73,29 @@ public class ManagerCreate extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(29, 29, 29)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(submit)
+                        .add(139, 139, 139)
+                        .add(jLabel2))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel4)
+                                .add(31, 31, 31)
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                        .add(done)
+                                        .add(layout.createSequentialGroup()
+                                            .add(textConfirmation)
+                                            .add(98, 98, 98))
+                                        .add(addItem))))
                             .add(layout.createSequentialGroup()
                                 .add(jLabel1)
-                                .add(18, 18, 18)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(addItem)
-                                    .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(jLabel3)))))
-                    .add(layout.createSequentialGroup()
-                        .add(139, 139, 139)
-                        .add(jLabel2)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                    .add(itemName)
+                                    .add(itemPrice, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))))))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -95,46 +103,36 @@ public class ManagerCreate extends javax.swing.JFrame {
                 .add(31, 31, 31)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel1)
-                    .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(42, 42, 42)
-                .add(addItem)
-                .add(18, 18, 18)
+                    .add(itemName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(24, 24, 24)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel4)
+                    .add(itemPrice, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel5))
+                .add(37, 37, 37)
                 .add(jLabel2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel3)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 58, Short.MAX_VALUE)
-                .add(submit)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(addItem)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(textConfirmation)
+                .add(19, 19, 19)
+                .add(done)
                 .add(43, 43, 43))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNameActionPerformed
-    }//GEN-LAST:event_menuNameActionPerformed
-
     private void addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemActionPerformed
-        //TODO add pop-up with jlabel for adding an item
-        
+        String item = itemName.getText() + "-" + itemPrice.getText() ;
+        items.add(item) ;
+        textConfirmation.setText("Item added successfully.");
+        this.repaint();
     }//GEN-LAST:event_addItemActionPerformed
 
-    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        // TODO add your handling code here:
-        try {
-            FileInputStream inFile = new FileInputStream("menuNames.POS_MENU");
-            BufferedReader content = new BufferedReader(new InputStreamReader(inFile));
-            String line ;
-            while((line = content.readLine()) != null){
-                if(line.equals(nameOfMenu)){
-                    JOptionPane.showOptionDialog(this, "Menu name already in use.", "Error", JOptionPane.DEFAULT_OPTION, 
-									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
-                }
-            }
-        }
-        catch (Exception e) {
-            System.err.println(e) ;
-        }
-    }//GEN-LAST:event_submitActionPerformed
+    private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
+        System.exit(1) ;
+    }//GEN-LAST:event_doneActionPerformed
 
     /**
      * @param args the command line arguments
@@ -172,10 +170,13 @@ public class ManagerCreate extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItem;
+    private javax.swing.JButton done;
+    private javax.swing.JTextField itemName;
+    private javax.swing.JTextField itemPrice;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField menuName;
-    private javax.swing.JButton submit;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel textConfirmation;
     // End of variables declaration//GEN-END:variables
 }

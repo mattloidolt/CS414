@@ -50,8 +50,11 @@ public class Menu {
 			menuItems.add(item);
 	}
 	
-	public void removeMenuItem(MenuItem item) {
-		menuItems.remove(item);
+	public void removeMenuItem(String itemName) {
+		for(int i = 0 ; i < menuItems.size(); i++) {
+                    if(itemName.equals(menuItems.get(i).getName()))
+                        menuItems.remove(menuItems.get(i)) ;
+                }
 	}
 	
 	public void setSpecial(MenuItem item) {
@@ -89,4 +92,13 @@ public class Menu {
 	public String getName() {
 		return menuName;
 	}
+        
+        public boolean hasItem(MenuItem item){
+            boolean isFound = false ;
+            for(int i = 0; i < menuItems.size() ; i++) {
+                if(item.getName().equals(menuItems.get(i).getName()))
+                    isFound = true ;
+            }
+            return isFound ;
+        }
 }

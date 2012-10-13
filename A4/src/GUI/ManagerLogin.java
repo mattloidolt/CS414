@@ -48,6 +48,7 @@ public class ManagerLogin extends javax.swing.JFrame {
         });
 
         loginButton.setText("Login");
+        loginButton.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
@@ -72,7 +73,7 @@ public class ManagerLogin extends javax.swing.JFrame {
                 .addContainerGap(92, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(loginButton)
+                .add(loginButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(56, 56, 56))
         );
         layout.setVerticalGroup(
@@ -87,7 +88,7 @@ public class ManagerLogin extends javax.swing.JFrame {
                     .add(jLabel2)
                     .add(password, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
-                .add(loginButton)
+                .add(loginButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(97, Short.MAX_VALUE))
         );
 
@@ -95,12 +96,14 @@ public class ManagerLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_userNameActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         if(ManagerDisplayCont.login(userName.getText(), password.getPassword())) {
-            //TODO: replace the login display with a menuEditing display
+            ManagerMenu mainMenu = new ManagerMenu() ;
+            mainMenu.setTitle(userName.getText());
+            mainMenu.setVisible(true) ;
         }
         else{
             JOptionPane.showOptionDialog(this, "Invalid Login", "Error", JOptionPane.DEFAULT_OPTION, 
