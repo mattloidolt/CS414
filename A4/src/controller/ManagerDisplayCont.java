@@ -6,9 +6,9 @@ package controller;
 
 import java.io.* ;
 import java.util.* ;
-import HW4.Menu ;
+import core.Menu ;
 import controller.KioskCont ;
-import HW4.MenuItem ;
+import core.MenuItem ;
 /**
  *
  * @author mattloidolt

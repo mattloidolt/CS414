@@ -1,11 +1,14 @@
 package tests;
 
 
+import core.Menu;
+import core.Restaurant;
+import core.Manager;
+import core.MenuItem;
 import java.util.Calendar;
 
 import junit.framework.TestCase;
 
-import HW4.*;
 
 import org.junit.Before;
 import org.junit.BeforeClass;

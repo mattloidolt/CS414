@@ -1,4 +1,4 @@
-package HW4;
+package core;
 /**
  * This should be the event dispatch thread. Handling other threads.
  * Should also be the manager's view GUI.

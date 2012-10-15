@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import HW4.MenuItem;
+import core.MenuItem;
 
 public class MenuItemTest {
 

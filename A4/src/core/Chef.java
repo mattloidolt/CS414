@@ -1,4 +1,4 @@
-package HW4;
+package core;
 
 public class Chef extends Employee{
 

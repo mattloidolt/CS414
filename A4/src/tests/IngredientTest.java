@@ -6,11 +6,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import HW4.Ingredient;
-import HW4.Manager;
-import HW4.Menu;
-import HW4.MenuItem;
-import HW4.Restaurant;
+import core.Ingredient;
+import core.Manager;
+import core.Menu;
+import core.MenuItem;
+import core.Restaurant;
 
 public class IngredientTest {
 

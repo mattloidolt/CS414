@@ -1,4 +1,4 @@
-package HW4;
+package core;
 /**
  * This should be just a separate thread for displaying items in the
  * kitchen and marking them as complete.

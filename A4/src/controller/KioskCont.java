@@ -4,8 +4,8 @@
  */
 package controller;
 
-import HW4.Menu ;
-import HW4.MenuItem;
+import core.Menu ;
+import core.MenuItem;
 import java.io.* ;
 import java.util.*;
 /**
@@ -57,6 +57,7 @@ public class KioskCont {
         }
         return loadMenu ;
     }
+    
     /*
      * format for .POS_ORDER files:
      * 

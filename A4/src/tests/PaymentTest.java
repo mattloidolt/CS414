@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import HW4.Payment;
+import core.Payment;
 
 public class PaymentTest {
 

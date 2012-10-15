@@ -1,6 +1,7 @@
 package tests;
 
-import HW4.*;
+import core.Order;
+import core.MenuItem;
 import static org.junit.Assert.*;
 
 import org.junit.Before;

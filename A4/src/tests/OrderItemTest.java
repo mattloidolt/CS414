@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import HW4.MenuItem;
-import HW4.OrderItem;
+import core.MenuItem;
+import core.OrderItem;
 
 public class OrderItemTest {
 
