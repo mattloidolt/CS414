@@ -94,7 +94,7 @@ public class ManagerMenu extends javax.swing.JFrame {
                                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                     .add(edit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
                     .add(layout.createSequentialGroup()
-                        .add(139, 139, 139)
+                        .add(144, 144, 144)
                         .add(logout)))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
@@ -111,9 +111,9 @@ public class ManagerMenu extends javax.swing.JFrame {
                     .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(33, 33, 33)
                 .add(delete)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                .add(18, 18, 18)
                 .add(logout)
-                .add(24, 24, 24))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();

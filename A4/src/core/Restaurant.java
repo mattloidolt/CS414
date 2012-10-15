@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
 
 public class Restaurant {
 	public String restaurantName ;
@@ -102,7 +100,7 @@ public class Restaurant {
 			while((line = content.readLine()) != null){
 				if(lineNumber == 0) {
 					String elements[] = line.split("-");
-					loadMenu = new Menu(elements[0], new Manager(elements[1], this));
+					loadMenu = new Menu(elements[0]);
 					menuList.add(loadMenu);
 					lineNumber ++;
 				}else {
@@ -167,7 +165,7 @@ public class Restaurant {
 		}
 		else {
 			if(managerList.size() > 0) {
-				menuList.add(new Menu("default", managerList.get(0)));
+				menuList.add(new Menu("default"));
 				menuList.get(menuList.size()-1).addMenuItem(new MenuItem(name, price));
 			}
 		}

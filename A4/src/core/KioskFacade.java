@@ -40,7 +40,7 @@ public class KioskFacade {
 	}
 	
 	public void addNewMenu(String menuName, String managerName) {
-		theRestaurant.addMenu(new Menu(menuName, new Manager(managerName, theRestaurant)));
+		theRestaurant.addMenu(new Menu(menuName));
 	}
 	
 	public ArrayList<String> getCurrentMenuItemNames() {

@@ -9,7 +9,7 @@ public class Manager extends Employee{
 	}
 
 	public void createMenu(String menuName) {
-		Menu menu = new Menu(menuName, this);
+		Menu menu = new Menu(menuName);
 		this.getRestaurant().addMenu(menu);
 	}
 	

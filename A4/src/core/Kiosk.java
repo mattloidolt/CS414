@@ -20,7 +20,7 @@ import javax.swing.event.InternalFrameListener;
 
 
 public class Kiosk {
-	public static int kioskID = 0;
+	private static int kioskID = 0;
 	//#TODO:how do we initialize restaurant kiosk is in? Load via a (String fileName) constructor or have a default restaurant?
 	//public static Restaurant restaurant = new Restaurant("CSU Rams"); 
 	private static GridBagConstraints gBC = new GridBagConstraints();
@@ -34,7 +34,7 @@ public class Kiosk {
 	private static ArrayList<JButton>menuItemButtons = new ArrayList<JButton>();
 	private static ArrayList<JButton>orderButtons = new ArrayList<JButton>();
 	private static KioskFacade kFacade = new KioskFacade();
-	public static Restaurant restaurant = kFacade.getRestaurant();
+	private static Restaurant restaurant = kFacade.getRestaurant();
 	private static String[] args;
 
 
@@ -80,10 +80,11 @@ public class Kiosk {
 		final JTextField loginTextField = new JTextField(15);
 		JButton submitLogInButton = new JButton("Submit");
 		submitLogInButton.addActionListener(new ActionListener() {
+                    @Override
 			public void actionPerformed(ActionEvent e) {
 				boolean found = false;
 				for(Manager manager : managerList) {
-					if(manager.getName() == loginTextField.getText()) {
+					if(manager.getName().equals(loginTextField.getText())) {
 						found = true;
 						showManagerWindow(manager);
 					}
@@ -205,7 +206,7 @@ public class Kiosk {
 				if(lineNumber == 0) {
 					String elements[] = line.split("-");
 					kFacade.addNewMenu(elements[0], elements[1]);
-					loadMenu = new Menu(elements[0], new Manager(elements[1], restaurant));
+					loadMenu = new Menu(elements[0]);
 					menuList.add(loadMenu);
 					lineNumber ++;
 				}else {
@@ -242,13 +243,14 @@ public class Kiosk {
 				for(MenuItem item : menuList.get(i).getMenuItems()){
 					out.write(item.name + "-" + item.price+ "\n");
 				}
-				if(i<menuList.size()-1)
-					out.write("NEXT\n");
+				if(i<menuList.size()-1) {
+                                out.write("NEXT\n");
+                            }
 			}
 			//Close the output stream
 			out.close();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			System.err.println(e1);
 		}
 	}
 
@@ -261,10 +263,12 @@ public class Kiosk {
 		gBC.weightx = 0.5 ;
 		gBC.weighty = 0.25 ;
 
-		for(Component obj : menuItemButtons)
-			desktop.remove(obj);
-		for(Component obj : orderButtons)
-			desktop.remove(obj);
+		for(Component obj : menuItemButtons) {
+                desktop.remove(obj);
+            }
+		for(Component obj : orderButtons) {
+                desktop.remove(obj);
+            }
 		
 	}
 
@@ -285,13 +289,15 @@ public class Kiosk {
 				b.setPreferredSize(new Dimension(150, 100));
 				// set action
 				b.addActionListener(new ActionListener() {
+                                    @Override
 					public void actionPerformed(ActionEvent e) {
 						o.addItem(item) ; // need to write order handler for facade, something that translates and grabs proper item?
 					}
 				}) ;
 				gBC.gridx = i%5 ;
-				if ((i%5) == 0)
-					gBC.gridy += 1 ;
+				if ((i%5) == 0) {
+                                gBC.gridy += 1 ;
+                            }
 				desktop.add(b, gBC) ;
 				menuItemButtons.add(b);
 			}
@@ -313,6 +319,7 @@ public class Kiosk {
 		placeOrder.setBackground(Color.blue) ;
 		// View order action - builds new frame pop up with temporary receipt displayed
 		viewOrder.addActionListener(new ActionListener() {
+                    @Override
 			public void actionPerformed(ActionEvent e)
 			{
 				//Execute when button is pressed
@@ -334,13 +341,14 @@ public class Kiosk {
 				try {
 					internalFrame.setSelected(true) ;
 				} catch (PropertyVetoException e1) {
-					e1.printStackTrace();
+					System.err.println(e1);
 				}
 			}
 		});
 		// Place action - Shows a new desktop with the final receipt and spots to enter information
 		//			to complete the order
 		placeOrder.addActionListener(new ActionListener() {
+                    @Override
 			public void actionPerformed(ActionEvent e)
 			{
 				//Execute when button is pressed
@@ -392,21 +400,25 @@ public class Kiosk {
 				gBC.gridy = 8 ;
 
 				place.addActionListener(new ActionListener() {
+                                    @Override
 					public void actionPerformed(ActionEvent e) {
 						// This is all the error checking to make sure the inputs are correct
 						if(name.getText().equals("First and Last Name") || address.getText().equals("Address") ||
 								phone.getText().equals("Phone Number") || cardName.getText().equals("Name on Card") ||
-								cardNum.getText().equals("Credit Card Number") || expDate.getText().equals("Expiration Date"))
-							JOptionPane.showOptionDialog(frame, "You must fill in all fields.", "Error", JOptionPane.DEFAULT_OPTION, 
-									JOptionPane.ERROR_MESSAGE, null, null, e) ;
+								cardNum.getText().equals("Credit Card Number") || expDate.getText().equals("Expiration Date")) {
+                                                JOptionPane.showOptionDialog(frame, "You must fill in all fields.", "Error", JOptionPane.DEFAULT_OPTION, 
+                                                                JOptionPane.ERROR_MESSAGE, null, null, e) ;
+                                            }
 						else {
-							if(phone.getText().length() != 10)
-								JOptionPane.showOptionDialog(frame, "Invalid phone number. Use Format: 9991234567.", "Error", JOptionPane.DEFAULT_OPTION, 
-										JOptionPane.ERROR_MESSAGE, null, null, e) ;
+							if(phone.getText().length() != 10) {
+                                                        JOptionPane.showOptionDialog(frame, "Invalid phone number. Use Format: 9991234567.", "Error", JOptionPane.DEFAULT_OPTION, 
+                                                                        JOptionPane.ERROR_MESSAGE, null, null, e) ;
+                                                    }
 							else{
-								if(cardNum.getText().length() != 16)
-									JOptionPane.showOptionDialog(frame, "Invalid Card Number. Use Format: 1234567890123456", "Error", JOptionPane.DEFAULT_OPTION, 
-											JOptionPane.ERROR_MESSAGE, null, null, e) ;
+								if(cardNum.getText().length() != 16) {
+                                                                JOptionPane.showOptionDialog(frame, "Invalid Card Number. Use Format: 1234567890123456", "Error", JOptionPane.DEFAULT_OPTION, 
+                                                                                JOptionPane.ERROR_MESSAGE, null, null, e) ;
+                                                            }
 								else {
 									//TODO: check for validity of expiration date
 									// Theoretically this is where we would do card authorization
@@ -426,7 +438,7 @@ public class Kiosk {
 										//Close the output stream
 										out.close();
 									} catch (IOException e1) {
-										e1.printStackTrace();
+										System.err.println(e1);
 									}
 									restartProgram(args) ;
 								}
@@ -463,16 +475,23 @@ public class Kiosk {
 		//Used to save changes made by manager
 		InternalFrameListener i = new InternalFrameListener() {
 			//Refresh GUI elements on close
+                    @Override
 			public void internalFrameClosing(InternalFrameEvent e) {
 				currentMenu.setText("Current Menu: " + kFacade.getMenuName());
 				kFacade.save();
 				drawMenuItemButtons();
 			}
+                    @Override
 			public void internalFrameActivated(InternalFrameEvent e) {}
+                    @Override
 			public void internalFrameClosed(InternalFrameEvent e) {}
+                    @Override
 			public void internalFrameDeactivated(InternalFrameEvent e) {}
+                    @Override
 			public void internalFrameDeiconified(InternalFrameEvent e) {}
+                    @Override
 			public void internalFrameIconified(InternalFrameEvent e) {}
+                    @Override
 			public void internalFrameOpened(InternalFrameEvent e) {}		
 		};
 		internalFrame.addInternalFrameListener(i);
@@ -489,7 +508,7 @@ public class Kiosk {
 		try {
 			internalFrame.setSelected(true) ;
 		} catch (PropertyVetoException e1) {
-			e1.printStackTrace();
+			System.err.println(e1);
 		}
 
 	}
@@ -508,6 +527,7 @@ public class Kiosk {
 		final JTextField addMenuTextField = new JTextField(15);
 		JButton addMenuButton = new JButton("Create Menu");
 		addMenuButton.addActionListener(new ActionListener() {
+                    @Override
 			public void actionPerformed(ActionEvent e) {
 				boolean found = false;
 				for(Menu obj : menuList){
@@ -517,7 +537,7 @@ public class Kiosk {
 					}
 				}
 				if(!found) {
-					menu = new Menu(addMenuTextField.getText(), manager);
+					menu = new Menu(addMenuTextField.getText());
 					kFacade.addMenu(menu);
 					menuList.add(menu);
 					restaurant.addMenu(menu);
@@ -529,10 +549,12 @@ public class Kiosk {
 		p.add(addMenuLabel);
 		p.add(addMenuTextField);
 		p.add(addMenuButton);
-		for(Object obj : getCurrentMenuItemCountGUI())
-			p.add((Component) obj);
-		for(Object obj : addMenuItemInterface())
-			p.add((Component) obj);
+		for(Object obj : getCurrentMenuItemCountGUI()) {
+                p.add((Component) obj);
+            }
+		for(Object obj : addMenuItemInterface()) {
+                p.add((Component) obj);
+            }
 		return p;
 	}
 
@@ -545,10 +567,12 @@ public class Kiosk {
 		JLabel title = new JLabel("Number of Menu Items");
 		p.add(title);
 		JLabel currentNumberMenuItemsLabel;
-		if(kFacade.getCurrentMenuItemNames().size() > 0)
-			currentNumberMenuItemsLabel = new JLabel("" + kFacade.getCurrentMenuItemNames().size());
-		else
-			currentNumberMenuItemsLabel = new JLabel("0");
+		if(kFacade.getCurrentMenuItemNames().size() > 0) {
+                currentNumberMenuItemsLabel = new JLabel("" + kFacade.getCurrentMenuItemNames().size());
+            }
+		else {
+                currentNumberMenuItemsLabel = new JLabel("0");
+            }
 		p.add(currentNumberMenuItemsLabel);
 		p.add(new JLabel());
 		return p;
@@ -567,16 +591,19 @@ public class Kiosk {
 		p.add(inputForm);
 		JButton submitButton = new JButton("Add New Item");
 		submitButton.addActionListener(new ActionListener() {
+                    @Override
 			public void actionPerformed(ActionEvent e) {
 				String string = inputForm.getText();
 				String elements[] = string.split("-");
 				try {
 					elements[0] = elements[0].trim();
 					elements[1] = elements[1].trim();
-					if(elements[1].startsWith("$"))
-						kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
-					else
-						kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1]));
+					if(elements[1].startsWith("$")) {
+                                        kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1].substring(1)));
+                                    }
+					else {
+                                        kFacade.addMenuItem(elements[0], Double.parseDouble(elements[1]));
+                                    }
 					inputForm.setText(elements[0] + " Added!");
 				} catch(Exception exc) {
 					System.out.println(exc);
@@ -627,6 +654,7 @@ public class Kiosk {
 		//Schedule a job for the event-dispatching thread:
 		//creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
 			public void run() {
 				args = args1;
 				createAndShowGUI(args);
