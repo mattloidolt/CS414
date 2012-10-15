@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import controller.ManagerDisplayCont ;
+import controller.ManagerDisplayCont;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,6 +36,7 @@ public class ManagerLogin extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pizzas'R'Us Login");
 
         jLabel1.setText("Username: ");
 
@@ -140,6 +141,7 @@ public class ManagerLogin extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ManagerLogin().setVisible(true);
             }

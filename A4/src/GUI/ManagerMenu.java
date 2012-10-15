@@ -8,7 +8,7 @@ import controller.ManagerDisplayCont;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import javax.swing.* ;
+import javax.swing.*;
 
 /**
  *
@@ -137,9 +137,9 @@ public class ManagerMenu extends javax.swing.JFrame {
             System.err.println(e) ;
         }
         if (!found) {
-            ManagerCreate create = new ManagerCreate() ;
-            create.setName(this.getTitle() + " CREATE");
-            create.setVisible(true) ;
+            ManagerCreate createManager = new ManagerCreate() ;
+            createManager.setName(this.getTitle() + " CREATE");
+            createManager.setVisible(true) ;
         }
     }//GEN-LAST:event_createActionPerformed
 
@@ -159,10 +159,10 @@ public class ManagerMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        ManagerEdit edit = new ManagerEdit() ;
-        edit.setName(this.getTitle() + " EDIT:" + menuName.getText());
+        ManagerEdit editManager = new ManagerEdit() ;
+        editManager.setName(this.getTitle() + " EDIT:" + menuName.getText());
         //TODO: somehow set build the edit window based on the editMenuName
-        edit.setVisible(true) ;
+        editManager.setVisible(true) ;
     }//GEN-LAST:event_editActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
@@ -198,6 +198,7 @@ public class ManagerMenu extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ManagerMenu().setVisible(true);
             }

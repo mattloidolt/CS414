@@ -4,10 +4,9 @@
  */
 package GUI;
 
-import java.io.* ;
-import java.util.* ;
+import java.io.*;
 import java.lang.management.ManagementFactory;
-import java.util.Random;
+import java.util.*;
 
 /**
  *
@@ -209,7 +208,7 @@ public class Kiosk extends javax.swing.JFrame {
 		try {
 			Runtime.getRuntime().exec(cmd.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println(e) ;
 		}
 		// then end this program
 		System.exit(0);
@@ -244,6 +243,7 @@ public class Kiosk extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Kiosk().setVisible(true);
             }

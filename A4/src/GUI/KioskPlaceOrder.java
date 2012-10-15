@@ -4,10 +4,10 @@
  */
 package GUI;
 
-import java.io.* ;
+import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import java.lang.management.ManagementFactory;
 
 
 /**
@@ -60,6 +60,9 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pizzas'R'Us");
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
 
         orderTxt.setText("<order>");
 
@@ -237,17 +240,20 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
         // TODO enter code to save the order
         if(name.getText().equals("First and Last Name") || address.getText().equals("Address") ||
 								phone.getText().equals("Phone Number") || cardName.getText().equals("Name on Card") ||
-								cardNum.getText().equals("Credit Card Number") || expDate.getText().equals("Expiration Date"))
-							JOptionPane.showOptionDialog(this, "You must fill in all fields.", "Error", JOptionPane.DEFAULT_OPTION, 
-									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+								cardNum.getText().equals("Credit Card Number") || expDate.getText().equals("Expiration Date")) {
+            JOptionPane.showOptionDialog(this, "You must fill in all fields.", "Error", JOptionPane.DEFAULT_OPTION, 
+                            JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+        }
 	else {
-            if(phone.getText().length() != 10)
-		JOptionPane.showOptionDialog(this, "Invalid phone number. Use Format: 9991234567.", "Error", JOptionPane.DEFAULT_OPTION, 
-					JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+            if(phone.getText().length() != 10) {
+                JOptionPane.showOptionDialog(this, "Invalid phone number. Use Format: 9991234567.", "Error", JOptionPane.DEFAULT_OPTION, 
+                                        JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+            }
             else{
-		if(cardNum.getText().length() != 16)
+		if(cardNum.getText().length() != 16) {
                     JOptionPane.showOptionDialog(this, "Invalid Card Number. Use Format: 1234567890123456", "Error", JOptionPane.DEFAULT_OPTION, 
-						JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+                                                JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+                }
 		else {
                     //TODO: check for validity of expiration date
                     // Theoretically this is where we would do card authorization
@@ -292,7 +298,7 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
 		try {
 			Runtime.getRuntime().exec(cmd.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println(e) ;
 		}
 		// then end this program
 		System.exit(0);
@@ -327,6 +333,7 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new KioskPlaceOrder(args, new ArrayList<String>()).setVisible(true);
             }
