@@ -138,9 +138,9 @@ public class ManagerMenu extends javax.swing.JFrame {
             System.err.println(e) ;
         }
         if (!found) {
-            ManagerCreate createManager = new ManagerCreate() ;
-            createManager.setName(this.getTitle() + " CREATE");
-            createManager.setVisible(true) ;
+            ManagerCreate createGUI = new ManagerCreate() ;
+            createGUI.setTitle(this.getTitle() + " CREATE");
+            createGUI.setVisible(true) ;
         }
     }//GEN-LAST:event_createActionPerformed
 
@@ -150,7 +150,6 @@ public class ManagerMenu extends javax.swing.JFrame {
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.YES_NO_OPTION);
         final JDialog dialog = new JDialog(this, "Seriously?", true);
-        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.pack() ;
         dialog.setVisible(true) ;
         int value = ((Integer)optionPane.getValue()).intValue();

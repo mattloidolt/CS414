@@ -5,7 +5,7 @@
 package GUI;
 
 import java.awt.Toolkit;
-import java.util.* ;
+import java.util.*;
 
 /**
  *
@@ -128,10 +128,14 @@ public class ManagerCreate extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemActionPerformed
-        String item = itemName.getText() + "-" + itemPrice.getText() ;
+        String item ;
+        item = itemName.getText() ;
+        item += "-" ;
+        item += itemPrice.getText() ;
         items.add(item) ;
         textConfirmation.setText("Item added successfully.");
-        this.repaint();
+        System.out.println("Item " + item + " added to the menu.") ;
+        
     }//GEN-LAST:event_addItemActionPerformed
 
     private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
