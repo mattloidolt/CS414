@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.Toolkit;
 import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.util.*;
@@ -84,10 +85,9 @@ public class Kiosk extends javax.swing.JFrame {
         setTitle("Pizzas'R'Us");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 204, 51));
-        setBounds(Toolkit.getDefaultToolkit().getScreenSize());
         setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
-        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setPreferredSize(new java.awt.Dimension(4, 0));
 
         jLabel1.setText("Menu: ");
 
@@ -134,7 +134,7 @@ public class Kiosk extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
+                        .add(0, 379, Short.MAX_VALUE)
                         .add(cancel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(place))
@@ -159,7 +159,7 @@ public class Kiosk extends javax.swing.JFrame {
                     .add(jLabel2)
                     .add(jLabel5))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()

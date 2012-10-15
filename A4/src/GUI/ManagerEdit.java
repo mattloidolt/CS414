@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import java.awt.Toolkit;
+
 /**
  *
  * @author mattloidolt
@@ -29,9 +31,9 @@ public class ManagerEdit extends javax.swing.JFrame {
         done = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         done.setText("Done");
         done.addActionListener(new java.awt.event.ActionListener() {

@@ -5,6 +5,7 @@
 package GUI;
 
 import controller.ManagerDisplayCont;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,6 +38,8 @@ public class ManagerLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pizzas'R'Us Login");
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         jLabel1.setText("Username: ");
 
@@ -49,7 +52,6 @@ public class ManagerLogin extends javax.swing.JFrame {
         });
 
         loginButton.setText("Login");
-        loginButton.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
@@ -62,11 +64,11 @@ public class ManagerLogin extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(63, 63, 63)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(loginButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(loginButton)
                     .add(layout.createSequentialGroup()
                         .add(jLabel2)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(password, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 166, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(jLabel1)
@@ -86,7 +88,7 @@ public class ManagerLogin extends javax.swing.JFrame {
                     .add(jLabel2)
                     .add(password, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(loginButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(loginButton)
                 .addContainerGap(109, Short.MAX_VALUE))
         );
 

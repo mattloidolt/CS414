@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import java.awt.Toolkit;
+
 /**
  *
  * @author mattloidolt
@@ -32,8 +34,8 @@ public class KitchenDisplay extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kitchen Display");
         setBackground(new java.awt.Color(0, 0, 0));
-        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Order");

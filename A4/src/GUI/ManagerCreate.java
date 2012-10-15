@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.Toolkit;
 import java.util.* ;
 
 /**
@@ -40,9 +41,9 @@ public class ManagerCreate extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         addItem.setText("Add Item");
         addItem.addActionListener(new java.awt.event.ActionListener() {

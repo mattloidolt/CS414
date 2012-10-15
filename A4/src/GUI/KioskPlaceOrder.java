@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.Toolkit;
 import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -61,8 +62,8 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pizzas'R'Us");
-        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         orderTxt.setText("<order>");
 

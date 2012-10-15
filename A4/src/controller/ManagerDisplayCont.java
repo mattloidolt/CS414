@@ -15,6 +15,12 @@ import core.MenuItem ;
  */
 public class ManagerDisplayCont {
     
+    private static String userName ;
+    
+    public static String getUserName() {
+        return userName ;
+    }
+    
     public static boolean login(String user, char[] pass) {
         try{
             FileInputStream inFile = new FileInputStream("managers.shadow");
@@ -23,7 +29,10 @@ public class ManagerDisplayCont {
             while((line = content.readLine()) != null){
                 String use[] = line.split(":") ;
                 if(use[0].equals(user)){
-                    if(use[1].equals(pass)){
+                    String password = new String(pass) ;
+                    if(use[1].equals(password)){
+                        userName = user ;
+                        System.out.println(user + " has logged in.") ;
                         return true ;
                     }
                 }

@@ -5,6 +5,7 @@
 package GUI;
 
 import controller.ManagerDisplayCont;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -41,10 +42,10 @@ public class ManagerMenu extends javax.swing.JFrame {
         logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(manager.name);
-        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize(););
-        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize(););
+        setTitle(ManagerDisplayCont.getUserName());
+        setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         create.setText("Create New Menu");
         create.addActionListener(new java.awt.event.ActionListener() {
