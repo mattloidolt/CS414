@@ -14,7 +14,6 @@ import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;

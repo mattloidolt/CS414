@@ -23,7 +23,7 @@ public class RestaurantTest {
 	public void setUp() throws Exception {
 		restaurant = new Restaurant();
 		bob = new Manager("Bob", restaurant);
-		menu = new Menu("Test", bob);
+		menu = new Menu("Test");
 		item = new MenuItem("Test Item", 5.99);
 		menu.addMenuItem(item);
 		restaurant.addMenu(menu);
@@ -62,7 +62,7 @@ public class RestaurantTest {
 
 	@Test
 	public void testAddMenu() {
-		Menu menu1 = new Menu("menu1", bob);
+		Menu menu1 = new Menu("menu1");
 		restaurant.addMenu(menu1);
 		assertTrue(restaurant.getMenuList().size() == 2);
 	}

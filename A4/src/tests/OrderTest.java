@@ -1,9 +1,8 @@
 package tests;
 
-import core.Order;
 import core.MenuItem;
+import core.Order;
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

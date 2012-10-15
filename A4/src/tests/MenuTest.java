@@ -29,7 +29,7 @@ public class MenuTest extends TestCase{
 	public void setUp() throws Exception {
 		restaurant = new Restaurant();
 		Bob = new Manager("Bob", restaurant);
-		menu = new Menu("Diner", Bob);
+		menu = new Menu("Diner");
 		item = new MenuItem("Test Item", 9.99);
 	}
 
@@ -69,7 +69,7 @@ public class MenuTest extends TestCase{
 	public void testRemoveMenuItem() {
 		menu.addMenuItem(item);
 		assertTrue(menu.getMenuItems().size() == 1);
-		menu.removeMenuItem(item);
+		menu.removeMenuItem(item.getName());
 		assertTrue(menu.getMenuItems().size() == 0);
 	}
 

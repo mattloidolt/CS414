@@ -1,13 +1,11 @@
 package tests;
 
+import core.MenuItem;
+import core.OrderItem;
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import core.MenuItem;
-import core.OrderItem;
 
 public class OrderItemTest {
 

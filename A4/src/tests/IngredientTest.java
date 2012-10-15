@@ -1,16 +1,14 @@
 package tests;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import core.Ingredient;
 import core.Manager;
 import core.Menu;
 import core.MenuItem;
 import core.Restaurant;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class IngredientTest {
 
@@ -29,7 +27,7 @@ public class IngredientTest {
 	public void setUp() throws Exception {
 		restaurant = new Restaurant();
 		Bob = new Manager("Bob", restaurant);
-		menu = new Menu("Diner", Bob);
+		menu = new Menu("Diner");
 		item = new MenuItem("Test Item", 9.99);
 		ingredient = new Ingredient("Test", "5", 1.5);
 	}

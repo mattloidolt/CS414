@@ -43,7 +43,7 @@ public class ManagerTest {
 
 	@Test
 	public void testSetSpecial() {
-		Menu menu = new Menu("Test Menu", bob);
+		Menu menu = new Menu("Test Menu");
 		restaurant.addMenu(menu);
 		MenuItem item = new MenuItem("TestItem", 4.99);
 		bob.setSpecial(menu, item);
