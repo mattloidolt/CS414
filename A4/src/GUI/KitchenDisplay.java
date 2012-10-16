@@ -4,7 +4,13 @@
  */
 package GUI;
 
+import controller.KitchenDisplayCont;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import javax.swing.JLabel;
 
 /**
  *
@@ -12,12 +18,55 @@ import java.awt.Toolkit;
  */
 public class KitchenDisplay extends javax.swing.JFrame {
 
+    GridBagConstraints gBC = new GridBagConstraints() ;
+    public ArrayList<JLabel> list = KitchenDisplayCont.getOrdersToDisplay() ;
     /**
      * Creates new form KitchenDisplay
      */
     public KitchenDisplay() {
         initComponents();
+        mainPanel.setLayout(new GridBagLayout());
+        refreshDisplay() ;
     }
+    
+    private void refreshDisplay() {
+        list = KitchenDisplayCont.getOrdersToDisplay() ;
+        mainPanel.removeAll();
+        gBC.anchor = GridBagConstraints.BASELINE_LEADING ;
+        gBC.gridx = 0 ;
+        gBC.gridy = 0 ;
+        gBC.weightx= .8 ;
+        for (int i = 0; i < list.size() ; i++) {
+            mainPanel.add(list.get(i), gBC) ;
+            gBC.gridy++ ;
+        }
+        gBC.gridx = 1 ;
+        gBC.gridy = 0 ;
+        gBC.weightx = .2 ;
+        for (int i = 0; i < list.size() ; i++) {
+            javax.swing.JButton done = new javax.swing.JButton("Done");
+            final int passthrough = i ;
+            done.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    KitchenDisplayCont.archiveOrder(getOrderNum(passthrough)) ;
+                    refreshDisplay() ;
+                }
+            }) ;
+            mainPanel.add(done, gBC) ;
+            gBC.gridy++ ;
+        }
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+    
+    private String getOrderNum(int index) {
+        String orderNum = list.get(index).getText().substring(list.get(index).getText().indexOf("<!--&&&&") + 8
+                , list.get(index).getText().indexOf("&&&&-->")) ;
+        return orderNum ; 
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,6 +79,8 @@ public class KitchenDisplay extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        mainPanel = new javax.swing.JPanel();
+        refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kitchen Display");
@@ -37,11 +88,29 @@ public class KitchenDisplay extends javax.swing.JFrame {
         setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Order");
 
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Complete?");
+
+        mainPanel.setBackground(new java.awt.Color(0, 0, 0));
+
+        org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 0, Short.MAX_VALUE)
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 363, Short.MAX_VALUE)
+        );
+
+        refresh.setText("Refresh");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,22 +119,39 @@ public class KitchenDisplay extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .add(21, 21, 21)
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 53, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 383, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 163, Short.MAX_VALUE)
+                .add(refresh)
+                .add(129, 129, 129)
                 .add(jLabel2)
                 .add(46, 46, 46))
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(mainPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(26, 26, 26)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel1)
-                    .add(jLabel2))
-                .addContainerGap(375, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(26, 26, 26)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel1)
+                            .add(jLabel2)))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(refresh)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(mainPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        refreshDisplay() ;
+    }//GEN-LAST:event_refreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -105,5 +191,7 @@ public class KitchenDisplay extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }

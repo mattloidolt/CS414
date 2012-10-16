@@ -22,8 +22,7 @@ public class ManagerDisplayCont {
     
     public static boolean login(String user, char[] pass) {
         try{
-            FileInputStream inFile = new FileInputStream("managers.shadow");
-            BufferedReader content = new BufferedReader(new InputStreamReader(inFile));
+            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("managers.shadow")));
             String line ;
             while((line = content.readLine()) != null){
                 String use[] = line.split(":") ;
@@ -61,7 +60,7 @@ public class ManagerDisplayCont {
           // building the items list string
           String s = "";
           for(int i = 1 ; i < menu.size(); i++) {
-              s+= menu.get(i) + ":" ;
+              s+= menu.get(i) + "&&&" ;
           }
           out.println(s) ;
           out.close() ;
@@ -70,6 +69,7 @@ public class ManagerDisplayCont {
             System.err.println(e) ;
             return false ;
         }
+        System.out.println("Menu " + menu.get(0) + " created.") ;
         return true ;
     }
     
@@ -138,6 +138,8 @@ public class ManagerDisplayCont {
         }
         try {
             File f1 = new File("menuNames.POS_MENU");
+            File f2 = new File(menuName + ".POS_MENU") ;
+            f2.delete() ;
             f1.delete() ;
             f1.createNewFile();
             PrintWriter out = new PrintWriter(new FileWriter("menuNames.POS_MENU"));
@@ -145,6 +147,7 @@ public class ManagerDisplayCont {
                 out.println(menus.get(i)) ;
             }
             out.close() ;
+            System.out.println("Menu " + menuName + " deleted.") ;
         }
         catch (Exception e) {
              System.err.println(e) ;

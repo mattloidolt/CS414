@@ -146,17 +146,20 @@ public class ManagerMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_createActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        final JOptionPane optionPane = new JOptionPane(
-                "Are you sure you want to delete " + menuName.getText() + "?",
-                JOptionPane.QUESTION_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
-        final JDialog dialog = new JDialog(this, "Seriously?", true);
-        dialog.pack() ;
-        dialog.setVisible(true) ;
-        int value = ((Integer)optionPane.getValue()).intValue();
-        if (value == JOptionPane.YES_OPTION) {
-            ManagerDisplayCont.deleteMenu(menuName.getText());
-        } 
+        Object[] possibilities = {"yes", "no"};
+        String text = "Are you sure you want to delete " + menuName.getText() + "?" ;
+        String s = (String)JOptionPane.showInputDialog(
+                    this, text, "Seriously?",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null, possibilities, "yes");
+
+        //If a string was returned, check that it was 'yes', delete the menu if so
+        if ((s != null) && (s.length() > 0)) {
+            if(s.equals("yes")){
+                ManagerDisplayCont.deleteMenu(menuName.getText());
+                menuName.setText("") ;
+            }
+        }
     }//GEN-LAST:event_deleteActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed

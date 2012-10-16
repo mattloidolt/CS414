@@ -4,9 +4,8 @@
  */
 package GUI;
 
+import controller.KioskCont;
 import java.awt.Toolkit;
-import java.io.*;
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -17,15 +16,22 @@ import javax.swing.JOptionPane;
  */
 public class KioskPlaceOrder extends javax.swing.JFrame {
 
-    String[] arguments ;
-    ArrayList<String> items ;
+    ArrayList<String> order ;
     /**
      * Creates new form KioskPlaceOrder
      */
-    public KioskPlaceOrder(String[] arguments, ArrayList<String> items) {
+    public KioskPlaceOrder(ArrayList<String> order) {
         initComponents();
-        this.arguments = arguments ;
-        this.items = items ;
+        this.order = order ;
+        String output = "<html><h1> Order Summary </h1> <br> <table>" ;
+        double total = 0 ;
+        for(int i = 1; i < order.size(); i++){
+            String[] item = order.get(i).split("-") ;
+            output += "<tr> <td> " + item[0] + "</td><td></td><td> " + item[0] + "</td> </tr>" ;
+            total += Double.parseDouble(item[1]) ;
+        }
+        output += "<tr> <td></td><td> TOTAL </td> <td>" + total + "</td></tr></table></html>" ;
+        orderTxt.setText(output);
     }
 
     /**
@@ -211,31 +217,31 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_nameActionPerformed
 
     private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_phoneActionPerformed
 
     private void cardNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNameActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_cardNameActionPerformed
 
     private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_addressActionPerformed
 
     private void name4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name4ActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_name4ActionPerformed
 
     private void cardNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNumActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_cardNumActionPerformed
 
     private void expDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expDateActionPerformed
-        // TODO add your handling code here:
+        placeActionPerformed(evt) ;
     }//GEN-LAST:event_expDateActionPerformed
 
     private void placeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeActionPerformed
@@ -263,49 +269,30 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
 						JOptionPane.PLAIN_MESSAGE, null, null, evt) ;
                     // creating the output file for the kitchen display to read
                     ArrayList<String> output = new ArrayList<String>();
+                    output.add(order.get(0)) ;
                     output.add(name.getText());
                     output.add(phone.getText());
                     output.add(address.getText()) ;
                     output.add(cardName.getText()) ;
                     output.add(cardNum.getText()) ;
                     output.add(expDate.getText()) ;
-                    for(int i=0 ; i < items.size(); i++){
-			output.add(items.get(i)) ;
+                    for(int i=1 ; i < order.size(); i++){
+			output.add(order.get(i)) ;
                     }
-                    System.out.println("Order for " + output.get(0) + " has been placed.") ;
-                    restartProgram() ;
+                    KioskCont.saveOrder(output) ;
+                    System.out.println("Order for " + output.get(1) + " has been placed.") ;
+                    cancelActionPerformed(evt) ;
 		}
             }
 	}
     }//GEN-LAST:event_placeActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        restartProgram() ;
+        Kiosk newKiosk = new Kiosk(new ArrayList<String>()) ;
+        newKiosk.setVisible(true) ;
+        this.dispose() ;
     }//GEN-LAST:event_cancelActionPerformed
 
-    
-    public void restartProgram()
-    {
-		// pull this programs ID from the args and build the command to execute
-		StringBuilder cmd = new StringBuilder();
-		cmd.append(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java ");
-		for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-			cmd.append(jvmArg + " ");
-		}
-		cmd.append("-cp ").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append(" ");
-		cmd.append(Kiosk.class.getName()).append(" ");
-		for (String arg : arguments) {
-			cmd.append(arg).append(" ");
-		}
-		// execute the command to start this program again
-		try {
-			Runtime.getRuntime().exec(cmd.toString());
-		} catch (IOException e) {
-			System.err.println(e) ;
-		}
-		// then end this program
-		System.exit(0);
-    }
     
     /**
      * @param args the command line arguments
@@ -338,7 +325,7 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new KioskPlaceOrder(args, new ArrayList<String>()).setVisible(true);
+                new KioskPlaceOrder(new ArrayList<String>()).setVisible(true);
             }
         });
     }
