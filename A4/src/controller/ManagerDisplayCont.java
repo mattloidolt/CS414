@@ -4,11 +4,10 @@
  */
 package controller;
 
-import java.io.* ;
-import java.util.* ;
-import core.Menu ;
-import controller.KioskCont ;
-import core.MenuItem ;
+import core.Menu;
+import core.MenuItem;
+import java.io.*;
+import java.util.*;
 /**
  *
  * @author mattloidolt
@@ -45,18 +44,24 @@ public class ManagerDisplayCont {
         return false ;
     }
     
-    public static boolean createMenu(String menuName, ArrayList<String> items) {
+    /*
+     * Format for .POS_MENU files
+     * 
+     * Name of Menu
+     * all of the items in one line. Format example:       Burger-8.99:Salad-5.99:Dessert-3.99
+     */
+    public static boolean createMenu(ArrayList<String> menu) {
         try {
           // adding the menu to the menuNames tracker file
           PrintWriter output = new PrintWriter(new FileWriter("menuNames.POS_MENU"));
-          output.println(menuName) ;
+          output.println(menu.get(0)) ;
           // creating the file for the menu
-          PrintWriter out = new PrintWriter(new FileWriter(menuName + ".POS_MENU"));
-          out.println(menuName) ;
+          PrintWriter out = new PrintWriter(new FileWriter(menu.get(0) + ".POS_MENU"));
+          out.println(menu.get(0)) ;
           // building the items list string
           String s = "";
-          for(int i = 0 ; i < items.size(); i++) {
-              s+= items.get(i) + ":" ;
+          for(int i = 1 ; i < menu.size(); i++) {
+              s+= menu.get(i) + ":" ;
           }
           out.println(s) ;
           out.close() ;
@@ -68,9 +73,11 @@ public class ManagerDisplayCont {
         return true ;
     }
     
+    // this is used by first creating a list of items to edit, then send that and the menu name to this method
+    // the method will add those items or just change their price if they already exist, if remove=false
+    // if remove=true, the method will remove all of the items in the list from the menu
     public static void editMenu(boolean remove, ArrayList<String> items, String menuName) {
-        boolean found = false ;
-        Menu m = KioskCont.getMenu(menuName) ;
+        Menu m  = convertToMenu(KioskCont.getMenu(menuName));
         for(int i = 0 ; i < items.size() ; i++){
             String[] x = items.get(i).split("-") ;
             MenuItem item = new MenuItem(x[0], Double.parseDouble(x[1])) ;
@@ -93,8 +100,33 @@ public class ManagerDisplayCont {
                 }
             }
         }
+        
+        // NOW FOR EDITING THE ACTUAL FILE.....
+        deleteMenu(m.getName()) ;
+        createMenu(convertToAL(m)) ;
     }
     
+    public static ArrayList<String> convertToAL(Menu m) {
+        ArrayList<String> ret = new ArrayList<String>() ;
+        ret.add(m.getName());
+        ArrayList<MenuItem> items = new ArrayList<MenuItem>() ;
+        for(int i =0 ; i < items.size() ; i++) {
+            ret.add(items.get(i).getName() + "-" + items.get(i).getPrice()) ;
+        }
+        return ret ;
+    }
+    
+    public static Menu convertToMenu(ArrayList<String> menuAL) {
+        Menu m = new Menu(menuAL.get(0)) ;
+        for(int i =1 ; i < menuAL.size() ; i++){
+            String[] split = menuAL.get(i).split("-") ;
+            MenuItem item = new MenuItem(split[0], Double.parseDouble(split[1])) ;
+            m.addMenuItem(item);
+        }
+        return m ;
+    }
+    
+    // this deletes the menu's .POS_MENU file and removes it from the menuNames.POS_MENU file
     public static boolean deleteMenu(String menuName) {
         boolean isFound = false ;
         ArrayList<String> menus = KioskCont.getMenuNames() ;

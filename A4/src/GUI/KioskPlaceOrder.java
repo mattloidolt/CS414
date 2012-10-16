@@ -240,9 +240,9 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
 
     private void placeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeActionPerformed
         // TODO enter code to save the order
-        if(name.getText().equals("First and Last Name") || address.getText().equals("Address") ||
-								phone.getText().equals("Phone Number") || cardName.getText().equals("Name on Card") ||
-								cardNum.getText().equals("Credit Card Number") || expDate.getText().equals("Expiration Date")) {
+        if(name.getText().equals("") || address.getText().equals("") ||
+								phone.getText().equals("") || cardName.getText().equals("") ||
+								cardNum.getText().equals("") || expDate.getText().equals("")) {
             JOptionPane.showOptionDialog(this, "You must fill in all fields.", "Error", JOptionPane.DEFAULT_OPTION, 
                             JOptionPane.ERROR_MESSAGE, null, null, evt) ;
         }
@@ -253,7 +253,7 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
             }
             else{
 		if(cardNum.getText().length() != 16) {
-                    JOptionPane.showOptionDialog(this, "Invalid Card Number. Use Format: 1234567890123456", "Error", JOptionPane.DEFAULT_OPTION, 
+                    JOptionPane.showOptionDialog(this, "Invalid Card Number. Use Format: 1111222233334444", "Error", JOptionPane.DEFAULT_OPTION, 
                                                 JOptionPane.ERROR_MESSAGE, null, null, evt) ;
                 }
 		else {
@@ -272,6 +272,7 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
                     for(int i=0 ; i < items.size(); i++){
 			output.add(items.get(i)) ;
                     }
+                    System.out.println("Order for " + output.get(0) + " has been placed.") ;
                     restartProgram() ;
 		}
             }

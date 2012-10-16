@@ -4,9 +4,9 @@
  */
 package controller;
 
-import core.Menu ;
+import core.Menu;
 import core.MenuItem;
-import java.io.* ;
+import java.io.*;
 import java.util.*;
 /**
  *
@@ -30,8 +30,8 @@ public class KioskCont {
         return names ;
     }
     
-    public static Menu getMenu(String menuName){
-        Menu loadMenu = null;
+    public static ArrayList<String> getMenu(String menuName){
+        ArrayList<String> loadMenu = new ArrayList<String>();
         try{
             FileInputStream inFile = new FileInputStream(menuName + ".POS_MENU") ;
             BufferedReader content = new BufferedReader(new InputStreamReader(inFile)) ;
@@ -39,13 +39,11 @@ public class KioskCont {
             int lineNumber = 0;
             while((line = content.readLine()) != null){
                 if(lineNumber == 0) {
-                    loadMenu = new Menu(line) ;
+                    loadMenu.add(line) ;
                 }else {
                     String elements[] = line.split(":");
                     for(int i = 0 ; i < elements.length; i++) {
-                        String it[] = elements[i].split("-") ;
-                        MenuItem item = new MenuItem(it[0], Double.parseDouble(it[1])) ;
-                        loadMenu.addMenuItem(item);
+                        loadMenu.add(elements[i]) ;
                     }
                     lineNumber++ ;
                 }

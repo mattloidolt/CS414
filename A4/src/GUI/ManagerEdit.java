@@ -63,7 +63,7 @@ public class ManagerEdit extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
-        System.exit(1) ;
+        this.dispose() ;
     }//GEN-LAST:event_doneActionPerformed
 
     /**

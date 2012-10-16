@@ -4,8 +4,10 @@
  */
 package GUI;
 
+import controller.ManagerDisplayCont;
 import java.awt.Toolkit;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,12 +15,13 @@ import java.util.*;
  */
 public class ManagerCreate extends javax.swing.JFrame {
 
-    ArrayList<String> items ;
+    private ArrayList<String> menu = new ArrayList<String>();
     /**
      * Creates new form ManagerCreate
      */
-    public ManagerCreate() {
+    public ManagerCreate(String menuName) {
         initComponents();
+        menu.add(menuName) ;
     }
 
     /**
@@ -128,18 +131,30 @@ public class ManagerCreate extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemActionPerformed
-        String item ;
-        item = itemName.getText() ;
-        item += "-" ;
-        item += itemPrice.getText() ;
-        items.add(item) ;
-        textConfirmation.setText("Item added successfully.");
-        System.out.println("Item " + item + " added to the menu.") ;
+        String price = itemPrice.getText() ;
+        boolean validPrice = true ;
+        try {
+            Double.parseDouble(price);
+        }
+        catch (NumberFormatException e){
+            validPrice = false ;
+            JOptionPane.showOptionDialog(this, "Invalid Price", "Error", JOptionPane.DEFAULT_OPTION, 
+                                                JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+        }
+        if (validPrice) {
+            //TODO: cannot for the life of me figure out why this keeps throwing a nullPointerException....
+            boolean added = menu.add(itemName.getText() + "-" + itemPrice.getText());
+            if(added){
+                textConfirmation.setText("Item added successfully.") ;
+                System.out.println("Item " + itemName.getText() + " added to the menu.") ;
+            }
+        }
         
     }//GEN-LAST:event_addItemActionPerformed
 
     private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
-        System.exit(1) ;
+        ManagerDisplayCont.createMenu(menu) ;
+        this.dispose() ;
     }//GEN-LAST:event_doneActionPerformed
 
     /**
@@ -173,7 +188,7 @@ public class ManagerCreate extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ManagerCreate().setVisible(true);
+                new ManagerCreate("").setVisible(true);
             }
         });
     }
