@@ -8,6 +8,7 @@ import core.Menu;
 import core.MenuItem;
 import java.io.*;
 import java.util.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
  *
  * @author mattloidolt
@@ -50,13 +51,22 @@ public class ManagerDisplayCont {
      * all of the items in one line. Format example:       Burger-8.99:Salad-5.99:Dessert-3.99
      */
     public static boolean createMenu(ArrayList<String> menu) {
+        //Create file if not there already
+        try {
+            File file = new File("menuNames.POS_MENU");
+            file.createNewFile(); 
+        } catch (IOException e) {}
+        
+        
         try {
           // adding the menu to the menuNames tracker file
-          PrintWriter output = new PrintWriter(new FileWriter("menuNames.POS_MENU"));
+          PrintWriter output = new PrintWriter(new FileWriter("menuNames.POS_MENU", true));
           output.println(menu.get(0)) ;
+          output.flush();
           // creating the file for the menu
-          PrintWriter out = new PrintWriter(new FileWriter(menu.get(0) + ".POS_MENU"));
+          PrintWriter out = new PrintWriter(new FileWriter(menu.get(0) + ".POS_MENU", true));
           out.println(menu.get(0)) ;
+          out.flush();
           // building the items list string
           String s = "";
           for(int i = 1 ; i < menu.size(); i++) {

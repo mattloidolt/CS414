@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import javax.swing.*;
-
+import java.io.File;
 /**
  *
  * @author mattloidolt
@@ -121,6 +121,13 @@ public class ManagerMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
+        try{
+            File file = new File("menuNames.POS_MENU");
+            file.createNewFile();
+            
+        } catch (Exception e){}
+        
+        
         boolean found = false ;
         try {
             BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
