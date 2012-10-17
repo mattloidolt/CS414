@@ -116,6 +116,14 @@ public class ManagerDisplayCont {
         createMenu(convertToAL(m)) ;
     }
     
+    public static void editItem(String menuItem) {
+        
+    }
+    
+    public static void removeItem(String menuItem) {
+        
+    }
+    
     public static ArrayList<String> convertToAL(Menu m) {
         ArrayList<String> ret = new ArrayList<String>() ;
         ret.add(m.getName());

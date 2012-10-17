@@ -101,4 +101,14 @@ public class Menu {
             }
             return isFound ;
         }
+        
+        public String toString() {
+            String string = "";
+            string += menuName + "\n";
+            for(MenuItem item : getMenuItems()){
+                string += "\t" + item + "\n";
+            }
+            
+            return string;
+        }
 }

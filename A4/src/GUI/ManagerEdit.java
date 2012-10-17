@@ -4,7 +4,18 @@
  */
 package GUI;
 
+import core.Menu;
+import core.MenuItem;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import javax.imageio.stream.FileCacheImageOutputStream;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,10 +23,14 @@ import java.awt.Toolkit;
  */
 public class ManagerEdit extends javax.swing.JFrame {
 
+    private String menuName;
+    private Menu menu;
     /**
      * Creates new form ManagerEdit
      */
-    public ManagerEdit() {
+    public ManagerEdit(String menuName) {
+        this.menuName = menuName;
+        this.menu = this.loadMenu(menuName);
         initComponents();
     }
 
@@ -29,6 +44,12 @@ public class ManagerEdit extends javax.swing.JFrame {
     private void initComponents() {
 
         done = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        itemNameField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        itemPriceField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -42,19 +63,80 @@ public class ManagerEdit extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Item name:");
+
+        itemNameField.setName("null"); // NOI18N
+        itemNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemNameFieldActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Save");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonPressed(evt);
+            }
+        });
+
+        jButton2.setText("Remove");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeItemButtonPressed(evt);
+            }
+        });
+
+        jLabel2.setText("New Price:");
+
+        itemPriceField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemPriceFieldActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(317, Short.MAX_VALUE)
-                .add(done)
+            .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(317, Short.MAX_VALUE)
+                        .add(done))
+                    .add(layout.createSequentialGroup()
+                        .add(38, 38, 38)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(itemNameField)
+                            .add(itemPriceField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .add(97, 97, 97)
+                .add(jButton1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jButton2)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(265, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(itemNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel2)
+                    .add(itemPriceField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(54, 54, 54)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButton1)
+                    .add(jButton2))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 96, Short.MAX_VALUE)
                 .add(done)
                 .addContainerGap())
         );
@@ -66,6 +148,92 @@ public class ManagerEdit extends javax.swing.JFrame {
         this.dispose() ;
     }//GEN-LAST:event_doneActionPerformed
 
+    private void itemNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemNameFieldActionPerformed
+
+    private void itemPriceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPriceFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemPriceFieldActionPerformed
+
+    private void saveButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonPressed
+        String itemName = itemNameField.getText();
+        double itemPrice = Double.parseDouble(itemPriceField.getText());
+        menu.getItemOfName(itemName).setPrice(itemPrice);
+        saveMenu();
+        
+        
+    }//GEN-LAST:event_saveButtonPressed
+
+    private void removeItemButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonPressed
+        String itemName = itemNameField.getText();
+        menu.removeMenuItem(itemName);
+        saveMenu();
+    }//GEN-LAST:event_removeItemButtonPressed
+
+    private void saveMenu(){
+        //Erase current menu file
+        try {
+            PrintWriter writer = new PrintWriter(menu.getName() + ".POS_Menu");
+            writer.print("");
+            writer.close();
+        }catch(Exception e){}
+        
+        try {
+          // creating the file for the menu
+          PrintWriter out = new PrintWriter(new FileWriter(menu.getName() + ".POS_MENU", true));
+          out.println(menu.getName()) ;
+          out.flush();
+          // building the items list string
+          String s = "";
+          for(int i = 0 ; i < menu.getMenuItems().size(); i++) {
+              s+= menu.getItem(i).getSaveString() + "&&&" ;
+          }
+          out.println(s) ;
+          out.close() ;
+        }
+        catch (Exception e) {
+            System.err.println(e) ;
+        }
+        System.out.println("Menu " + menu.getName() + " edited.") ;
+        
+    }
+    private Menu loadMenu(String menuName) {
+        Menu currentMenu = new Menu(menuName);
+        try {
+            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
+            String line ;
+            while((line = content.readLine()) != null){
+                if(line.equals(menuName) || menuName.equals("menuNames")){
+                    //Found the existing menu
+                    //load file and menu
+                    BufferedReader menuReader = new BufferedReader(new InputStreamReader(new FileInputStream(menuName + ".POS_MENU")));
+                    int lineNumber = 0;
+                    String menuLine;
+                    while((menuLine = menuReader.readLine()) != null){
+                        if(lineNumber == 0){
+                            lineNumber ++;
+                            continue;
+                        }
+                        
+                        String menuItems[] = menuLine.split("&&&");
+                        
+                        for(String x : menuItems) {
+                            String item[] = x.split("-");
+                            MenuItem menuItem = new MenuItem(item[0], Double.parseDouble(item[1]));
+                            currentMenu.addMenuItem(menuItem);
+                        }    
+                    }
+                    System.out.println(currentMenu);
+                    break;
+                }
+            }
+        
+        }catch (Exception e){}
+        
+        return currentMenu;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -97,11 +265,17 @@ public class ManagerEdit extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ManagerEdit().setVisible(true);
+                new ManagerEdit(null).setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton done;
+    private javax.swing.JTextField itemNameField;
+    private javax.swing.JTextField itemPriceField;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

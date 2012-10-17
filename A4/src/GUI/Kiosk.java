@@ -13,6 +13,7 @@ import java.lang.management.ManagementFactory;
 import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -171,7 +172,7 @@ public class Kiosk extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(0, 32, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -220,7 +221,7 @@ public class Kiosk extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(orderLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
+                    .add(orderLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
@@ -243,11 +244,16 @@ public class Kiosk extends javax.swing.JFrame {
         double total = 0 ;
         for(int i = 1; i < order.size(); i++){
             String[] item = order.get(i).split("-") ;
-            output += "<tr> <td> " + item[0] + "</td><td></td><td> " + item[0] + "</td> </tr>" ;
+            output += "<tr> <td> " + item[0] + "</td><td></td><td> $" + item[1] + "</td> </tr>" ;
             total += Double.parseDouble(item[1]) ;
         }
-        output += "<tr> <td></td><td> TOTAL </td> <td>" + total + "</td></tr></table></html>" ;
+        output += "<tr> <td></td><td> TOTAL </td> <td>" + roundTwoDecimals(total) + "</td></tr></table></html>" ;
         orderLabel.setText(output);
+    }
+    
+    double roundTwoDecimals(double d) {
+            DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
     }
     
     private void menuItemActionPerformed(String menu) {

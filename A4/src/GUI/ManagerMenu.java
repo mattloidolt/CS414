@@ -170,7 +170,7 @@ public class ManagerMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        ManagerEdit editManager = new ManagerEdit() ;
+        ManagerEdit editManager = new ManagerEdit(menuName.getText()) ;
         editManager.setName(this.getTitle() + " EDIT:" + menuName.getText());
         //TODO: somehow set build the edit window based on the editMenuName
         editManager.setVisible(true) ;
