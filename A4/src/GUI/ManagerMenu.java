@@ -23,6 +23,7 @@ public class ManagerMenu extends javax.swing.JFrame {
      */
     public ManagerMenu() {
         initComponents();
+        populateMenuList();
     }
 
     /**
@@ -40,6 +41,7 @@ public class ManagerMenu extends javax.swing.JFrame {
         menuName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         logout = new javax.swing.JButton();
+        menuList = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(ManagerDisplayCont.getUserName());
@@ -77,6 +79,9 @@ public class ManagerMenu extends javax.swing.JFrame {
             }
         });
 
+        menuList.setText("Menu List");
+        menuList.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,24 +102,32 @@ public class ManagerMenu extends javax.swing.JFrame {
                     .add(layout.createSequentialGroup()
                         .add(144, 144, 144)
                         .add(logout)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(menuList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 118, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(52, 52, 52)
-                .add(create)
-                .add(11, 11, 11)
-                .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(edit)
-                    .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(33, 33, 33)
-                .add(delete)
-                .add(18, 18, 18)
-                .add(logout)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(5, 5, 5)
+                        .add(menuList, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(create)
+                        .add(11, 11, 11)
+                        .add(jLabel1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(edit)
+                            .add(menuName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(33, 33, 33)
+                        .add(delete)
+                        .add(18, 18, 18)
+                        .add(logout)
+                        .add(0, 41, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -142,7 +155,7 @@ public class ManagerMenu extends javax.swing.JFrame {
             
             // Note: the new menu is not created right here, it is created when the user clicks 'done' in the ManagerCreate GUI
             if (!found) {
-                ManagerCreate createGUI = new ManagerCreate(menuName.getText()) ;
+                ManagerCreate createGUI = new ManagerCreate(menuName.getText(), this) ;
                 createGUI.setTitle(this.getTitle() + " CREATE") ;
                 createGUI.setVisible(true) ;
             }
@@ -150,6 +163,7 @@ public class ManagerMenu extends javax.swing.JFrame {
         catch (Exception e) {
             System.err.println(e) ;
         }
+        
     }//GEN-LAST:event_createActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
@@ -167,6 +181,7 @@ public class ManagerMenu extends javax.swing.JFrame {
                 menuName.setText("") ;
             }
         }
+        populateMenuList();
     }//GEN-LAST:event_deleteActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
@@ -181,6 +196,19 @@ public class ManagerMenu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutActionPerformed
 
+    public void populateMenuList(){
+        String menuNames = "<html> <h1>Menus</h1><br>";
+        try{
+        BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
+            String line ;
+            while((line = content.readLine()) != null){
+                menuNames += line + "<br>";
+            }
+            menuNames += "</html>";
+        }catch(Exception e){}
+        menuList.setText(menuNames);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -222,6 +250,7 @@ public class ManagerMenu extends javax.swing.JFrame {
     private javax.swing.JButton edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton logout;
+    private javax.swing.JLabel menuList;
     private javax.swing.JTextField menuName;
     // End of variables declaration//GEN-END:variables
 }
