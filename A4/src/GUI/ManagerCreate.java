@@ -16,12 +16,14 @@ import javax.swing.JOptionPane;
 public class ManagerCreate extends javax.swing.JFrame {
 
     private ArrayList<String> menu = new ArrayList<String>();
+    private ManagerMenu parentWindow;
     /**
      * Creates new form ManagerCreate
      */
-    public ManagerCreate(String menuName) {
+    public ManagerCreate(String menuName, ManagerMenu managerMenu) {
         initComponents();
         menu.add(menuName) ;
+        parentWindow = managerMenu;
     }
 
     /**
@@ -155,6 +157,7 @@ public class ManagerCreate extends javax.swing.JFrame {
     private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
         ManagerDisplayCont.createMenu(menu) ;
         this.dispose() ;
+        parentWindow.populateMenuList();
     }//GEN-LAST:event_doneActionPerformed
 
     /**
@@ -188,7 +191,7 @@ public class ManagerCreate extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ManagerCreate("").setVisible(true);
+                new ManagerCreate("", null).setVisible(true);
             }
         });
     }
