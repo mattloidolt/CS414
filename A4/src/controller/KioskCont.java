@@ -6,6 +6,9 @@ package controller;
 
 import java.io.*;
 import java.util.*;
+import java.sql.* ; 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author mattloidolt
@@ -13,17 +16,26 @@ import java.util.*;
 public class KioskCont {
     public static ArrayList<String> getMenuNames(){
         ArrayList<String> names = new ArrayList<String>() ;
-        try{
-            FileInputStream inFile = new FileInputStream("menuNames.POS_MENU");
-            BufferedReader content = new BufferedReader(new InputStreamReader(inFile));
-            String line ;
-            while((line = content.readLine()) != null){
-                names.add(line);
+        try {
+            // establishing a connection to the database
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = null;
+            ResultSet rs = null;
+            try{
+                FileInputStream inFile = new FileInputStream("menuNames.POS_MENU");
+                BufferedReader content = new BufferedReader(new InputStreamReader(inFile));
+                String line ;
+                while((line = content.readLine()) != null){
+                    names.add(line);
+                }
+                content.close() ;
             }
-            content.close() ;
-        }
-        catch(Exception e){
-            System.err.print(e);
+            catch(Exception e){
+                System.err.print(e);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KioskCont.class.getName()).log(Level.SEVERE, null, ex);
         }
         return names ;
     }

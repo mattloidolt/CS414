@@ -7,8 +7,8 @@ package controller;
 import core.Menu;
 import core.MenuItem;
 import java.io.*;
+import java.sql.*;
 import java.util.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
  *
  * @author mattloidolt
@@ -23,6 +23,15 @@ public class ManagerDisplayCont {
     
     public static boolean login(String user, char[] pass) {
         try{
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = null;
+            ResultSet rs = null;
+            
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT username, password FROM managers");
+            rs.
             BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("managers.shadow")));
             String line ;
             while((line = content.readLine()) != null){
@@ -37,6 +46,9 @@ public class ManagerDisplayCont {
                 }
             }
             content.close() ;
+            stmt.close() ;
+            rs.close() ;
+            conn.close() ;
         }
         catch (Exception e){
             System.err.println(e) ;
