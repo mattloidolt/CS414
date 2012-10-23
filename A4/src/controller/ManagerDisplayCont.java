@@ -23,29 +23,21 @@ public class ManagerDisplayCont {
     
     public static boolean login(String user, char[] pass) {
         try{
-            
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
                                        "user=pizzaStore&password=password");
-            Statement stmt = null;
-            ResultSet rs = null;
-            
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT username, password FROM managers");
-            rs.
-            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("managers.shadow")));
-            String line ;
-            while((line = content.readLine()) != null){
-                String use[] = line.split(":") ;
-                if(use[0].equals(user)){
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT username, password FROM managers");
+            while(rs.next()){
+                System.out.println(rs.getString(1)) ;
+                if (rs.getString(1).equals(user)) {
                     String password = new String(pass) ;
-                    if(use[1].equals(password)){
-                        userName = user ;
-                        System.out.println(user + " has logged in.") ;
+                    if(rs.getString(2).equals(password)) {
+                        userName = rs.getString(1) ;
+                        System.out.print(userName + " had logged in.") ;
                         return true ;
                     }
                 }
             }
-            content.close() ;
             stmt.close() ;
             rs.close() ;
             conn.close() ;
@@ -63,35 +55,32 @@ public class ManagerDisplayCont {
      * all of the items in one line. Format example:       Burger-8.99:Salad-5.99:Dessert-3.99
      */
     public static boolean createMenu(ArrayList<String> menu) {
-        //Create file if not there already
-        try {
-            File file = new File("menuNames.POS_MENU");
-            file.createNewFile(); 
-        } catch (IOException e) {}
-        
+        //Create the output text
+        String query = "INSERT INTO menus "
+                + "(name, items) VALUES('" + menu.get(0) + "', '" ;
         
         try {
-          // adding the menu to the menuNames tracker file
-          PrintWriter output = new PrintWriter(new FileWriter("menuNames.POS_MENU", true));
-          output.println(menu.get(0)) ;
-          output.flush();
+          // TODO: adding the menu to the menuNames tracker file
+          
           // creating the file for the menu
-          PrintWriter out = new PrintWriter(new FileWriter(menu.get(0) + ".POS_MENU", true));
-          out.println(menu.get(0)) ;
-          out.flush();
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
           // building the items list string
           String s = "";
           for(int i = 1 ; i < menu.size(); i++) {
               s+= menu.get(i) + "&&&" ;
           }
-          out.println(s) ;
-          out.close() ;
+          query += s + "') ;" ;
+          Statement stmt = conn.createStatement();
+          stmt.executeUpdate(query);
+          stmt.close() ;
+          conn.close() ;
+          System.out.println("Menu " + menu.get(0) + " created.") ;
         }
         catch (Exception e) {
             System.err.println(e) ;
             return false ;
         }
-        System.out.println("Menu " + menu.get(0) + " created.") ;
         return true ;
     }
     
@@ -139,9 +128,8 @@ public class ManagerDisplayCont {
     public static ArrayList<String> convertToAL(Menu m) {
         ArrayList<String> ret = new ArrayList<String>() ;
         ret.add(m.getName());
-        ArrayList<MenuItem> items = new ArrayList<MenuItem>() ;
-        for(int i =0 ; i < items.size() ; i++) {
-            ret.add(items.get(i).getName() + "-" + items.get(i).getPrice()) ;
+        for(int i =0 ; i < m.getNumberOfItems() ; i++) {
+            ret.add(m.getItem(i).getName() + "-" + m.getItem(i).getPrice()) ;
         }
         return ret ;
     }
@@ -159,25 +147,14 @@ public class ManagerDisplayCont {
     // this deletes the menu's .POS_MENU file and removes it from the menuNames.POS_MENU file
     public static boolean deleteMenu(String menuName) {
         boolean isFound = false ;
-        ArrayList<String> menus = KioskCont.getMenuNames() ;
-        for (int i =0 ; i < menus.size(); i++) {
-            if (menuName.equals(menus.get(i))){
-                menus.remove(menus.get(i));
-                isFound = true ;
-            }
-        }
         try {
-            File f1 = new File("menuNames.POS_MENU");
-            File f2 = new File(menuName + ".POS_MENU") ;
-            f2.delete() ;
-            f1.delete() ;
-            f1.createNewFile();
-            PrintWriter out = new PrintWriter(new FileWriter("menuNames.POS_MENU"));
-            for(int i = 0 ; i < menus.size() ; i++){
-                out.println(menus.get(i)) ;
-            }
-            out.close() ;
-            System.out.println("Menu " + menuName + " deleted.") ;
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM menus WHERE name='" + menuName + "' ;") ;
+            stmt.close() ;
+            conn.close() ;
+            System.out.println("\nMenu " + menuName + " deleted.") ;
         }
         catch (Exception e) {
              System.err.println(e) ;

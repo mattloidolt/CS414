@@ -24,7 +24,6 @@ import javax.swing.JLabel;
 public class Kiosk extends javax.swing.JFrame {
     
     GridBagConstraints gBC = new GridBagConstraints() ;
-    public int orderID = 0 ;
     static String[] arguments ; // this is used to restart the program after an order is canceled/completed
     // adding items to the order should add to this list
     ArrayList<String> menus = KioskCont.getMenuNames() ;
@@ -42,15 +41,7 @@ public class Kiosk extends javax.swing.JFrame {
      */
     public Kiosk(ArrayList<String> menu) {
         this.menu = menu ;
-        initComponents();
-        Random generator = new Random(System.currentTimeMillis()) ;
-        orderID = generator.nextInt() ;
-        File txtFile = new File(Integer.toString(orderID));
-	while (txtFile.exists()) {  // the file already exists
-            orderID = generator.nextInt() ;
-            txtFile = new File(Integer.toString(orderID)) ;
-	}
-        order.add(Integer.toString(orderID)) ;
+        initComponents();        
         
         ////// Building the menu bar for selecting menu
         for(int i = 0; i < menus.size() ; i++){
@@ -108,8 +99,8 @@ public class Kiosk extends javax.swing.JFrame {
             gBC.gridx++ ;
             jPanel2.add(minus, gBC) ;
             gBC.gridx++ ;
-            // 5 elements per row, unlimited rows
-            if(gBC.gridx >= 15) {
+            // 4 elements per row, unlimited rows
+            if(gBC.gridx >= 12) {
                 gBC.gridx = 0 ;
                 gBC.gridy++ ;
             }
@@ -268,7 +259,7 @@ public class Kiosk extends javax.swing.JFrame {
     private void updateOrder(){
         String output = "<html><h1> Order Summary </h1> <br> <table>" ;
         double total = 0 ;
-        for(int i = 1; i < order.size(); i++){
+        for(int i = 0; i < order.size(); i++){
             String[] item = order.get(i).split("-") ;
             output += "<tr> <td> " + item[0] + "</td><td></td><td> $" + item[1] + "</td> </tr>" ;
             total += Double.parseDouble(item[1]) ;
@@ -278,20 +269,19 @@ public class Kiosk extends javax.swing.JFrame {
     }
     
     double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        DecimalFormat twoDForm = new DecimalFormat("#.00");
         return Double.valueOf(twoDForm.format(d));
     }
     
     private void menuItemActionPerformed(String menu) {
-        this.menu = KioskCont.getMenu(menu) ;
-        Kiosk newKiosk = new Kiosk(this.menu) ;
+        Kiosk newKiosk = new Kiosk(KioskCont.getMenu(menu)) ;
         newKiosk.setVisible(true);
         this.dispose();
     }
     
     private void placeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeActionPerformed
         KioskPlaceOrder placeScreen = new KioskPlaceOrder(order) ;
-        placeScreen.setTitle("Order: " + orderID) ;
+        placeScreen.setTitle("New Order") ;
         placeScreen.setVisible(true) ;
         this.dispose();
     }//GEN-LAST:event_placeActionPerformed
