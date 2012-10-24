@@ -4,17 +4,10 @@
  */
 package GUI;
 
-import core.Menu;
-import core.MenuItem;
+import controller.KioskCont;
+import controller.ManagerDisplayCont;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import javax.imageio.stream.FileCacheImageOutputStream;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,15 +17,17 @@ import javax.swing.JOptionPane;
 public class ManagerEdit extends javax.swing.JFrame {
 
     private String menuName;
-    private Menu menu;
+    private ArrayList<String> menu1 = new ArrayList<String>() ;
+    private ArrayList<String> returnMenu = new ArrayList<String>() ;
     /**
      * Creates new form ManagerEdit
      */
     public ManagerEdit(String menuName) {
         this.menuName = menuName;
-        this.menu = this.loadMenu(menuName);
+        this.menu1 = ManagerDisplayCont.getMenu(menuName) ;
+        this.returnMenu = KioskCont.getMenu(menuName) ;
         initComponents();
-        populateListText();
+        refreshList();
     }
 
     /**
@@ -74,7 +69,7 @@ public class ManagerEdit extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Save");
+        jButton1.setText("Update");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveButtonPressed(evt);
@@ -112,7 +107,7 @@ public class ManagerEdit extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                    .add(layout.createSequentialGroup()
                         .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(done))
                     .add(layout.createSequentialGroup()
@@ -134,9 +129,8 @@ public class ManagerEdit extends javax.swing.JFrame {
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                             .add(itemPriceField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                             .add(itemNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(itemText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 208, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 71, Short.MAX_VALUE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 37, Short.MAX_VALUE)
+                        .add(itemText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 453, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -157,7 +151,7 @@ public class ManagerEdit extends javax.swing.JFrame {
                             .add(jButton1)
                             .add(jButton2)
                             .add(createButton))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 96, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 185, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(itemText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -170,111 +164,67 @@ public class ManagerEdit extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
+        ManagerDisplayCont.editMenu(returnMenu);
         this.dispose() ;
     }//GEN-LAST:event_doneActionPerformed
 
     private void itemNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNameFieldActionPerformed
-        // TODO add your handling code here:
+        // do nothing if they press enter
     }//GEN-LAST:event_itemNameFieldActionPerformed
 
     private void itemPriceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPriceFieldActionPerformed
-        // TODO add your handling code here:
+        // do nothing if they press enter
     }//GEN-LAST:event_itemPriceFieldActionPerformed
 
     private void saveButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonPressed
-        String itemName = itemNameField.getText();
-        double itemPrice = Double.parseDouble(itemPriceField.getText());
-        menu.getItemOfName(itemName).setPrice(itemPrice);
-        saveMenu();
-        
-        
+        if(remove(itemNameField.getText(), evt)){
+            create(itemNameField.getText(), itemPriceField.getText()) ;
+        }
     }//GEN-LAST:event_saveButtonPressed
 
     private void removeItemButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonPressed
-        String itemName = itemNameField.getText();
-        menu.removeMenuItem(itemName);
-        saveMenu();
+        remove(itemNameField.getText(), evt) ;
+        refreshList() ;
     }//GEN-LAST:event_removeItemButtonPressed
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        String itemName = itemNameField.getText();
-        double itemPrice = Double.parseDouble(itemPriceField.getText());
-        MenuItem item = new MenuItem(itemName, itemPrice);
-        menu.addMenuItem(item);
-        saveMenu();
+        create(itemNameField.getText(), itemPriceField.getText()) ;
+        refreshList() ;
     }//GEN-LAST:event_createButtonActionPerformed
 
-    private void populateListText(){
+    private void refreshList(){
         String string = "<html><h1>Menu Items</h1><br>";
-        for (MenuItem item : menu.getMenuItems()){
+        for (String item : returnMenu){
             string += item + "<br>";
         }
         string += "</html>";
         itemText.setText(string);
     }
     
-    private void saveMenu(){
-        //Erase current menu file
-        try {
-            PrintWriter writer = new PrintWriter(menu.getName() + ".POS_Menu");
-            writer.print("");
-            writer.close();
-        }catch(Exception e){}
-        
-        try {
-          // creating the file for the menu
-          PrintWriter out = new PrintWriter(new FileWriter(menu.getName() + ".POS_MENU", true));
-          out.println(menu.getName()) ;
-          out.flush();
-          // building the items list string
-          String s = "";
-          for(int i = 0 ; i < menu.getMenuItems().size(); i++) {
-              s+= menu.getItem(i).getSaveString() + "&&&" ;
-          }
-          out.println(s) ;
-          out.close() ;
-        }
-        catch (Exception e) {
-            System.err.println(e) ;
-        }
-        System.out.println("Menu " + menu.getName() + " edited.") ;
-        populateListText();
-        
+    private void create(String name, String price){
+        menu1.add(name) ;
+        returnMenu.add(name + "-" + price) ;
+        refreshList() ;
     }
-    private Menu loadMenu(String menuName) {
-        Menu currentMenu = new Menu(menuName);
-        try {
-            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
-            String line ;
-            while((line = content.readLine()) != null){
-                if(line.equals(menuName) || menuName.equals("menuNames")){
-                    //Found the existing menu
-                    //load file and menu
-                    BufferedReader menuReader = new BufferedReader(new InputStreamReader(new FileInputStream(menuName + ".POS_MENU")));
-                    int lineNumber = 0;
-                    String menuLine;
-                    while((menuLine = menuReader.readLine()) != null){
-                        if(lineNumber == 0){
-                            lineNumber ++;
-                            continue;
-                        }
-                        
-                        String menuItems[] = menuLine.split("&&&");
-                        
-                        for(String x : menuItems) {
-                            String item[] = x.split("-");
-                            MenuItem menuItem = new MenuItem(item[0], Double.parseDouble(item[1]));
-                            currentMenu.addMenuItem(menuItem);
-                        }    
-                    }
-                    System.out.println(currentMenu);
-                    break;
-                }
-            }
-        
-        }catch (Exception e){}
-        
-        return currentMenu;
+    
+    private boolean remove(String name, java.awt.event.ActionEvent evt){
+        int loc = menu1.indexOf(name) ;
+        if (name.equals(menuName)){
+            JOptionPane.showOptionDialog(this, "Cannot remove the menu name.", "Error", JOptionPane.DEFAULT_OPTION, 
+                                        JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+            return false ;
+        }
+        if (loc == -1) {
+            JOptionPane.showOptionDialog(this, "Item not found.", "Error", JOptionPane.DEFAULT_OPTION, 
+                                        JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+            return false ;
+        }
+        else{
+            menu1.remove(loc);
+            returnMenu.remove(loc);
+        }
+        refreshList() ;
+        return true ;
     }
     
     /**

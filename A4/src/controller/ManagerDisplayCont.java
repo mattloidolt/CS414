@@ -6,7 +6,6 @@ package controller;
 
 import core.Menu;
 import core.MenuItem;
-import java.io.*;
 import java.sql.*;
 import java.util.*;
 /**
@@ -84,64 +83,35 @@ public class ManagerDisplayCont {
         return true ;
     }
     
-    // this is used by first creating a list of items to edit, then send that and the menu name to this method
-    // the method will add those items or just change their price if they already exist, if remove=false
-    // if remove=true, the method will remove all of the items in the list from the menu
-    public static void editMenu(boolean remove, ArrayList<String> items, String menuName) {
-        Menu m  = convertToMenu(KioskCont.getMenu(menuName));
-        for(int i = 0 ; i < items.size() ; i++){
-            String[] x = items.get(i).split("-") ;
-            MenuItem item = new MenuItem(x[0], Double.parseDouble(x[1])) ;
-            if(m.hasItem(item)){
-                if(remove) {
-                    m.removeMenuItem(item.getName());
-                }
-                else{
-                    // to change the price of an item the old one is removed and a new one is added
-                    m.removeMenuItem(item.getName());
-                    m.addMenuItem(item);
-                }
+    public static void editMenu(ArrayList<String> menu) {
+        
+        deleteMenu(menu.get(0)) ;
+        createMenu(menu) ;
+    }
+    
+    
+    // different getMenu method which only find the object names
+    public static ArrayList<String> getMenu(String menuName){
+        ArrayList<String> loadMenu = new ArrayList<String>();
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT items FROM menus WHERE name='" + menuName + "' ;");
+            loadMenu.add(menuName) ;
+            rs.next();
+            String elements[] = rs.getString(1).split("&&&");
+            for (int i=0; i < elements.length; i++){
+                loadMenu.add(elements[i].split("-")[0]) ;
             }
-            else{
-                if(remove) {
-                    System.out.println("Item: " + items.get(i) + " not removed because it was not on the menu.") ;
-                }
-                else{
-                    m.addMenuItem(item);
-                }
-            }
+            stmt.close() ;
+            rs.close() ;
+            conn.close() ;
         }
-        
-        // NOW FOR EDITING THE ACTUAL FILE.....
-        deleteMenu(m.getName()) ;
-        createMenu(convertToAL(m)) ;
-    }
-    
-    public static void editItem(String menuItem) {
-        
-    }
-    
-    public static void removeItem(String menuItem) {
-        
-    }
-    
-    public static ArrayList<String> convertToAL(Menu m) {
-        ArrayList<String> ret = new ArrayList<String>() ;
-        ret.add(m.getName());
-        for(int i =0 ; i < m.getNumberOfItems() ; i++) {
-            ret.add(m.getItem(i).getName() + "-" + m.getItem(i).getPrice()) ;
+        catch(Exception e) {
+            System.err.print(e);
         }
-        return ret ;
-    }
-    
-    public static Menu convertToMenu(ArrayList<String> menuAL) {
-        Menu m = new Menu(menuAL.get(0)) ;
-        for(int i =1 ; i < menuAL.size() ; i++){
-            String[] split = menuAL.get(i).split("-") ;
-            MenuItem item = new MenuItem(split[0], Double.parseDouble(split[1])) ;
-            m.addMenuItem(item);
-        }
-        return m ;
+        return loadMenu ;
     }
     
     // this deletes the menu's .POS_MENU file and removes it from the menuNames.POS_MENU file
