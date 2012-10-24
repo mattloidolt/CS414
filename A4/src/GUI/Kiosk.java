@@ -111,6 +111,7 @@ public class Kiosk extends javax.swing.JFrame {
         orderLabel = new javax.swing.JLabel();
         menuNameLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        menuSpecial = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -179,6 +180,8 @@ public class Kiosk extends javax.swing.JFrame {
             .add(0, 0, Short.MAX_VALUE)
         );
 
+        menuSpecial.setText("Special: None");
+
         jMenu1.setText("Menus");
         jMenuBar1.add(jMenu1);
 
@@ -203,7 +206,9 @@ public class Kiosk extends javax.swing.JFrame {
                         .add(menuNameLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jLabel2)
-                        .add(0, 444, Short.MAX_VALUE))
+                        .add(18, 18, 18)
+                        .add(menuSpecial)
+                        .add(0, 0, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(orderLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 250, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -217,7 +222,8 @@ public class Kiosk extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel1)
                     .add(jLabel2)
-                    .add(menuNameLabel))
+                    .add(menuNameLabel)
+                    .add(menuSpecial))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -346,6 +352,7 @@ public class Kiosk extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel menuNameLabel;
+    private javax.swing.JLabel menuSpecial;
     private javax.swing.JLabel orderLabel;
     private javax.swing.JButton place;
     // End of variables declaration//GEN-END:variables
