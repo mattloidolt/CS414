@@ -5,15 +5,17 @@
 package GUI;
 
 import controller.KioskCont;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.text.DecimalFormat;
 
 /**
  *
@@ -21,6 +23,7 @@ import java.text.DecimalFormat;
  */
 public class Kiosk extends javax.swing.JFrame {
     
+    GridBagConstraints gBC = new GridBagConstraints() ;
     public int orderID = 0 ;
     static String[] arguments ; // this is used to restart the program after an order is canceled/completed
     // adding items to the order should add to this list
@@ -51,23 +54,38 @@ public class Kiosk extends javax.swing.JFrame {
         
         ////// Building the menu bar for selecting menu
         for(int i = 0; i < menus.size() ; i++){
-            javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
-            menuNameLabel.setText(menus.get(i)) ;
-            menuItem.setText(menuNameLabel.getText());
+            final javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
+            menuItem.setText(menus.get(i));
             menuItem.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    menuItemActionPerformed(menuNameLabel.getText());
+                    menuItemActionPerformed(menuItem.getText());
                 }
             });
             jMenu1.add(menuItem) ;
         }
         
+        if (menu.size() >= 1) {
+            menuNameLabel.setText(menu.get(0));
+        }
+        else {
+            menuNameLabel.setText("No Menu Selected") ;
+        }
+        
         /////// placing the buttons based on the given menu
-        jPanel2.setLayout(new GridLayout(0, 15));
+        jPanel2.setLayout(new GridBagLayout());
+        gBC.gridx = 0 ;
+        gBC.gridy = 0 ;
+        gBC.fill = GridBagConstraints.NONE ;
         for(int i = 1; i < menu.size() ; i++) {
             JButton plus = new JButton("+") ;
             JButton minus = new JButton("-") ;
+            plus.setMaximumSize(new Dimension(100, 100));
+            minus.setMaximumSize(new Dimension(100, 100)) ;
+            plus.setMinimumSize(new Dimension(40, 40)) ;
+            minus.setMinimumSize(new Dimension(40, 40)) ;
+            plus.setPreferredSize(new Dimension(60, 60));
+            minus.setPreferredSize(new Dimension(60, 60));
             final String[] item = menu.get(i).split("-") ;
             plus.addActionListener(new java.awt.event.ActionListener() {
                 @Override
@@ -84,9 +102,17 @@ public class Kiosk extends javax.swing.JFrame {
                 }
             }) ;
             JLabel label = new JLabel(item[0] + "\n$" + item[1]);
-            jPanel2.add(plus) ;
-            jPanel2.add(label) ;
-            jPanel2.add(minus) ;
+            jPanel2.add(plus, gBC) ;
+            gBC.gridx++ ;
+            jPanel2.add(label, gBC) ;
+            gBC.gridx++ ;
+            jPanel2.add(minus, gBC) ;
+            gBC.gridx++ ;
+            // 5 elements per row, unlimited rows
+            if(gBC.gridx >= 15) {
+                gBC.gridx = 0 ;
+                gBC.gridy++ ;
+            }
         }
     }
 
@@ -258,7 +284,7 @@ public class Kiosk extends javax.swing.JFrame {
     }
     
     double roundTwoDecimals(double d) {
-            DecimalFormat twoDForm = new DecimalFormat("#.##");
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
         return Double.valueOf(twoDForm.format(d));
     }
     

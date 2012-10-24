@@ -144,10 +144,9 @@ public class ManagerCreate extends javax.swing.JFrame {
                                                 JOptionPane.ERROR_MESSAGE, null, null, evt) ;
         }
         if (validPrice) {
-            //TODO: cannot for the life of me figure out why this keeps throwing a nullPointerException....
             boolean added = menu.add(itemName.getText() + "-" + itemPrice.getText());
             if(added){
-                textConfirmation.setText("Item added successfully.") ;
+                textConfirmation.setText(itemName.getText() + " added successfully.") ;
                 System.out.println("Item " + itemName.getText() + " added to the menu.") ;
             }
         }
