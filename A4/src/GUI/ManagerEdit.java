@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import controller.ManagerDisplayCont;
 import core.Menu;
 import core.MenuItem;
 import java.awt.Toolkit;
@@ -24,13 +25,11 @@ import javax.swing.JOptionPane;
 public class ManagerEdit extends javax.swing.JFrame {
 
     private String menuName;
-    private Menu menu;
     /**
      * Creates new form ManagerEdit
      */
     public ManagerEdit(String menuName) {
         this.menuName = menuName;
-        this.menu = this.loadMenu(menuName);
         initComponents();
         populateListText();
     }
@@ -184,97 +183,27 @@ public class ManagerEdit extends javax.swing.JFrame {
     private void saveButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonPressed
         String itemName = itemNameField.getText();
         double itemPrice = Double.parseDouble(itemPriceField.getText());
-        menu.getItemOfName(itemName).setPrice(itemPrice);
-        saveMenu();
+        ManagerDisplayCont.editItem(menuName, itemName, itemPrice);
+        populateListText();
         
         
     }//GEN-LAST:event_saveButtonPressed
 
     private void removeItemButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonPressed
         String itemName = itemNameField.getText();
-        menu.removeMenuItem(itemName);
-        saveMenu();
+        ManagerDisplayCont.removeItem(menuName, itemName);
+        populateListText();
     }//GEN-LAST:event_removeItemButtonPressed
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         String itemName = itemNameField.getText();
         double itemPrice = Double.parseDouble(itemPriceField.getText());
-        MenuItem item = new MenuItem(itemName, itemPrice);
-        menu.addMenuItem(item);
-        saveMenu();
+        ManagerDisplayCont.createMenuItem(menuName, itemName, itemPrice);
+        populateListText();
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void populateListText(){
-        String string = "<html><h1>Menu Items</h1><br>";
-        for (MenuItem item : menu.getMenuItems()){
-            string += item + "<br>";
-        }
-        string += "</html>";
-        itemText.setText(string);
-    }
-    
-    private void saveMenu(){
-        //Erase current menu file
-        try {
-            PrintWriter writer = new PrintWriter(menu.getName() + ".POS_Menu");
-            writer.print("");
-            writer.close();
-        }catch(Exception e){}
-        
-        try {
-          // creating the file for the menu
-          PrintWriter out = new PrintWriter(new FileWriter(menu.getName() + ".POS_MENU", true));
-          out.println(menu.getName()) ;
-          out.flush();
-          // building the items list string
-          String s = "";
-          for(int i = 0 ; i < menu.getMenuItems().size(); i++) {
-              s+= menu.getItem(i).getSaveString() + "&&&" ;
-          }
-          out.println(s) ;
-          out.close() ;
-        }
-        catch (Exception e) {
-            System.err.println(e) ;
-        }
-        System.out.println("Menu " + menu.getName() + " edited.") ;
-        populateListText();
-        
-    }
-    private Menu loadMenu(String menuName) {
-        Menu currentMenu = new Menu(menuName);
-        try {
-            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
-            String line ;
-            while((line = content.readLine()) != null){
-                if(line.equals(menuName) || menuName.equals("menuNames")){
-                    //Found the existing menu
-                    //load file and menu
-                    BufferedReader menuReader = new BufferedReader(new InputStreamReader(new FileInputStream(menuName + ".POS_MENU")));
-                    int lineNumber = 0;
-                    String menuLine;
-                    while((menuLine = menuReader.readLine()) != null){
-                        if(lineNumber == 0){
-                            lineNumber ++;
-                            continue;
-                        }
-                        
-                        String menuItems[] = menuLine.split("&&&");
-                        
-                        for(String x : menuItems) {
-                            String item[] = x.split("-");
-                            MenuItem menuItem = new MenuItem(item[0], Double.parseDouble(item[1]));
-                            currentMenu.addMenuItem(menuItem);
-                        }    
-                    }
-                    System.out.println(currentMenu);
-                    break;
-                }
-            }
-        
-        }catch (Exception e){}
-        
-        return currentMenu;
+        itemText.setText(ManagerDisplayCont.getMenuItemList(menuName));
     }
     
     /**
