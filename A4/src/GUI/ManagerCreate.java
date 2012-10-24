@@ -44,6 +44,7 @@ public class ManagerCreate extends javax.swing.JFrame {
         itemName = new javax.swing.JTextField();
         itemPrice = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -71,6 +72,13 @@ public class ManagerCreate extends javax.swing.JFrame {
         jLabel4.setText("Price :");
 
         jLabel5.setText("$");
+
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonPressed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,7 +109,9 @@ public class ManagerCreate extends javax.swing.JFrame {
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                     .add(itemName)
                                     .add(itemPrice, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))))))
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(backButton)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -109,8 +119,9 @@ public class ManagerCreate extends javax.swing.JFrame {
                 .add(31, 31, 31)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel1)
-                    .add(itemName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(24, 24, 24)
+                    .add(itemName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(backButton))
+                .add(22, 22, 22)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel4)
                     .add(itemPrice, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -159,6 +170,10 @@ public class ManagerCreate extends javax.swing.JFrame {
         parentWindow.populateMenuList();
     }//GEN-LAST:event_doneActionPerformed
 
+    private void backButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonPressed
+        this.setVisible(false);
+    }//GEN-LAST:event_backButtonPressed
+
     /**
      * @param args the command line arguments
      */
@@ -196,6 +211,7 @@ public class ManagerCreate extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItem;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton done;
     private javax.swing.JTextField itemName;
     private javax.swing.JTextField itemPrice;
