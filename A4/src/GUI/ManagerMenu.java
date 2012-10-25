@@ -4,13 +4,11 @@
  */
 package GUI;
 
+import controller.KioskCont;
 import controller.ManagerDisplayCont;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 import javax.swing.*;
-import java.io.File;
 /**
  *
  * @author mattloidolt
@@ -134,61 +132,51 @@ public class ManagerMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        try{
-            File file = new File("menuNames.POS_MENU");
-            file.createNewFile();
-            
-        } catch (Exception e){}
-        
-        
-        boolean found = false ;
-        try {
-            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
-            String line ;
-            while((line = content.readLine()) != null){
-                if(line.equals(menuName.getText()) || menuName.getText().equals("menuNames")){
-                    JOptionPane.showOptionDialog(this, "Menu name already in use.", "Error", JOptionPane.DEFAULT_OPTION, 
+        if (KioskCont.getMenuNames().indexOf(menuName.getText()) != -1) {
+            JOptionPane.showOptionDialog(this, "Menu name already in use.", "Error", JOptionPane.DEFAULT_OPTION, 
 									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
-                    found = true ;
-                }
-            }
-            
-            // Note: the new menu is not created right here, it is created when the user clicks 'done' in the ManagerCreate GUI
-            if (!found) {
-                ManagerCreate createGUI = new ManagerCreate(menuName.getText(), this) ;
-                createGUI.setTitle(this.getTitle() + " CREATE") ;
-                createGUI.setVisible(true) ;
-            }
         }
-        catch (Exception e) {
-            System.err.println(e) ;
+        else{
+            ManagerCreate createGUI = new ManagerCreate(menuName.getText(), this) ;
+            createGUI.setTitle(this.getTitle() + " CREATE") ;
+            createGUI.setVisible(true) ;
         }
-        
     }//GEN-LAST:event_createActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        Object[] possibilities = {"yes", "no"};
-        String text = "Are you sure you want to delete " + menuName.getText() + "?" ;
-        String s = (String)JOptionPane.showInputDialog(
+        if (KioskCont.getMenuNames().indexOf(menuName.getText()) != -1) {
+            Object[] possibilities = {"yes", "no"};
+            String text = "Are you sure you want to delete " + menuName.getText() + "?" ;
+            String s = (String)JOptionPane.showInputDialog(
                     this, text, "Seriously?",
                     JOptionPane.QUESTION_MESSAGE,
                     null, possibilities, "yes");
 
-        //If a string was returned, check that it was 'yes', delete the menu if so
-        if ((s != null) && (s.length() > 0)) {
-            if(s.equals("yes")){
-                ManagerDisplayCont.deleteMenu(menuName.getText());
-                menuName.setText("") ;
+            //If a string was returned, check that it was 'yes', delete the menu if so
+            if ((s != null) && (s.length() > 0)) {
+                if(s.equals("yes")){
+                    ManagerDisplayCont.deleteMenu(menuName.getText());
+                    menuName.setText("") ;
+                }
             }
+            populateMenuList();
         }
-        populateMenuList();
+        else{
+            JOptionPane.showOptionDialog(this, "Menu does not exist.", "Error", JOptionPane.DEFAULT_OPTION, 
+									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+        }
     }//GEN-LAST:event_deleteActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        ManagerEdit editManager = new ManagerEdit(menuName.getText()) ;
-        editManager.setName(this.getTitle() + " EDIT:" + menuName.getText());
-        //TODO: somehow set build the edit window based on the editMenuName
-        editManager.setVisible(true) ;
+        if (KioskCont.getMenuNames().indexOf(menuName.getText()) != -1) {
+            ManagerEdit editManager = new ManagerEdit(menuName.getText()) ;
+            editManager.setName(this.getTitle() + " EDIT:" + menuName.getText());
+            editManager.setVisible(true) ;
+        }
+        else{
+            JOptionPane.showOptionDialog(this, "Menu does not exist.", "Error", JOptionPane.DEFAULT_OPTION, 
+									JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+        }
     }//GEN-LAST:event_editActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
@@ -199,10 +187,9 @@ public class ManagerMenu extends javax.swing.JFrame {
     public void populateMenuList(){
         String menuNames = "<html> <h1>Menus</h1><br>";
         try{
-        BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
-            String line ;
-            while((line = content.readLine()) != null){
-                menuNames += line + "<br>";
+            ArrayList<String> menus = KioskCont.getMenuNames() ;
+            for( String menu : menus ){
+                menuNames += menu + "<br>";
             }
             menuNames += "</html>";
         }catch(Exception e){}

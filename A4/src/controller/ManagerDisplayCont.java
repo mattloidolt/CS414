@@ -6,9 +6,14 @@ package controller;
 
 import core.Menu;
 import core.MenuItem;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.sql.*;
 import java.util.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
  *
  * @author mattloidolt
@@ -23,20 +28,24 @@ public class ManagerDisplayCont {
     
     public static boolean login(String user, char[] pass) {
         try{
-            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("managers.shadow")));
-            String line ;
-            while((line = content.readLine()) != null){
-                String use[] = line.split(":") ;
-                if(use[0].equals(user)){
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT username, password FROM managers");
+            while(rs.next()){
+                System.out.println(rs.getString(1)) ;
+                if (rs.getString(1).equals(user)) {
                     String password = new String(pass) ;
-                    if(use[1].equals(password)){
-                        userName = user ;
-                        System.out.println(user + " has logged in.") ;
+                    if(rs.getString(2).equals(password)) {
+                        userName = rs.getString(1) ;
+                        System.out.print(userName + " had logged in.") ;
                         return true ;
                     }
                 }
             }
-            content.close() ;
+            stmt.close() ;
+            rs.close() ;
+            conn.close() ;
         }
         catch (Exception e){
             System.err.println(e) ;
@@ -51,69 +60,39 @@ public class ManagerDisplayCont {
      * all of the items in one line. Format example:       Burger-8.99:Salad-5.99:Dessert-3.99
      */
     public static boolean createMenu(ArrayList<String> menu) {
-        //Create file if not there already
-        try {
-            File file = new File("menuNames.POS_MENU");
-            file.createNewFile(); 
-        } catch (IOException e) {}
-        
+        //Create the output text
+        String query = "INSERT INTO menus "
+                + "(name, items) VALUES('" + menu.get(0) + "', '" ;
         
         try {
-          // adding the menu to the menuNames tracker file
-          PrintWriter output = new PrintWriter(new FileWriter("menuNames.POS_MENU", true));
-          output.println(menu.get(0)) ;
-          output.flush();
+          // TODO: adding the menu to the menuNames tracker file
+          
           // creating the file for the menu
-          PrintWriter out = new PrintWriter(new FileWriter(menu.get(0) + ".POS_MENU", true));
-          out.println(menu.get(0)) ;
-          out.flush();
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
           // building the items list string
           String s = "";
           for(int i = 1 ; i < menu.size(); i++) {
               s+= menu.get(i) + "&&&" ;
           }
-          out.println(s) ;
-          out.close() ;
+          query += s + "') ;" ;
+          Statement stmt = conn.createStatement();
+          stmt.executeUpdate(query);
+          stmt.close() ;
+          conn.close() ;
+          System.out.println("Menu " + menu.get(0) + " created.") ;
         }
         catch (Exception e) {
             System.err.println(e) ;
             return false ;
         }
-        System.out.println("Menu " + menu.get(0) + " created.") ;
         return true ;
     }
     
-    // this is used by first creating a list of items to edit, then send that and the menu name to this method
-    // the method will add those items or just change their price if they already exist, if remove=false
-    // if remove=true, the method will remove all of the items in the list from the menu
-    public static void editMenu(boolean remove, ArrayList<String> items, String menuName) {
-        Menu m  = convertToMenu(KioskCont.getMenu(menuName));
-        for(int i = 0 ; i < items.size() ; i++){
-            String[] x = items.get(i).split("-") ;
-            MenuItem item = new MenuItem(x[0], Double.parseDouble(x[1])) ;
-            if(m.hasItem(item)){
-                if(remove) {
-                    m.removeMenuItem(item.getName());
-                }
-                else{
-                    // to change the price of an item the old one is removed and a new one is added
-                    m.removeMenuItem(item.getName());
-                    m.addMenuItem(item);
-                }
-            }
-            else{
-                if(remove) {
-                    System.out.println("Item: " + items.get(i) + " not removed because it was not on the menu.") ;
-                }
-                else{
-                    m.addMenuItem(item);
-                }
-            }
-        }
+    public static void editMenu(ArrayList<String> menu) {
         
-        // NOW FOR EDITING THE ACTUAL FILE.....
-        deleteMenu(m.getName()) ;
-        createMenu(convertToAL(m)) ;
+        deleteMenu(menu.get(0)) ;
+        createMenu(menu) ;
     }
     
     public static String getMenuItemList(String menuName){
@@ -217,41 +196,44 @@ public class ManagerDisplayCont {
         for(int i =0 ; i < items.size() ; i++) {
             ret.add(items.get(i).getName() + "-" + items.get(i).getPrice()) ;
         }
-        return ret ;
+        return ret;
     }
     
-    public static Menu convertToMenu(ArrayList<String> menuAL) {
-        Menu m = new Menu(menuAL.get(0)) ;
-        for(int i =1 ; i < menuAL.size() ; i++){
-            String[] split = menuAL.get(i).split("-") ;
-            MenuItem item = new MenuItem(split[0], Double.parseDouble(split[1])) ;
-            m.addMenuItem(item);
+    // different getMenu method which only find the object names
+    public static ArrayList<String> getMenu(String menuName){
+        ArrayList<String> loadMenu = new ArrayList<String>();
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT items FROM menus WHERE name='" + menuName + "' ;");
+            loadMenu.add(menuName) ;
+            rs.next();
+            String elements[] = rs.getString(1).split("&&&");
+            for (int i=0; i < elements.length; i++){
+                loadMenu.add(elements[i].split("-")[0]) ;
+            }
+            stmt.close() ;
+            rs.close() ;
+            conn.close() ;
         }
-        return m ;
+        catch(Exception e) {
+            System.err.print(e);
+        }
+        return loadMenu ;
     }
     
     // this deletes the menu's .POS_MENU file and removes it from the menuNames.POS_MENU file
     public static boolean deleteMenu(String menuName) {
         boolean isFound = false ;
-        ArrayList<String> menus = KioskCont.getMenuNames() ;
-        for (int i =0 ; i < menus.size(); i++) {
-            if (menuName.equals(menus.get(i))){
-                menus.remove(menus.get(i));
-                isFound = true ;
-            }
-        }
         try {
-            File f1 = new File("menuNames.POS_MENU");
-            File f2 = new File(menuName + ".POS_MENU") ;
-            f2.delete() ;
-            f1.delete() ;
-            f1.createNewFile();
-            PrintWriter out = new PrintWriter(new FileWriter("menuNames.POS_MENU"));
-            for(int i = 0 ; i < menus.size() ; i++){
-                out.println(menus.get(i)) ;
-            }
-            out.close() ;
-            System.out.println("Menu " + menuName + " deleted.") ;
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM menus WHERE name='" + menuName + "' ;") ;
+            stmt.close() ;
+            conn.close() ;
+            System.out.println("\nMenu " + menuName + " deleted.") ;
         }
         catch (Exception e) {
              System.err.println(e) ;

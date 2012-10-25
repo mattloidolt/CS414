@@ -26,7 +26,7 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
         this.order = order ;
         String output = "<html><h1> Order Summary </h1> <br> <table>" ;
         double total = 0 ;
-        for(int i = 1; i < order.size(); i++){
+        for(int i = 0; i < order.size(); i++){
             String[] item = order.get(i).split("-") ;
             output += "<tr> <td> " + item[0] + "</td><td></td><td> " + item[0] + "</td> </tr>" ;
             total += Double.parseDouble(item[1]) ;
@@ -251,7 +251,6 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_expDateActionPerformed
 
     private void placeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeActionPerformed
-        // TODO enter code to save the order
         if(name.getText().equals("") || address.getText().equals("") ||
 								phone.getText().equals("") || cardName.getText().equals("") ||
 								cardNum.getText().equals("") || expDate.getText().equals("")) {
@@ -271,23 +270,29 @@ public class KioskPlaceOrder extends javax.swing.JFrame {
 		else {
                     //TODO: check for validity of expiration date
                     // Theoretically this is where we would do card authorization
-                    JOptionPane.showOptionDialog(this, "Your order has been placed.", "Order Placed", JOptionPane.DEFAULT_OPTION, 
-						JOptionPane.PLAIN_MESSAGE, null, null, evt) ;
-                    // creating the output file for the kitchen display to read
+
+                    // creating the output for the kitchen display to read
                     ArrayList<String> output = new ArrayList<String>();
-                    output.add(order.get(0)) ;
                     output.add(name.getText());
                     output.add(phone.getText());
                     output.add(address.getText()) ;
                     output.add(cardName.getText()) ;
                     output.add(cardNum.getText()) ;
                     output.add(expDate.getText()) ;
-                    for(int i=1 ; i < order.size(); i++){
+                    for(int i=0 ; i < order.size(); i++){
 			output.add(order.get(i)) ;
                     }
-                    KioskCont.saveOrder(output) ;
-                    System.out.println("Order for " + output.get(1) + " has been placed.") ;
-                    cancelActionPerformed(evt) ;
+                    boolean worked = KioskCont.saveOrder(output) ;
+                    if (worked) {
+                        JOptionPane.showOptionDialog(this, "Your order has been placed.", "Order Placed", JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.PLAIN_MESSAGE, null, null, evt) ;
+                        System.out.println("Order for " + output.get(0) + " has been placed.") ;
+                        cancelActionPerformed(evt) ;
+                    }
+                    else {
+                        JOptionPane.showOptionDialog(this, "There was an error in saving your order.", "Error", JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.ERROR_MESSAGE, null, null, evt) ;
+                    }
 		}
             }
 	}
