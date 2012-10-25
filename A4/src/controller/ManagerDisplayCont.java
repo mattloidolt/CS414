@@ -6,6 +6,12 @@ package controller;
 
 import core.Menu;
 import core.MenuItem;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.*;
 /**
@@ -89,6 +95,109 @@ public class ManagerDisplayCont {
         createMenu(menu) ;
     }
     
+    public static String getMenuItemList(String menuName){
+        Menu menu = loadMenu(menuName);
+        String string = "<html><h1>Menu Items</h1><br>";
+        for (MenuItem item : menu.getMenuItems()){
+            string += item + "<br>";
+        }
+        string += "</html>";
+        return string;
+    }
+    
+    public static void createMenuItem(String menuName, String itemName, double itemPrice){
+        Menu menu = loadMenu(menuName);
+        MenuItem item = new MenuItem(itemName, itemPrice);
+        menu.addMenuItem(item);
+        saveMenu(menu);
+    }
+    
+    public static void editItem(String menuName, String itemName, double itemPrice) {
+        Menu menu = loadMenu(menuName);
+        menu.getItemOfName(itemName).setPrice(itemPrice);
+        saveMenu(menu);
+    }
+    
+    public static void removeItem(String menuName, String itemName) {
+        Menu menu = loadMenu(menuName);
+        menu.removeMenuItem(itemName);
+        saveMenu(menu);
+    }
+    
+    private static Menu loadMenu(String menuName) {
+        Menu currentMenu = new Menu(menuName);
+        try {
+            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
+            String line ;
+            while((line = content.readLine()) != null){
+                if(line.equals(menuName) || menuName.equals("menuNames")){
+                    //Found the existing menu
+                    //load file and menu
+                    BufferedReader menuReader = new BufferedReader(new InputStreamReader(new FileInputStream(menuName + ".POS_MENU")));
+                    int lineNumber = 0;
+                    String menuLine;
+                    while((menuLine = menuReader.readLine()) != null){
+                        if(lineNumber == 0){
+                            lineNumber ++;
+                            continue;
+                        }
+                        
+                        String menuItems[] = menuLine.split("&&&");
+                        
+                        for(String x : menuItems) {
+                            String item[] = x.split("-");
+                            MenuItem menuItem = new MenuItem(item[0], Double.parseDouble(item[1]));
+                            currentMenu.addMenuItem(menuItem);
+                        }    
+                    }
+                    System.out.println(currentMenu);
+                    break;
+                }
+            }
+        
+        }catch (Exception e){}
+        
+        return currentMenu;
+    }
+    
+    private static void saveMenu(Menu menu){
+        //Erase current menu file
+        try {
+            PrintWriter writer = new PrintWriter(menu.getName() + ".POS_Menu");
+            writer.print("");
+            writer.close();
+        }catch(Exception e){}
+        
+        try {
+          // creating the file for the menu
+          PrintWriter out = new PrintWriter(new FileWriter(menu.getName() + ".POS_MENU", true));
+          out.println(menu.getName()) ;
+          out.flush();
+          // building the items list string
+          String s = "";
+          for(int i = 0 ; i < menu.getMenuItems().size(); i++) {
+              s+= menu.getItem(i).getSaveString() + "&&&" ;
+          }
+          out.println(s) ;
+          out.close() ;
+        }
+        catch (Exception e) {
+            System.err.println(e) ;
+        }
+        System.out.println("Menu " + menu.getName() + " edited.") ;
+//        populateListText();
+        
+    }
+    
+    public static ArrayList<String> convertToAL(Menu m) {
+        ArrayList<String> ret = new ArrayList<String>() ;
+        ret.add(m.getName());
+        ArrayList<MenuItem> items = new ArrayList<MenuItem>() ;
+        for(int i =0 ; i < items.size() ; i++) {
+            ret.add(items.get(i).getName() + "-" + items.get(i).getPrice()) ;
+        }
+        return ret;
+    }
     
     // different getMenu method which only find the object names
     public static ArrayList<String> getMenu(String menuName){
