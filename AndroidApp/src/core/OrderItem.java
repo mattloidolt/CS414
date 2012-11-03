@@ -29,6 +29,14 @@ public class OrderItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public double getPrice(){
+		return item.price*quantity;
+	}
+	
+	public String toString() {
+		return item.name + " (" + quantity + "): $" + quantity*item.price;
+	}
 }
 
 

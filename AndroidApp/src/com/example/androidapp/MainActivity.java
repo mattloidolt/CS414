@@ -18,6 +18,7 @@ import core.*;
 
 public class MainActivity extends Activity {
 	public static final String EXTRA_MESSAGE = "Message";
+	Order order = new Order();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends Activity {
 		RelativeLayout layout = (RelativeLayout) View.inflate(this, R.layout.activity_main, null); //Get current view
 		
 		for (int i = 0; i<items.size(); i++) {
-			Button button = this.createButton(items.get(i).name, buttonWidth);
+			Button button = this.createButton(items.get(i).name, buttonWidth, menu);
 			RelativeLayout.LayoutParams rel_btn = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			rel_btn.leftMargin = currentXPosition; //X position of button
 			rel_btn.topMargin = height; //Y position of button
@@ -72,10 +73,18 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	Button createButton(String name, int width){
+	Button createButton(final String name, int width, final core.Menu menu){
 		Button button = new Button(this);
 		button.setText(name);
 		button.setWidth(width);
+		
+		button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MenuItem item = menu.getItemOfName(name);
+                order.addItem(item);
+            }
+        });
+
 		return button;
 	}
 	
@@ -103,9 +112,9 @@ public class MainActivity extends Activity {
 
 	public void viewOrder(View view){
 		Intent intent = new Intent(this, ViewOrderActivity.class);
-		Button buttonText = (Button) findViewById(R.id.ViewOrderButton);
-		String message = buttonText.getText().toString();
-		intent.putExtra(EXTRA_MESSAGE, message);
+//		Button buttonText = (Button) findViewById(R.id.ViewOrderButton);
+//		String message = buttonText.getText().toString();
+		intent.putExtra(EXTRA_MESSAGE, order.toString());
 		startActivity(intent);
 
 	}

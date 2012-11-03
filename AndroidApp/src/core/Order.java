@@ -1,4 +1,5 @@
 package core;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -75,6 +76,18 @@ public class Order {
 		if(amountDue >= 0)
 			return true ;
 		return false ;
+	}
+	
+	public String toString() {
+		DecimalFormat money = new DecimalFormat("$0.00");
+		String string = "";
+		double total = 0.0;
+		for(OrderItem item : orderList) {
+			string += item + "\n";
+			total+= item.getPrice();
+		}
+		string += "Total: " + money.format(total);
+		return string;
 	}
 
 }

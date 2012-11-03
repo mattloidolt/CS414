@@ -1,5 +1,6 @@
 package com.example.androidapp;
 
+import core.Order;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,11 +14,12 @@ public class ViewOrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_order);
         Intent intent = getIntent();
+//        Order order = (Order) intent.getSerializableExtra("Order");
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         
         TextView textView = new TextView(this);
         textView.setTextSize(30);
-        textView.setText(message + ", It worked!");
+        textView.setText(message);
         setContentView(textView);
     }
 
