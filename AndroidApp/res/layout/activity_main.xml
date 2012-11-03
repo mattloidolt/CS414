@@ -18,8 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="21dp"
-            android:layout_marginRight="48dp"
+            android:layout_marginBottom="20dp"
             android:onClick="placeOrder"
             android:text="Place Order" />
 
@@ -32,5 +31,16 @@
             android:layout_toLeftOf="@+id/PlaceOrderButton"
             android:onClick="viewOrder"
             android:text="View Order" />
+
+        <Button
+            android:id="@+id/UndoButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ViewOrderButton"
+            android:layout_alignBottom="@+id/ViewOrderButton"
+            android:layout_alignParentLeft="true"
+            android:onClick="undo"
+            android:text="Undo" />
 
     </RelativeLayout>

@@ -1,15 +1,14 @@
 package com.example.androidapp;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-import android.R.layout;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +18,7 @@ import core.*;
 public class MainActivity extends Activity {
 	public static final String EXTRA_MESSAGE = "Message";
 	Order order = new Order();
+	LinkedList<MenuItem> orderHistory = new LinkedList<MenuItem>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		//TODO: Load menu
-		//Temp load data 
+		//Temporary load data 
 		core.Menu menu = new core.Menu("Lunch");
 		MenuItem item1 = new MenuItem("Pizza", 9.98);
 		MenuItem item2 = new MenuItem("Coke", 2.11);
@@ -50,54 +50,55 @@ public class MainActivity extends Activity {
 		int buttonWidth = 150;
 		int currentXPosition = 0;
 		int height = 50;
-		
+
 		ArrayList<MenuItem> items = menu.getMenuItems();
 		RelativeLayout layout = (RelativeLayout) View.inflate(this, R.layout.activity_main, null); //Get current view
-		
+
 		for (int i = 0; i<items.size(); i++) {
 			Button button = this.createButton(items.get(i).name, buttonWidth, menu);
 			RelativeLayout.LayoutParams rel_btn = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			rel_btn.leftMargin = currentXPosition; //X position of button
 			rel_btn.topMargin = height; //Y position of button
-			
+
 			currentXPosition += buttonWidth; //Update the current X position
 			if(currentXPosition+buttonWidth > screenWidth){ //If the next button is forced off screen
 				height += 100; //Go down one row
 				currentXPosition = 0;
 			}
-			
+
 			button.setLayoutParams(rel_btn); //Set the button's position
 			layout.addView(button); //Add button to view
 			setContentView(layout); //Show button
 		}	   
 	}
-	
-	
-	Button createButton(final String name, int width, final core.Menu menu){
+
+
+	private Button createButton(final String name, int width, final core.Menu menu){
 		Button button = new Button(this);
 		button.setText(name);
 		button.setWidth(width);
-		
+
 		button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                MenuItem item = menu.getItemOfName(name);
-                order.addItem(item);
-            }
-        });
+			public void onClick(View v) {
+				MenuItem item = menu.getItemOfName(name);
+				order.addItem(item);
+				orderHistory.add(item);
+			}
+		});
 
 		return button;
 	}
-	
+
 	@SuppressLint("NewApi")
-	int getScreenWidth() {
+	private int getScreenWidth() {
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		return size.x;
 	}
-	
+
 	@SuppressLint("NewApi")
-	int getScreenHeight() {
+	private int getScreenHeight() {
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
@@ -112,8 +113,6 @@ public class MainActivity extends Activity {
 
 	public void viewOrder(View view){
 		Intent intent = new Intent(this, ViewOrderActivity.class);
-//		Button buttonText = (Button) findViewById(R.id.ViewOrderButton);
-//		String message = buttonText.getText().toString();
 		intent.putExtra(EXTRA_MESSAGE, order.toString());
 		startActivity(intent);
 
@@ -121,6 +120,13 @@ public class MainActivity extends Activity {
 
 	public void placeOrder(View view){
 		System.out.println("placeOrder");
+	}
+
+	public void undo(View view){
+		if(!orderHistory.isEmpty()){
+			order.undoAddItem(orderHistory.getLast());
+			orderHistory.removeLast();
+		}
 	}
 
 }

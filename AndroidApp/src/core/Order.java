@@ -51,6 +51,19 @@ public class Order {
 		return false ;
 	}
 	
+	public void undoAddItem(MenuItem item) {
+		for (int i = 0; i<orderList.size(); i++) {
+			if (orderList.get(i).equals(item)) {
+				if (orderList.get(i).getQuantity()>1) {
+					orderList.get(i).decrementItemQuantity();
+				} else if(orderList.get(i).getQuantity() == 1) {
+					orderList.remove(i);
+					numberOfItems--;
+				}
+			}
+		}
+	}
+	
 	public int getNumItems() {
 		return numberOfItems ;
 	}

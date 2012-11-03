@@ -14,6 +14,10 @@ public class OrderItem {
 		this.setQuantity(this.getQuantity() + 1);
 	}
 	
+	public void decrementItemQuantity() {
+		this.setQuantity(this.getQuantity() - 1);
+	}
+	
 	public boolean equals(MenuItem menuItem) {
 		return this.item == menuItem;
 	}
