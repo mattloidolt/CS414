@@ -30,6 +30,15 @@ public class KioskCont {
         return names ;
     }
     
+    
+    // format of the return menu
+    //
+    //
+    // menu name
+    // item1 (ex: Burger-8.99)
+    // item2
+    // item3
+    // ...
     public static ArrayList<String> getMenu(String menuName){
         ArrayList<String> loadMenu = new ArrayList<String>();
         try{
@@ -54,6 +63,19 @@ public class KioskCont {
     /*
      * saves the order to the orders database
      * all items are in one field in the database called 'items' delimited by '&%&'
+     * 
+     * format of the orderItems arrayList:
+     * 
+     * name
+     * phone number
+     * address
+     * name on card
+     * credit card number
+     * expiration date
+     * item1 (ex: Burger-8.99)
+     * item2
+     * item3
+     * ...
      */
     public static boolean saveOrder(ArrayList<String> orderItems) {
         boolean success = true ;
