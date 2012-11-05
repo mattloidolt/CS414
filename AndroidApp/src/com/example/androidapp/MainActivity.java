@@ -1,7 +1,7 @@
 package com.example.androidapp;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import controller.KioskCont;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -13,49 +13,33 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
-import core.*;
 
 public class MainActivity extends Activity {
 	public static final String EXTRA_MESSAGE = "Message";
-	Order order = new Order();
-	LinkedList<MenuItem> orderHistory = new LinkedList<MenuItem>();
-
+	ArrayList<String> order = new ArrayList<String>() ;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//TODO: Load menu
-		//Temporary load data 
-		core.Menu menu = new core.Menu("Lunch");
-		MenuItem item1 = new MenuItem("Pizza", 9.98);
-		MenuItem item2 = new MenuItem("Coke", 2.11);
-		MenuItem item3 = new MenuItem("Apple", 2.99);
-		MenuItem item4 = new MenuItem("Sausage", 2.99);
-		MenuItem item5 = new MenuItem("Burger", 2.99);
-		MenuItem item6 = new MenuItem("Soup", 2.99);
-		menu.addMenuItem(item1);
-		menu.addMenuItem(item2);
-		menu.addMenuItem(item3);
-		menu.addMenuItem(item4);
-		menu.addMenuItem(item5);
-		menu.addMenuItem(item6);
+		// TODO: menu name needs to be gathered dynamically (maybe some sort of menu bar again?)
+		ArrayList<String> menu = KioskCont.getMenu("Lunch") ;
 		//End loading data
 		this.populateMenuItemButtons(menu);
 
 	}
 
-	public void populateMenuItemButtons(core.Menu menu) {
+	public void populateMenuItemButtons(ArrayList<String> items) {
 		int screenWidth = this.getScreenWidth();
 		int buttonWidth = 150;
 		int currentXPosition = 0;
 		int height = 50;
 
-		ArrayList<MenuItem> items = menu.getMenuItems();
 		RelativeLayout layout = (RelativeLayout) View.inflate(this, R.layout.activity_main, null); //Get current view
 
-		for (int i = 0; i<items.size(); i++) {
-			Button button = this.createButton(items.get(i).name, buttonWidth, menu);
+		for (int i = 1; i<items.size(); i++) {
+			Button button = this.createButton(items.get(i), buttonWidth);
 			RelativeLayout.LayoutParams rel_btn = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			rel_btn.leftMargin = currentXPosition; //X position of button
 			rel_btn.topMargin = height; //Y position of button
@@ -73,16 +57,15 @@ public class MainActivity extends Activity {
 	}
 
 
-	private Button createButton(final String name, int width, final core.Menu menu){
+	private Button createButton(final String name, int width){
 		Button button = new Button(this);
 		button.setText(name);
 		button.setWidth(width);
 
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				MenuItem item = menu.getItemOfName(name);
-				order.addItem(item);
-				orderHistory.add(item);
+				final String[] item = name.split("-") ;
+				order.add(item[0] + "   " + item[1]);
 			}
 		});
 
@@ -123,9 +106,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void undo(View view){
-		if(!orderHistory.isEmpty()){
-			order.undoAddItem(orderHistory.getLast());
-			orderHistory.removeLast();
+		if(order.size() != 0){
+			order.remove(order.size()) ;
 		}
 	}
 
