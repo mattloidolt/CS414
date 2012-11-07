@@ -102,7 +102,9 @@ public class MainActivity extends Activity {
 	}
 
 	public void placeOrder(View view){
-		System.out.println("placeOrder");
+		Intent intent = new Intent(this, PlaceOrder.class);
+//		intent.putExtra(EXTRA_MESSAGE, order.toString());
+		startActivity(intent);
 	}
 
 	public void undo(View view){
