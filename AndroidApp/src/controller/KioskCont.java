@@ -7,9 +7,13 @@ package controller;
 import java.sql.*;
 import java.util.*;
 
+import android.util.Log;
 import core.MenuItem;
 import core.Order;
 import core.OrderItem;
+
+import java.net.*;
+
 /**
  *
  * @author mattloidolt
@@ -17,6 +21,9 @@ import core.OrderItem;
 public class KioskCont {
 	static Order currentOrder = new Order();
 	static LinkedList<MenuItem> orderHistory = new LinkedList<MenuItem>();
+	static String localIP = "10.0.2.2";
+//	static String localIP = "10.84.44.89";
+	
 
 
 	public static void addToOrder(String name, double price) {
@@ -37,9 +44,10 @@ public class KioskCont {
 	}
 
 	public static ArrayList<String> getMenuNames(){
+
 		ArrayList<String> names = new ArrayList<String>() ;
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+			Connection conn = DriverManager.getConnection("jdbc:mysql://"+ localIP + "/pizza?" +
 					"user=pizzaStore&password=password");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT name FROM menus ;");
@@ -67,7 +75,9 @@ public class KioskCont {
 	public static ArrayList<String> getMenu(String menuName){
 		ArrayList<String> loadMenu = new ArrayList<String>();
 		try{
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+			String pdriver = "com.mysql.jdbc.Driver";
+			Class.forName(pdriver).newInstance();
+			Connection conn = DriverManager.getConnection("jdbc:mysql://"+ localIP + "/pizza?" +
 					"user=pizzaStore&password=password");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT items FROM menus WHERE name='" + menuName + "' ;");
@@ -105,7 +115,7 @@ public class KioskCont {
 	public static boolean saveOrder(ArrayList<String> orderItems) {
 		boolean success = true ;
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+			Connection conn = DriverManager.getConnection("jdbc:mysql://"+ localIP + "/pizza?" +
 					"user=pizzaStore&password=password");
 			Statement stmt = conn.createStatement();
 			String query = "INSERT INTO orders "
@@ -118,13 +128,13 @@ public class KioskCont {
 			query += orderItems.get(5) + "', '" ; // expirationDate
 
 			String items = "" ;
-//			for (int i=6; i < orderItems.size(); i++) {
-//				items += orderItems.get(i) + "&%&" ;
-//			}
+			//			for (int i=6; i < orderItems.size(); i++) {
+			//				items += orderItems.get(i) + "&%&" ;
+			//			}
 			for (OrderItem item:currentOrder.getOrderList()) {
 				items += item + "&%&";
 			}
-			
+
 			query += items + "') ;" ;
 			stmt.executeUpdate(query) ;
 			stmt.close() ;

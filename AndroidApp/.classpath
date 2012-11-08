@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="/PizzaStorePOS/swing-layout-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/PizzaStorePOS/swing-layout-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="mysql-connector-java-5.1.22-bin.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
