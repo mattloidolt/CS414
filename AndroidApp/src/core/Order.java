@@ -3,7 +3,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
-public class Order {
+public class Order{
+	/**
+	 * 
+	 */
 	int orderID;
 	int numberOfItems;
 	double total = 0.0;

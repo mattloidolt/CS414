@@ -16,6 +16,7 @@ import android.widget.*;
 
 public class MainActivity extends Activity {
 	public static final String EXTRA_MESSAGE = "Message";
+//	Order order = new Order();
 	ArrayList<String> order = new ArrayList<String>() ;
 	
 	@Override
@@ -65,7 +66,8 @@ public class MainActivity extends Activity {
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				final String[] item = name.split("-") ;
-				order.add(item[0] + "   " + item[1]);
+				KioskCont.addToOrder(item[0], Double.parseDouble(item[1]));
+//				order.add(item[0] + "   " + item[1]);
 			}
 		});
 
@@ -80,14 +82,6 @@ public class MainActivity extends Activity {
 		return size.x;
 	}
 
-	@SuppressLint("NewApi")
-	private int getScreenHeight() {
-		Display display = getWindowManager().getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		return size.y;
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -96,21 +90,18 @@ public class MainActivity extends Activity {
 
 	public void viewOrder(View view){
 		Intent intent = new Intent(this, ViewOrderActivity.class);
-		intent.putExtra(EXTRA_MESSAGE, order.toString());
+		intent.putExtra("Order", KioskCont.getOrder().toString());
 		startActivity(intent);
 
 	}
 
 	public void placeOrder(View view){
 		Intent intent = new Intent(this, PlaceOrder.class);
-//		intent.putExtra(EXTRA_MESSAGE, order.toString());
 		startActivity(intent);
 	}
 
 	public void undo(View view){
-		if(order.size() != 0){
-			order.remove(order.size()) ;
-		}
+		KioskCont.removeLastOrderItem();
 	}
 
 }

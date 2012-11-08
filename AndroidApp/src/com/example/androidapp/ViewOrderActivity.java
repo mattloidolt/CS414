@@ -13,7 +13,7 @@ public class ViewOrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_order);
         Intent intent = getIntent();
-        String orderString = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String orderString = intent.getStringExtra("Order");
         TextView textView = new TextView(this);
         textView.setTextSize(30);
         textView.setText(orderString);

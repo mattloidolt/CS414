@@ -69,7 +69,27 @@
         android:layout_below="@+id/editText5"
         android:layout_marginTop="34dp"
         android:ems="10"
-        android:hint="Expiration Date"
+        android:hint="Exp Date (mm/yyyy)"
         android:inputType="date" />
+
+    <Button
+        android:id="@+id/placeOrderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="36dp"
+        android:onClick="placeOrder"
+        android:text="Place Order" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/placeOrderButton"
+        android:layout_alignLeft="@+id/editText6"
+        android:layout_alignTop="@+id/placeOrderButton"
+        android:layout_toLeftOf="@+id/placeOrderButton"
+        android:text="TextView" />
 
 </RelativeLayout>
