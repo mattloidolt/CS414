@@ -9,7 +9,8 @@ import android.app.Activity;
 import android.view.Menu;
 
 public class AndoidKiosk extends Activity {
-
+	private DB database = new DB();
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
