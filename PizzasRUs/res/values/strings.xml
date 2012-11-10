@@ -4,5 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_andoid_kiosk">AndoidKiosk</string>
+    <string name="browse_menus">Choose Menu</string>
 
 </resources>

@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DB {
 	private static final String url = "jdbc:mysql://localhost:3306/pizza";
 	private static final String user = "pizzaStore";
 	private static final String password = "password";
-	Connection connection = null;
+	private static Connection connection = null;
 
 	public DB() {
 		try {
@@ -29,6 +30,22 @@ public class DB {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static ArrayList<String> getMenus() {
+		ArrayList<String> retStrings = new ArrayList<String>();
+		if(connection != null) {
+			try {
+				Statement st = connection.createStatement();
+				ResultSet results = st.executeQuery("SELECT name FROM managers");		
+				while(results.next()) {
+					retStrings.add(results.getString(1));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return retStrings;
 	}
 	
 	public void closeConnection() throws Exception{
