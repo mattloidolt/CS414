@@ -7,12 +7,10 @@ package controller;
 import java.sql.*;
 import java.util.*;
 
-import android.util.Log;
+import core.Menu;
 import core.MenuItem;
 import core.Order;
 import core.OrderItem;
-
-import java.net.*;
 
 /**
  *
@@ -22,9 +20,91 @@ public class KioskCont {
 	static Order currentOrder = new Order();
 	static LinkedList<MenuItem> orderHistory = new LinkedList<MenuItem>();
 	static String localIP = "10.0.2.2";
-//	static String localIP = "10.84.44.89";
-	
+	static ArrayList<core.Menu> menuList;
 
+	//	static String localIP = "10.84.44.89";
+
+
+
+	public static void setupDefaults() {
+		//******************************************
+		core.Menu breakfastMenu = new core.Menu("Breakfast");
+		MenuItem cereal = new MenuItem("Cereal", 3.99);
+		MenuItem biscuit = new MenuItem("Biscuit", 2.99);
+		MenuItem orangeJuice = new MenuItem("Orange Juice", 1.99);
+		MenuItem pancakes = new MenuItem("Pancakes", 6.99); 
+		breakfastMenu.addMenuItem(cereal);
+		breakfastMenu.addMenuItem(biscuit);
+		breakfastMenu.addMenuItem(orangeJuice);
+		breakfastMenu.addMenuItem(pancakes);
+
+		//******************************************
+
+		core.Menu lunchMenu = new Menu("Lunch");
+		MenuItem sandwich = new MenuItem("Sandwich", 6.99);
+		MenuItem burger = new MenuItem("Burger", 8.99);
+		MenuItem salad = new MenuItem("Salad", 3.99);
+		MenuItem coke = new MenuItem("Coke", 1.99);
+		lunchMenu.addMenuItem(sandwich);
+		lunchMenu.addMenuItem(burger);
+		lunchMenu.addMenuItem(salad);
+		lunchMenu.addMenuItem(coke);
+		//******************************************
+
+		menuList = new ArrayList<Menu>();
+		menuList.add(breakfastMenu);
+		menuList.add(lunchMenu);
+	}
+
+	public static String getPreviousMenu(String currentMenu) {
+		for(int i = 0; i < menuList.size(); i++){
+			if(menuList.get(i).menuName.equals(currentMenu)){
+				if(i > 0){
+					return menuList.get(i-1).menuName;
+				} else
+					return menuList.get(0).menuName;
+			}
+		}
+
+		return null;
+	}
+
+	public static String getNextMenu(String currentMenu) {
+		for(int i = 0; i < menuList.size(); i++){
+			if(menuList.get(i).menuName.equals(currentMenu)){
+				if(i < menuList.size()-1){
+					return menuList.get(i+1).menuName;
+				} else
+					return menuList.get(menuList.size()-1).menuName;
+			}
+		}
+
+		return null;
+	}
+
+	public static ArrayList<String> getDefaultMenuItems(String menuName){
+		Menu menu = null;
+		for(core.Menu menuSearch : menuList) {
+			if (menuSearch.menuName.equals(menuName)){
+				menu = menuSearch;
+				break;
+			}
+		}
+		ArrayList<String> menuItemList = new ArrayList<String>();
+		menuItemList.add("NULL FOR MENU NAME");
+		for(MenuItem item : menu.getMenuItems())
+			menuItemList.add(item.name + "-" + item.price);
+
+		return menuItemList;
+	}
+
+	public static ArrayList<String> getDefaultMenus(){
+		ArrayList<String> list = new ArrayList<String>();
+		for(core.Menu menu : menuList) {
+			list.add(menu.menuName);
+		}
+		return list;
+	}
 
 	public static void addToOrder(String name, double price) {
 		MenuItem menuItem = new MenuItem(name, price);
