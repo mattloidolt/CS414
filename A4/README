@@ -1,0 +1,14 @@
+Matt Loidolt, Zach McGaughey
+
+1. There are no external .jar depencies. All external libraries are included in the workspace and the CLASSPATH.
+	Just to list the external libraries we used: swing-layout-1.0.4 (for the GUI)
+						     mysql-connector-java-5.1.22 (for connecting to a mysql database)
+						     ant-1.7.1 (for file access - deprecated)
+
+2. from the src/ directory: javac -cp ../ant-1.7.1.jar:../mysql-connector-java-5.1.22-bin.jar:../swing-layout-1.0.4.jar 
+
+3. username: mattl password: password1
+
+4. We completely re-designed the GUI for the computer interface after A4 and are very happy with the results. This is definitly our strongest point. The Android is weaker because it is harder to design on the poorly functioning emulator. The database access uses mysql and a direct connection for steady storage of orders and (dispite many problems getting this working) it should be pretty solid now.
+
+5. We used the controller pattern in refactoring and it worked perfectly. Once the controller classes were written correctly and accessed the database correctly it made the rest of the android development much easier.
