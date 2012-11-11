@@ -191,7 +191,7 @@ public class KioskCont {
 		String result = "";
 		
 		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("name", menuName));
+		nameValuePairs.add(new BasicNameValuePair("menu", menuName));
 		
 		try{
 			// http post
