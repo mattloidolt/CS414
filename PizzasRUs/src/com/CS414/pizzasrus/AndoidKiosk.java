@@ -87,6 +87,8 @@ public class AndoidKiosk extends Activity {
 			 HttpClient httpClient = new DefaultHttpClient();
 			 HttpContext localContext = new BasicHttpContext();
              HttpGet httpGet = new HttpGet("http://10.0.2.2:8080/PizzaStoreWebApp/webresources/pizzastore.menus?");
+             httpGet.setHeader("Accept", "application/json");
+             httpGet.setHeader("Content-Type", "application/json");
              String text = null;
              try {
                    HttpResponse response = httpClient.execute(httpGet, localContext);
