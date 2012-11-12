@@ -15,7 +15,7 @@
     
     $q=mysql_query("SELECT * FROM menus WHERE name='" . $safe_menu . "' ;");
     while($e=mysql_fetch_assoc($q))
-    $output[]=$e;
+        $output[]=$e;
     
     print(json_encode($output));
     

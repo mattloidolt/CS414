@@ -19,7 +19,7 @@
     $safe_expDate = mysql_real_escape_string($_POST["expDate"]);
     $safe_order = mysql_real_escape_string($_POST["order"]);
     
-    $insertNew = "INSERT INTO orders VALUES ('". $safe_name . "','". $safe_phone . "','". $safe_address . "','". $safe_nameOnCard . "', '". $safe_CCnum . "', '" . $safe_expDate . "','" . $safe_order . "')";
+    $insertNew = "INSERT INTO orders (name, phone, address, nameOnCard, creditCardNumber, expirationDate, items) VALUES ('". $safe_name . "','". $safe_phone . "','". $safe_address . "','". $safe_nameOnCard . "', '". $safe_CCnum . "', '" . $safe_expDate . "','" . $safe_order . "')";
     if (!mysql_query($insertNew,$con)) {
         die('Error: ' . mysql_error());
     }

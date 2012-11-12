@@ -54,32 +54,6 @@ public class KitchenDisplayCont {
 			System.err.println("Error in getting menu names "+e.toString());
 		}
 
-
-
-		//        try {
-		//            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
-		//                                           "user=pizzaStore&password=password");
-		//            Statement stmt = conn.createStatement();
-		//            ResultSet rs = stmt.executeQuery("SELECT id, name, items FROM orders ;");
-		//            while(rs.next()) {
-		//                String order = "<html><h2>" + rs.getString(2) + "</h2> <table>" ;
-		//                String[] items = rs.getString(3).split("&%&") ;
-		//                order += "<!--&&&&" + rs.getString(1) + "&&&&-->";
-		//                for (int i=0 ; i < items.length ; i++) {
-		//                    order += "<tr> " + items[i] + "</tr>" ;
-		//                }
-		//                order += "</table> <br> </html>" ;
-		//                JLabel o = new JLabel(order) ;
-		//                o.setForeground(Color.white) ;
-		//                orders.add(o) ;
-		//            }
-		//            stmt.close() ;
-		//            rs.close() ;
-		//            conn.close() ;
-		//            
-		//        } catch (Exception ex) {
-		//            System.err.println(ex) ;
-		//        }
 		return orders ;
 
 	}

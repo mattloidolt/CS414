@@ -11,7 +11,7 @@
     
     mysql_select_db("loidolt", $con);
     
-    $q=mysql_query("SELECT id, name, items FROM orders ;");
+    $q=mysql_query("SELECT id, name, items FROM orders");
     while($e=mysql_fetch_assoc($q))
         $output[]=$e;
     
