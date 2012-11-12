@@ -19,7 +19,7 @@ public class OrderItem {
 	}
 	
 	public boolean equals(MenuItem menuItem) {
-		return this.item == menuItem;
+		return this.item.getName() == menuItem.getName();
 	}
 	
 	public MenuItem getItem(){

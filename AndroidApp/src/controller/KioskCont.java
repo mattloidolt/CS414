@@ -20,6 +20,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
+import android.os.StrictMode;
+
 import core.Menu;
 import core.MenuItem;
 import core.Order;
@@ -33,7 +36,7 @@ public class KioskCont {
 	static Order currentOrder = new Order();
 	static LinkedList<MenuItem> orderHistory = new LinkedList<MenuItem>();
 	static String localIP = "10.0.2.2";
-	static ArrayList<core.Menu> menuList;
+	static ArrayList<String> menuList = getMenuNames();
 
 	//	static String localIP = "10.84.44.89";
 
@@ -64,58 +67,57 @@ public class KioskCont {
 		lunchMenu.addMenuItem(coke);
 		//******************************************
 
-		menuList = new ArrayList<Menu>();
-		menuList.add(breakfastMenu);
-		menuList.add(lunchMenu);
+//		menuList = new ArrayList<Menu>();
+//		menuList.add(breakfastMenu);
+//		menuList.add(lunchMenu);
 	}
 
 	public static String getPreviousMenu(String currentMenu) {
 		for(int i = 0; i < menuList.size(); i++){
-			if(menuList.get(i).menuName.equals(currentMenu)){
+			if(menuList.get(i).equals(currentMenu)){
 				if(i > 0){
-					return menuList.get(i-1).menuName;
+					return menuList.get(i-1);
 				} else
-					return menuList.get(0).menuName;
+					return menuList.get(0);
 			}
 		}
-
-		return null;
+		return currentMenu;
 	}
 
 	public static String getNextMenu(String currentMenu) {
 		for(int i = 0; i < menuList.size(); i++){
-			if(menuList.get(i).menuName.equals(currentMenu)){
+			if(menuList.get(i).equals(currentMenu)){
 				if(i < menuList.size()-1){
-					return menuList.get(i+1).menuName;
+					return menuList.get(i+1);
 				} else
-					return menuList.get(menuList.size()-1).menuName;
+					return menuList.get(menuList.size()-1);
 			}
 		}
-
-		return null;
+		return currentMenu;
 	}
 
 	public static ArrayList<String> getDefaultMenuItems(String menuName){
-		Menu menu = null;
-		for(core.Menu menuSearch : menuList) {
-			if (menuSearch.menuName.equals(menuName)){
-				menu = menuSearch;
-				break;
-			}
-		}
-		ArrayList<String> menuItemList = new ArrayList<String>();
-		menuItemList.add("NULL FOR MENU NAME");
-		for(MenuItem item : menu.getMenuItems())
-			menuItemList.add(item.name + "-" + item.price);
-
-		return menuItemList;
+		return null;
+//		Menu menu = null;
+//		for(core.Menu menuSearch : menuList) {
+//			if (menuSearch.menuName.equals(menuName)){
+//				menu = menuSearch;
+//				break;
+//			}
+//		}
+//		ArrayList<String> menuItemList = new ArrayList<String>();
+//		menuItemList.add("NULL FOR MENU NAME");
+//		for(MenuItem item : menu.getMenuItems())
+//			menuItemList.add(item.name + "-" + item.price);
+//
+//		return menuItemList;
 	}
 
 	public static ArrayList<String> getDefaultMenus(){
 		ArrayList<String> list = new ArrayList<String>();
-		for(core.Menu menu : menuList) {
-			list.add(menu.menuName);
-		}
+//		for(core.Menu menu : menuList) {
+//			list.add(menu.menuName);
+//		}
 		return list;
 	}
 
@@ -136,6 +138,7 @@ public class KioskCont {
 		}
 	}
 
+	@TargetApi(9)
 	public static ArrayList<String> getMenuNames(){
 
 		ArrayList<String> names = new ArrayList<String>() ;
@@ -144,10 +147,14 @@ public class KioskCont {
 		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("year","1980"));
 		
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		
 		try{
 			// http post
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenus.php");
+//			HttpPost httppost = new HttpPost("http://www.google.com");
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			InputStream is = entity.getContent();
@@ -191,12 +198,16 @@ public class KioskCont {
 		String result = "";
 		
 		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("name", menuName));
+		nameValuePairs.add(new BasicNameValuePair("menu", menuName));
 		
 		try{
 			// http post
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenu.php");
+			
+//			List<NameValuePair> nameValPair = new ArrayList<NameValuePair>(2);
+//			nameValPair.add(new BasicNameValuePair("menu", menuName));
+			
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
@@ -215,14 +226,22 @@ public class KioskCont {
 	        
 	        // parse JSON data and add to list
 	        JSONArray jArray = new JSONArray(result);
-	        loadMenu.add(jArray.getJSONObject(0).getString("name")) ;
-	        String elements[] = jArray.getJSONObject(1).getString("items").split("&&&");
+	        loadMenu.add(jArray.getJSONObject(0).getString("name")) ;	        
+	        String elements[] = jArray.getJSONObject(0).getString("items").split("&&&");
             loadMenu.addAll(Arrays.asList(elements));
 		}catch(Exception e){
 			System.err.println("Error in getting menu items "+e.toString());
 		}
 		
 		return loadMenu ;
+	}
+	
+	public static ArrayList<String> getMenu() {
+		ArrayList<String> menuNames = getMenuNames();
+		ArrayList<String> menuitems = getMenu(menuNames.get(0));
+		return menuitems;
+//		return getMenu(menuList.get(0));
+		
 	}
 
 	/*

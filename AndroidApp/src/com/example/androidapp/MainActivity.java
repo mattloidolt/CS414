@@ -24,9 +24,11 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		// TODO: menu name needs to be gathered dynamically (maybe some sort of menu bar again?)
-		KioskCont.setupDefaults();//TODO:Load Dynamic
-		ArrayList<String> menuItemList = KioskCont.getDefaultMenuItems("Lunch");//TODO:Load Dynamic
-		currentMenu = "Lunch"; //TODO:Load Dynamic
+//		KioskCont.setupDefaults();//TODO:Load Dynamic
+//		ArrayList<String> menuItemList = KioskCont.getDefaultMenuItems("Lunch");//TODO:Load Dynamic
+		ArrayList<String> menuItemList = KioskCont.getMenu();
+		currentMenu = menuItemList.get(0);
+//		currentMenu = "Lunch"; //TODO:Load Dynamic
 		//End loading data
 		this.populateMenuItemButtons(menuItemList);
 		
@@ -42,7 +44,9 @@ public class MainActivity extends Activity {
 		prevButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				currentMenu = KioskCont.getPreviousMenu(currentMenu);
-				ArrayList<String> items = KioskCont.getDefaultMenuItems(currentMenu);
+				System.out.println(currentMenu);
+//				ArrayList<String> items = KioskCont.getDefaultMenuItems(currentMenu);
+				ArrayList<String> items = KioskCont.getMenu(currentMenu);
 				populateMenuItemButtons(items);
 			}
 		});
@@ -50,7 +54,8 @@ public class MainActivity extends Activity {
 		nextButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				currentMenu = KioskCont.getNextMenu(currentMenu);
-				ArrayList<String> items = KioskCont.getDefaultMenuItems(currentMenu);
+//				ArrayList<String> items = KioskCont.getDefaultMenuItems(currentMenu);
+				ArrayList<String> items = KioskCont.getMenu(currentMenu);
 				populateMenuItemButtons(items);
 			}
 		});
@@ -77,10 +82,16 @@ public class MainActivity extends Activity {
 				height += 100; //Go down one row
 				currentXPosition = 0;
 			}
+			
 
 			button.setLayoutParams(rel_btn); //Set the button's position
 			layout.addView(button); //Add button to view
 			setContentView(layout); //Show button
+			
+			if(height > getScreenHeight() - 300) {
+				break;
+			}
+			
 		}
 		setupMenuButtons();
 	}
@@ -115,6 +126,14 @@ public class MainActivity extends Activity {
 		Point size = new Point();
 		display.getSize(size);
 		return size.x;
+	}
+	
+	@SuppressLint("NewApi")
+	private int getScreenHeight() {
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		return size.y;
 	}
 
 	@Override
