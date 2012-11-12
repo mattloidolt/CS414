@@ -11,10 +11,13 @@
     
     mysql_select_db("loidolt", $con);
     
-    $safe_menu = mysql_real_escape_string($_POST["menu"]);
+    $unsafe_menu = $_POST['menu'] ;
+    $safe_menu = mysql_real_escape_string($unsafe_menu);
     
-    $insertNew = "DELETE FROM menus WHERE name='" + $safe_menu + "' ;" ;
+    $insertNew = "DELETE FROM menus WHERE name='" . $safe_menu . "' ;" ;
+    
     if (!mysql_query($insertNew,$con)) {
+        echo $insertNew ;
         die('Error: ' . mysql_error());
     }
     echo "success" ;

@@ -264,7 +264,7 @@ public class ManagerDisplayCont {
     public static boolean deleteMenu(String menuName) {		
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("menu", menuName));
-		
+        		
 	try{
             // http post
             HttpClient httpclient = new DefaultHttpClient();
@@ -273,6 +273,19 @@ public class ManagerDisplayCont {
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
             InputStream is = entity.getContent();
+            
+            //convert response to string
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+            }
+            is.close();
+
+            String result=sb.toString();
+            
+            System.out.print(result) ;
 
 	}catch(Exception e){
             System.err.println("Error in getting menu items "+e.toString());
