@@ -87,16 +87,19 @@ public class ManagerDisplayCont {
      * all of the items in one line. Format example:       Burger-8.99&&&Salad-5.99&&&Dessert-3.99
      */
     public static boolean createMenu(ArrayList<String> menu) {		
-        String result = "";
+        String items = "" ;
 
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("menu", menu.get(0)));
-        nameValuePairs.add(new BasicNameValuePair("items", menu.get(1))) ;
+        for(int i=1; i < menu.size() ; i++){
+            items += menu.get(i) ;
+        }
+        nameValuePairs.add(new BasicNameValuePair("items", items)) ;
 		
 	try{
             // http post
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenu.php");
+            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/createMenu.php");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
@@ -265,7 +268,7 @@ public class ManagerDisplayCont {
 	try{
             // http post
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenu.php");
+            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/deleteMenu.php");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
