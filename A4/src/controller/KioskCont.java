@@ -112,49 +112,49 @@ public class KioskCont {
 	 * all items are in one field in the database called 'items' delimited by '&%&'
 	 */
 	public static boolean saveOrder(ArrayList<String> orderItems) {
-		boolean success = true ;		
-        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("name", orderItems.get(0)));
-        nameValuePairs.add(new BasicNameValuePair("phone", orderItems.get(0)));
-        nameValuePairs.add(new BasicNameValuePair("address", orderItems.get(0)));
-        nameValuePairs.add(new BasicNameValuePair("nameOnCard", orderItems.get(0)));
-        nameValuePairs.add(new BasicNameValuePair("CCnum", orderItems.get(0)));
-        nameValuePairs.add(new BasicNameValuePair("expDate", orderItems.get(0)));
-        String items = "" ;
-        for (int i=6; i < orderItems.size(); i++) {
-                items += orderItems.get(i) + "&%&" ;
-        }
-        nameValuePairs.add(new BasicNameValuePair("order", items));
-
-
-        try{
-            // http post
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/saveOrder.php");
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-
-            //convert response to string
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
+            boolean success = true ;		
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("name", orderItems.get(0)));
+            nameValuePairs.add(new BasicNameValuePair("phone", orderItems.get(0)));
+            nameValuePairs.add(new BasicNameValuePair("address", orderItems.get(0)));
+            nameValuePairs.add(new BasicNameValuePair("nameOnCard", orderItems.get(0)));
+            nameValuePairs.add(new BasicNameValuePair("CCnum", orderItems.get(0)));
+            nameValuePairs.add(new BasicNameValuePair("expDate", orderItems.get(0)));
+            String items = "" ;
+            for (int i=6; i < orderItems.size(); i++) {
+                    items += orderItems.get(i) + "&%&" ;
             }
-            is.close();
+            nameValuePairs.add(new BasicNameValuePair("order", items));
 
-            String result=sb.toString();
-            
-            System.out.println(result) ;
 
-        }catch(Exception e){
-                System.err.println("Error in saving order "+e.toString());
-        }
-        if (success) {
-                System.out.println("Order saved") ;
-        }
-        return success ;
-	}
+            try{
+                // http post
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/saveOrder.php");
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
+                InputStream is = entity.getContent();
+
+                //convert response to string
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                }
+                is.close();
+
+                String result=sb.toString();
+
+                System.out.println(result) ;
+
+            }catch(Exception e){
+                    System.err.println("Error in saving order "+e.toString());
+            }
+            if (success) {
+                    System.out.println("Order saved") ;
+            }
+            return success ;
+       }
 }

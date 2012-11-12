@@ -38,10 +38,13 @@ public class KitchenDisplayCont {
 			}
 			in.close();
 			
+                        System.out.println(result) ;
+                        
+                        String o[] = result.split("{\"") ;
 			
-			String[] list = result.split(",");			
+			String[] list = result.split("\",\"");			
 			for(String item: list){
-				item = item.substring(9, item.length()-2);
+				item = item.substring(9, item.length());
 //				orders.add(item);
 			}
 
