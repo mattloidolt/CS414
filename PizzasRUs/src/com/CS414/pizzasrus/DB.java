@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.net.*;
 
 public class DB {
-	private static final String url = "jdbc:mysql://127.0.0.1:3306/pizza";
+	private static final String url = "jdbc:mysql://localhost:3306/pizza";
 	private static final String user = "pizzaStore";
 	private static final String password = "password";
 	private static Connection connection = null;
