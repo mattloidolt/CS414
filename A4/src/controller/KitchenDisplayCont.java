@@ -10,10 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.* ;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
-import org.apache.tools.ant.DirectoryScanner;
 
 /**
  *
