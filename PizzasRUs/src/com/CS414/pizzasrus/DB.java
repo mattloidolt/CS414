@@ -5,15 +5,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.net.*;
 
 public class DB {
-	private static final String url = "jdbc:mysql://localhost:3306/pizza";
+	private static final String url = "jdbc:mysql://127.0.0.1:3306/pizza";
 	private static final String user = "pizzaStore";
 	private static final String password = "password";
 	private static Connection connection = null;
 
 	public DB() {
 		try {
+			String localhostname = java.net.InetAddress.getLocalHost().getHostName();
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(url, user, password);
 			
@@ -32,7 +34,7 @@ public class DB {
 		}
 	}
 	
-	public static ArrayList<String> getMenus() {
+	public static String[] getMenus() {
 		ArrayList<String> retStrings = new ArrayList<String>();
 		if(connection != null) {
 			try {
@@ -45,7 +47,21 @@ public class DB {
 				e.printStackTrace();
 			}
 		}
-		return retStrings;
+		else {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				connection = DriverManager.getConnection(url, user, password);
+				
+				Statement st = connection.createStatement();
+				ResultSet results = st.executeQuery("SELECT name FROM managers");		
+				while(results.next()) {
+					retStrings.add(results.getString(1));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return retStrings.toArray(new String[retStrings.size()]);
 	}
 	
 	public void closeConnection() throws Exception{

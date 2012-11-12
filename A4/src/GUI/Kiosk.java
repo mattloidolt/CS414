@@ -270,7 +270,7 @@ public class Kiosk extends javax.swing.JFrame {
             output += "<tr> <td> " + item[0] + "</td><td></td><td> $" + item[1] + "</td> </tr>" ;
             total += Double.parseDouble(item[1]) ;
         }
-        output += "<tr> <td></td><td> TOTAL </td> <td>" + roundTwoDecimals(total) + "</td></tr></table></html>" ;
+        output += "<tr> <td></td><td> TOTAL </td> <td>$" + roundTwoDecimals(total) + "</td></tr></table></html>" ;
         orderLabel.setText(output);
     }
     

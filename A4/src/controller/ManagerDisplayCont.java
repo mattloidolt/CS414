@@ -89,8 +89,7 @@ public class ManagerDisplayCont {
         return true ;
     }
     
-    public static void editMenu(ArrayList<String> menu) {
-        
+    public static void editMenu(ArrayList<String> menu) {  
         deleteMenu(menu.get(0)) ;
         createMenu(menu) ;
     }
@@ -125,42 +124,63 @@ public class ManagerDisplayCont {
     }
     
     private static Menu loadMenu(String menuName) {
-        Menu currentMenu = new Menu(menuName);
-        try {
-            BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream("menuNames.POS_MENU")));
-            String line ;
-            while((line = content.readLine()) != null){
-                if(line.equals(menuName) || menuName.equals("menuNames")){
-                    //Found the existing menu
-                    //load file and menu
-                    BufferedReader menuReader = new BufferedReader(new InputStreamReader(new FileInputStream(menuName + ".POS_MENU")));
-                    int lineNumber = 0;
-                    String menuLine;
-                    while((menuLine = menuReader.readLine()) != null){
-                        if(lineNumber == 0){
-                            lineNumber ++;
-                            continue;
-                        }
-                        
-                        String menuItems[] = menuLine.split("&&&");
-                        
-                        for(String x : menuItems) {
-                            String item[] = x.split("-");
-                            MenuItem menuItem = new MenuItem(item[0], Double.parseDouble(item[1]));
-                            currentMenu.addMenuItem(menuItem);
-                        }    
-                    }
-                    System.out.println(currentMenu);
-                    break;
+        String menuItems[];
+        Menu currentMenu = null;
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT name, items FROM menus WHERE name = '" + menuName + "'");
+            
+            while(rs.next()){
+                currentMenu = new Menu(rs.getString(1));
+                menuItems = rs.getString(2).split("&&&");
+                MenuItem toAdd;
+                for(int i = 0; i < menuItems.length; ++i) {
+                    toAdd = new MenuItem(menuItems[i].split("-")[0], Double.parseDouble(menuItems[i].split("-")[1]));
+                    currentMenu.addMenuItem(toAdd);
                 }
             }
-        
-        }catch (Exception e){}
+            
+            stmt.close() ;
+            rs.close() ;
+            conn.close() ;
+        }
+        catch (Exception e){
+            System.err.println(e) ;
+        }
         
         return currentMenu;
     }
     
     private static void saveMenu(Menu menu){
+         try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
+                                       "user=pizzaStore&password=password");
+            Statement stmt = conn.createStatement();
+            stmt.execute("DELETE FROM menus WHERE name = '" + menu.getName() + "'");
+            
+            String insert = ("INSERT INTO menus (name, items) VALUES (?,?)");     
+            PreparedStatement ps = conn.prepareStatement(insert);
+            ps.setString(1, menu.getName());
+            String s = "";
+            for(int i = 0 ; i < menu.getMenuItems().size(); i++) {
+                if(i < menu.getMenuItems().size()-1) {
+                s+= menu.getItem(i).getSaveString() + "&&&" ;
+              }
+              else {
+                  s += menu.getItem(i).getSaveString();
+              }
+            }
+            ps.setString(2, s);
+            ps.executeUpdate();
+            
+            ps.close();
+            stmt.close() ;
+            conn.close() ;
+        } catch (Exception e){
+            System.err.println(e) ;
+        }
         //Erase current menu file
         try {
             PrintWriter writer = new PrintWriter(menu.getName() + ".POS_Menu");
@@ -176,7 +196,12 @@ public class ManagerDisplayCont {
           // building the items list string
           String s = "";
           for(int i = 0 ; i < menu.getMenuItems().size(); i++) {
-              s+= menu.getItem(i).getSaveString() + "&&&" ;
+              if(i < menu.getMenuItems().size()-1) {
+                s+= menu.getItem(i).getSaveString() + "&&&" ;
+              }
+              else {
+                  s += menu.getItem(i).getSaveString();
+              }
           }
           out.println(s) ;
           out.close() ;

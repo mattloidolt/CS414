@@ -30,8 +30,10 @@ public class AndoidKiosk extends Activity {
     public void clickHandler(View view) {
     	switch(view.getId()) {
     	case R.id.menu_select:
-    		final String[] menuList = DB.getMenus().toArray(new String[DB.getMenus().size()]);
-
+    		final String[] menuList = database.getMenus();
+    		String str = "Number of menus: " + menuList.length;
+    		Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+    		
     		if(menuList.length > 0) {
     			AlertDialog.Builder builder = new AlertDialog.Builder(this);
     			builder.setTitle("Which Menu?")
@@ -44,6 +46,9 @@ public class AndoidKiosk extends Activity {
     			AlertDialog alert = builder.create();
     			alert.show();
     		}
+    		break;
+    		
+    		default:
     		break;
     	}
     }

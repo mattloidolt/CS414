@@ -27,7 +27,7 @@ public class KioskCont {
         } catch (Exception ex) {
             System.err.println(ex) ;
         }
-        return names ;
+        return names;
     }
     
     public static ArrayList<String> getMenu(String menuName){
@@ -37,7 +37,7 @@ public class KioskCont {
                                        "user=pizzaStore&password=password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT items FROM menus WHERE name='" + menuName + "' ;");
-            loadMenu.add(menuName) ;
+            loadMenu.add(menuName);
             rs.next();
             String elements[] = rs.getString(1).split("&&&");
             loadMenu.addAll(Arrays.asList(elements));

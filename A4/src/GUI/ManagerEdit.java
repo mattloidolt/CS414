@@ -193,8 +193,6 @@ public class ManagerEdit extends javax.swing.JFrame {
         double itemPrice = Double.parseDouble(itemPriceField.getText());
         ManagerDisplayCont.editItem(menuName, itemName, itemPrice);
         populateListText();
-        
-        
     }//GEN-LAST:event_saveButtonPressed
 
     private void removeItemButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonPressed
@@ -216,7 +214,7 @@ public class ManagerEdit extends javax.swing.JFrame {
 
     private void populateListText(){
         itemText.setText(ManagerDisplayCont.getMenuItemList(menuName));
-    }//GEN-LAST:event_saveButtonPressed
+    }                                  
 
 
 //    private void refreshList(){
