@@ -46,7 +46,6 @@ public class ManagerEdit extends javax.swing.JFrame {
         itemPriceField = new javax.swing.JTextField();
         createButton = new javax.swing.JButton();
         itemText = new javax.swing.JLabel();
-        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -100,13 +99,6 @@ public class ManagerEdit extends javax.swing.JFrame {
         itemText.setText("Item List");
         itemText.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        backButton.setText("Back");
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonPressed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,13 +126,9 @@ public class ManagerEdit extends javax.swing.JFrame {
                                         .add(18, 18, 18)
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                             .add(itemPriceField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(layout.createSequentialGroup()
-                                                .add(itemNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                .add(18, 18, 18)
-                                                .add(backButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 58, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 45, Short.MAX_VALUE)
-                        .add(itemText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 208, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 8, Short.MAX_VALUE)))
+                                            .add(itemNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 37, Short.MAX_VALUE)
+                        .add(itemText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 453, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -164,9 +152,7 @@ public class ManagerEdit extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 185, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(itemText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(backButton))
+                        .add(itemText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
                 .add(done)
                 .addContainerGap())
@@ -192,9 +178,7 @@ public class ManagerEdit extends javax.swing.JFrame {
         String itemName = itemNameField.getText();
         double itemPrice = Double.parseDouble(itemPriceField.getText());
         ManagerDisplayCont.editItem(menuName, itemName, itemPrice);
-        populateListText();
-        
-        
+        populateListText() ;
     }//GEN-LAST:event_saveButtonPressed
 
     private void removeItemButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonPressed
@@ -216,7 +200,7 @@ public class ManagerEdit extends javax.swing.JFrame {
 
     private void populateListText(){
         itemText.setText(ManagerDisplayCont.getMenuItemList(menuName));
-    }//GEN-LAST:event_saveButtonPressed
+    }                                  
 
 
 //    private void refreshList(){
@@ -290,7 +274,6 @@ public class ManagerEdit extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
     private javax.swing.JButton createButton;
     private javax.swing.JButton done;
     private javax.swing.JTextField itemNameField;

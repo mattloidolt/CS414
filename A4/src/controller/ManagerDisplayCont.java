@@ -6,14 +6,24 @@ package controller;
 
 import core.Menu;
 import core.MenuItem;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 /**
  *
  * @author mattloidolt
@@ -27,29 +37,46 @@ public class ManagerDisplayCont {
     }
     
     public static boolean login(String user, char[] pass) {
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
-                                       "user=pizzaStore&password=password");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username, password FROM managers");
-            while(rs.next()){
-                System.out.println(rs.getString(1)) ;
-                if (rs.getString(1).equals(user)) {
-                    String password = new String(pass) ;
-                    if(rs.getString(2).equals(password)) {
-                        userName = rs.getString(1) ;
-                        System.out.print(userName + " had logged in.") ;
-                        return true ;
-                    }
-                }
-            }
-            stmt.close() ;
-            rs.close() ;
-            conn.close() ;
+        
+        ArrayList<String> names = new ArrayList<String>() ;
+        String result = "";
+		
+		
+	try{
+             // http post
+             HttpClient httpclient = new DefaultHttpClient();
+             HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getManagers.php");
+             HttpResponse response = httpclient.execute(httppost);
+             HttpEntity entity = response.getEntity();
+             InputStream is = entity.getContent();
+			
+             //convert response to string
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+             StringBuilder sb = new StringBuilder();
+             String line = null;
+             while ((line = reader.readLine()) != null) {
+	         sb.append(line + "\n");
+             }
+             is.close();
+	 
+             result=sb.toString();
+	        
+             // parse JSON data and add to list
+             JSONArray jArray = new JSONArray(result);
+             for(int i=0;i<jArray.length();i++){
+	                JSONObject json_data = jArray.getJSONObject(i);
+                        if (json_data.getString("username").equals(user)) {
+                            String password = new String(pass) ;
+                            if(json_data.getString("password").equals(password)) {
+                                System.out.print(json_data.getString("username") + " had logged in.") ;
+                                return true ;
+                        }
+                  }   
+             }
+        }catch(Exception e){
+            System.err.println("Error in login "+e.toString());
         }
-        catch (Exception e){
-            System.err.println(e) ;
-        }
+        
         return false ;
     }
     
@@ -57,40 +84,32 @@ public class ManagerDisplayCont {
      * Format for .POS_MENU files
      * 
      * Name of Menu
-     * all of the items in one line. Format example:       Burger-8.99:Salad-5.99:Dessert-3.99
+     * all of the items in one line. Format example:       Burger-8.99&&&Salad-5.99&&&Dessert-3.99
      */
-    public static boolean createMenu(ArrayList<String> menu) {
-        //Create the output text
-        String query = "INSERT INTO menus "
-                + "(name, items) VALUES('" + menu.get(0) + "', '" ;
-        
-        try {
-          // TODO: adding the menu to the menuNames tracker file
-          
-          // creating the file for the menu
-          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
-                                       "user=pizzaStore&password=password");
-          // building the items list string
-          String s = "";
-          for(int i = 1 ; i < menu.size(); i++) {
-              s+= menu.get(i) + "&&&" ;
-          }
-          query += s + "') ;" ;
-          Statement stmt = conn.createStatement();
-          stmt.executeUpdate(query);
-          stmt.close() ;
-          conn.close() ;
-          System.out.println("Menu " + menu.get(0) + " created.") ;
-        }
-        catch (Exception e) {
-            System.err.println(e) ;
-            return false ;
-        }
-        return true ;
+    public static boolean createMenu(ArrayList<String> menu) {		
+        String result = "";
+
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("menu", menu.get(0)));
+        nameValuePairs.add(new BasicNameValuePair("items", menu.get(1))) ;
+		
+	try{
+            // http post
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenu.php");
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            InputStream is = entity.getContent();
+
+	}catch(Exception e){
+            System.err.println("Error in getting menu items "+e.toString());
+	}
+		
+	return true ;
     }
     
     public static void editMenu(ArrayList<String> menu) {
-        
         deleteMenu(menu.get(0)) ;
         createMenu(menu) ;
     }
@@ -186,7 +205,6 @@ public class ManagerDisplayCont {
         }
         System.out.println("Menu " + menu.getName() + " edited.") ;
 //        populateListText();
-        
     }
     
     public static ArrayList<String> convertToAL(Menu m) {
@@ -202,43 +220,62 @@ public class ManagerDisplayCont {
     // different getMenu method which only find the object names
     public static ArrayList<String> getMenu(String menuName){
         ArrayList<String> loadMenu = new ArrayList<String>();
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
-                                       "user=pizzaStore&password=password");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT items FROM menus WHERE name='" + menuName + "' ;");
-            loadMenu.add(menuName) ;
-            rs.next();
-            String elements[] = rs.getString(1).split("&&&");
-            for (int i=0; i < elements.length; i++){
-                loadMenu.add(elements[i].split("-")[0]) ;
+		
+        String result = "";
+
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("menu", menuName));
+		
+	try{
+            // http post
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenu.php");
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            InputStream is = entity.getContent();
+
+            //convert response to string
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
             }
-            stmt.close() ;
-            rs.close() ;
-            conn.close() ;
-        }
-        catch(Exception e) {
-            System.err.print(e);
-        }
-        return loadMenu ;
+            is.close();
+
+            result=sb.toString();
+
+            // parse JSON data and add to list
+            JSONArray jArray = new JSONArray(result);
+            loadMenu.add(jArray.getJSONObject(0).getString("name")) ;
+            String elements[] = jArray.getJSONObject(1).getString("items").split("&&&");
+            loadMenu.addAll(Arrays.asList(elements));
+	}catch(Exception e){
+            System.err.println("Error in getting menu items "+e.toString());
+	}
+		
+	return loadMenu ;
     }
     
-    // this deletes the menu's .POS_MENU file and removes it from the menuNames.POS_MENU file
-    public static boolean deleteMenu(String menuName) {
-        boolean isFound = false ;
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?" +
-                                       "user=pizzaStore&password=password");
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate("DELETE FROM menus WHERE name='" + menuName + "' ;") ;
-            stmt.close() ;
-            conn.close() ;
-            System.out.println("\nMenu " + menuName + " deleted.") ;
-        }
-        catch (Exception e) {
-             System.err.println(e) ;
-        }
-        return isFound ;
+    public static boolean deleteMenu(String menuName) {		
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("menu", menuName));
+		
+	try{
+            // http post
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.cs.colostate.edu/~loidolt/ExWorkFiles/getMenu.php");
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            InputStream is = entity.getContent();
+
+	}catch(Exception e){
+            System.err.println("Error in getting menu items "+e.toString());
+	}
+        
+        return true ;
     }
     
 }
