@@ -1,5 +1,5 @@
 <?php
-     /**********************************************************************
+    /**********************************************************************
      Start of PHP
      **********************************************************************/
     
@@ -11,11 +11,9 @@
     
     mysql_select_db("loidolt", $con);
     
-    $safe_menu = mysql_real_escape_string($_POST["menu"]) ;
-    
     $q=mysql_query("SELECT id, name, items FROM orders ;");
     while($e=mysql_fetch_assoc($q))
-    $output[]=$e;
+        $output[]=$e;
     
     print(json_encode($output));
     
